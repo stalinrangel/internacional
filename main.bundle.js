@@ -4231,21 +4231,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 var RutaBaseService = /** @class */ (function () {
-    //Remoto cPanel
-    //public api_base = 'http://mouvers.mx/mouversAPI2/public/';
-    //public images_base = 'http://mouvers.mx/images_uploads/';
-    //Remoto vps
-    //public api_base = 'http://3.222.253.189/alinstanteAPI/public/';
-    //public images_base = 'http://3.222.253.189/alinstanteAPI/public/images_uploads/';
-    //public api_base = 'https://service24.app/apii/public/';
-    //public images_base = 'https://service24.app/apii/public/images_uploads/';
     //Remoto vps https
     //public api_base = 'https://service24.app/alinstanteAPI/public/';
     //public images_base = 'https://service24.app/alinstanteAPI/public/images_uploads/';
     function RutaBaseService() {
         //Local freddy
-        this.api_base = 'http://localhost/apii/public/';
-        this.images_base = 'http://localhost/apii/public/images_uploads/';
+        //public api_base = 'http://localhost/apii/public/';
+        //public images_base = 'http://localhost/apii/public/images_uploads/';
+        //Remoto cPanel
+        //public api_base = 'http://mouvers.mx/mouversAPI2/public/';
+        //public images_base = 'http://mouvers.mx/images_uploads/';
+        //Remoto vps
+        //public api_base = 'http://3.222.253.189/alinstanteAPI/public/';
+        //public images_base = 'http://3.222.253.189/alinstanteAPI/public/images_uploads/ ';
+        this.api_base = 'https://service24.app/apii/public/';
+        this.images_base = 'https://service24.app/apii/public/images_uploads/';
     }
     RutaBaseService.prototype.getRutaApi = function () {
         return this.api_base;
