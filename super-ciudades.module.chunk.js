@@ -320,12 +320,12 @@ var CiudadesAgregarComponent = /** @class */ (function () {
     };
     CiudadesAgregarComponent.prototype.crear = function () {
         var _this = this;
-        console.log('crear');
+        console.log(this.myFormEditar.value);
         this.loading = true;
         var datos = {
             token: localStorage.getItem('mouvers_token'),
             nombre: this.myFormEditar.value.nombre,
-            ciudad_id: this.myFormEditar.value.ciudad_id,
+            pais_id: this.myFormEditar.value.pais_id,
         };
         this.http.post(this.rutaService.getRutaApi() + 'ciudad', datos)
             .toPromise()
@@ -1638,10 +1638,17 @@ var SuperCiudadesAgregarComponent = /** @class */ (function () {
             //console.log(this.myFormAgregar.value);
             this.loading = true;
             console.log(this.triangleCoords[0].coordenada);
+            var pais = 1;
+            for (var i = 0; i < this.cuidad.length; ++i) {
+                if (this.cuidad[i].id == this.myFormAgregar.value.ciudad_id) {
+                    pais = this.cuidad[i].pais_id;
+                }
+            }
             var datos = {
                 token: localStorage.getItem('mouvers_token'),
                 nombre: this.myFormAgregar.value.nombre,
                 ciudad_id: this.myFormAgregar.value.ciudad_id,
+                pais_id: pais,
                 estado: 'ON',
                 costo: 0,
                 coordenadas: JSON.stringify(this.triangleCoords[0].coordenada),
