@@ -610,7 +610,7 @@ var EstablecimientosVerComponent = /** @class */ (function () {
                 _this.showToast('warning', 'Warning!', msg.error.error);
                 _this.mostrar = false;
                 setTimeout(function () {
-                    _this.router.navigateByUrl('/pagessimples/loginf');
+                    //this.router.navigateByUrl('/pagessimples/loginf');
                 }, 1000);
             }
             else if (msg.status == 404) {

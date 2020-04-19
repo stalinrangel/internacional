@@ -1157,7 +1157,7 @@ var FooterComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/@theme/components/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n\r\n<div class=\"header-container\"\r\n     [class.left]=\"position === 'normal'\"\r\n     [class.right]=\"position === 'inverse'\">\r\n  <div class=\"logo-containter\">\r\n    <a (click)=\"toggleSidebar()\" href=\"#\" class=\"navigation\"><i class=\"nb-menu\"></i></a>\r\n    <div class=\"logo\" (click)=\"salir()\"><span><img src=\"assets/images/thumbnail_logo_final.png\" alt=\"\" height=\"auto\" width=\"150px\" style=\"display:block; margin:auto\"/></span></div>\r\n  </div>\r\n  <!-- <ngx-theme-switcher></ngx-theme-switcher> -->\r\n</div>\r\n\r\n<!-- <button (click)=\"newMensaje2()\">newMensaje</button> -->\r\n<!-- <button (click)=\"newNotificationCli2()\">newNotificationCli</button> -->\r\n\r\n<!-- <button (click)=\"newAlert()\">newAlert</button>\r\n<button (click)=\"newAlert2()\">newAlert2</button> -->\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<nb-actions\r\n  size=\"medium\"\r\n  class=\"header-container\"\r\n  [class.right]=\"position === 'normal'\"\r\n  [class.left]=\"position === 'inverse'\">\r\n  <!-- <nb-action icon=\"nb-grid-b\" class=\"toggle-layout\" (click)=\"toggleSettings()\"></nb-action> -->\r\n  <nb-action>\r\n    <nb-user [menu]=\"userMenu\" [name]=\"user?.name\" [picture]=\"user?.picture\" (menuClick)=\"onMenuClick($event)\"></nb-user>\r\n  </nb-action>\r\n  <!--nb-action class=\"control-item\" icon=\"{{iconChats}}\" (click)=\"getEventChat()\">\r\n  </nb-action-->\r\n  <nb-action *ngIf=\"mouvers_user_tipo == '1'\" class=\"control-item\" (click)=\"changeShowMessage()\">\r\n    <i class=\"nb-email\"><div class=\"noti_Counter\" *ngIf=\"conversationsCli.length > 0 || conversationsRep.length > 0\">{{conversationsCli.length + conversationsRep.length}}</div></i>    \r\n      <div id=\"notifications1\" [hidden]=\"showHideMessage\">\r\n          <h3>Últimos mensajes</h3>\r\n          <div>\r\n            <ul class=\"people\" >\r\n              <div class=\"seeAll\" *ngIf=\"conversationsCli.length > 0\">Mensajes de clientes</div>\r\n              <li class=\"person\" *ngFor=\"let item of conversationsCli; let last = last; let indice=index\" (click)=\"leerMsg(item, indice)\">\r\n                  <img src=\"{{item.emisor.imagen}}\" alt=\"\" />\r\n                  <span class=\"name\">{{item.emisor.nombre}}</span>\r\n                  <span class=\"time\">{{item.created_at}}</span>\r\n                  <span class=\"preview\">{{item.msg}}</span>\r\n                  <hr [hidden]=\"last\"> \r\n              </li>\r\n              <div class=\"seeAll\" *ngIf=\"conversationsRep.length > 0\">Mensajes de repartidores</div> \r\n              <li class=\"person\" *ngFor=\"let item of conversationsRep; let last = last; let indice=index\" (click)=\"leerMsg(item, indice)\">\r\n                  <img src=\"{{item.emisor.imagen}}\" alt=\"\" />\r\n                  <span class=\"name\">{{item.emisor.nombre}}</span>\r\n                  <span class=\"time\">{{item.created_at}}</span>\r\n                  <span class=\"preview\">{{item.msg}}</span>\r\n                  <hr [hidden]=\"last\"> \r\n              </li>\r\n            </ul>\r\n          </div>\r\n          <p *ngIf=\"conversationsCli.length == 0 && conversationsRep.length == 0\" class=\"info-empty\">No hay mensajes.</p>\r\n          <div class=\"seeAll\" *ngIf=\"conversationsCli.length > 0 || conversationsRep.length > 0\" (click)=\"verTodos()\"><a>Ver Todos</a></div>\r\n      </div>\r\n  </nb-action>\r\n  <nb-action class=\"control-item\" (click)=\"changeShowNotification()\">\r\n    <i class=\"nb-notifications\"><div class=\"noti_Counter\" *ngIf=\"notificationsCli.length > 0\">{{notificationsCli.length}}</div></i>    \r\n      <div id=\"notifications2\" [hidden]=\"showHideNotification\">\r\n          <h3>Últimas notificaciones</h3>\r\n          <div>\r\n            <ul class=\"people\" >\r\n              <li class=\"person\" *ngFor=\"let item of notificationsCli; let last = last; let indice=index\" (click)=\"leerNotification(item, indice)\">\r\n                  <span class=\"name\">&nbsp;</span>\r\n                  <span class=\"time\">{{item.created_at}}</span>\r\n                  <span class=\"preview2\"><i class={{item.icono}}></i> {{item.contenido}}</span>\r\n                  <hr [hidden]=\"last\"> \r\n              </li> \r\n            </ul>\r\n            <p *ngIf=\"notificationsCli.length == 0\" class=\"info-empty\">No hay notificaciones.</p>\r\n          </div>\r\n      </div>\r\n  </nb-action>\r\n     \r\n  <!--nb-action class=\"control-item\" icon=\"{{iconBlogs}}\" (click)=\"getEventBlog()\"></nb-action-->\r\n  <!-- <nb-action class=\"control-item\">\r\n    <nb-search type=\"rotate-layout\" (click)=\"startSearch()\"></nb-search>\r\n  </nb-action> -->\r\n</nb-actions>\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "\r\n\r\n<div class=\"header-container\"\r\n     [class.left]=\"position === 'normal'\"\r\n     [class.right]=\"position === 'inverse'\">\r\n  <div class=\"logo-containter\">\r\n    <a (click)=\"toggleSidebar()\" href=\"#\" class=\"navigation\"><i class=\"nb-menu\"></i></a>\r\n    <div class=\"logo\" (click)=\"salir()\"><span><img src=\"assets/images/thumbnail_logo_final.png\" alt=\"\" height=\"auto\" width=\"150px\" style=\"display:block; margin:auto\"/></span></div>\r\n  </div>\r\n  <!-- <ngx-theme-switcher></ngx-theme-switcher> -->\r\n</div>\r\n\r\n<!-- <button (click)=\"newMensaje2()\">newMensaje</button> -->\r\n<!-- <button (click)=\"newNotificationCli2()\">newNotificationCli</button> -->\r\n\r\n<!-- <button (click)=\"newAlert()\">newAlert</button>\r\n<button (click)=\"newAlert2()\">newAlert2</button> -->\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<nb-actions\r\n  size=\"medium\"\r\n  class=\"header-container\"\r\n  [class.right]=\"position === 'normal'\"\r\n  [class.left]=\"position === 'inverse'\">\r\n  <!-- <nb-action icon=\"nb-grid-b\" class=\"toggle-layout\" (click)=\"toggleSettings()\"></nb-action> -->\r\n  \r\n\r\n  \r\n  <nb-action>\r\n    <nb-user [menu]=\"userMenu\" [name]=\"user?.name\" [picture]=\"user?.picture\" (menuClick)=\"onMenuClick($event)\"></nb-user>\r\n  </nb-action>\r\n  <!--nb-action class=\"control-item\" icon=\"{{iconChats}}\" (click)=\"getEventChat()\">\r\n  </nb-action-->\r\n\r\n  \r\n  <nb-action *ngIf=\"mouvers_user_tipo == '1'\" class=\"control-item\" (click)=\"changeShowMessage()\">\r\n    <i class=\"nb-email\"><div class=\"noti_Counter\" *ngIf=\"conversationsCli.length > 0 || conversationsRep.length > 0\">{{conversationsCli.length + conversationsRep.length}}</div></i>    \r\n      <div id=\"notifications1\" [hidden]=\"showHideMessage\">\r\n          <h3>Últimos mensajes</h3>\r\n          <div>\r\n            <ul class=\"people\" >\r\n              <div class=\"seeAll\" *ngIf=\"conversationsCli.length > 0\">Mensajes de clientes</div>\r\n              <li class=\"person\" *ngFor=\"let item of conversationsCli; let last = last; let indice=index\" (click)=\"leerMsg(item, indice)\">\r\n                  <img src=\"{{item.emisor.imagen}}\" alt=\"\" />\r\n                  <span class=\"name\">{{item.emisor.nombre}}</span>\r\n                  <span class=\"time\">{{item.created_at}}</span>\r\n                  <span class=\"preview\">{{item.msg}}</span>\r\n                  <hr [hidden]=\"last\"> \r\n              </li>\r\n              <div class=\"seeAll\" *ngIf=\"conversationsRep.length > 0\">Mensajes de repartidores</div> \r\n              <li class=\"person\" *ngFor=\"let item of conversationsRep; let last = last; let indice=index\" (click)=\"leerMsg(item, indice)\">\r\n                  <img src=\"{{item.emisor.imagen}}\" alt=\"\" />\r\n                  <span class=\"name\">{{item.emisor.nombre}}</span>\r\n                  <span class=\"time\">{{item.created_at}}</span>\r\n                  <span class=\"preview\">{{item.msg}}</span>\r\n                  <hr [hidden]=\"last\"> \r\n              </li>\r\n            </ul>\r\n          </div>\r\n          <p *ngIf=\"conversationsCli.length == 0 && conversationsRep.length == 0\" class=\"info-empty\">No hay mensajes.</p>\r\n          <div class=\"seeAll\" *ngIf=\"conversationsCli.length > 0 || conversationsRep.length > 0\" (click)=\"verTodos()\"><a>Ver Todos</a></div>\r\n      </div>\r\n  </nb-action>\r\n  <nb-action class=\"control-item\" (click)=\"changeShowNotification()\">\r\n    <i class=\"nb-notifications\"><div class=\"noti_Counter\" *ngIf=\"notificationsCli.length > 0\">{{notificationsCli.length}}</div></i>    \r\n      <div id=\"notifications2\" [hidden]=\"showHideNotification\">\r\n          <h3>Últimas notificaciones</h3>\r\n          <div>\r\n            <ul class=\"people\" >\r\n              <li class=\"person\" *ngFor=\"let item of notificationsCli; let last = last; let indice=index\" (click)=\"leerNotification(item, indice)\">\r\n                  <span class=\"name\">&nbsp;</span>\r\n                  <span class=\"time\">{{item.created_at}}</span>\r\n                  <span class=\"preview2\"><i class={{item.icono}}></i> {{item.contenido}}</span>\r\n                  <hr [hidden]=\"last\"> \r\n              </li> \r\n            </ul>\r\n            <p *ngIf=\"notificationsCli.length == 0\" class=\"info-empty\">No hay notificaciones.</p>\r\n          </div>\r\n      </div>\r\n  </nb-action>\r\n\r\n  <nb-action class=\"control-item\">\r\n      <select class=\"form-control\" [(ngModel)]=\"ciudadselec\" (ngModelChange)=\"selecCiudad($event)\">\r\n        <option *ngFor=\"let c of ciudad\" [value]=\"c.id\" >{{c.nombre}}</option>\r\n      </select>\r\n  </nb-action>\r\n  <nb-action class=\"control-item\">\r\n      <select class=\"form-control\" [(ngModel)]=\"paisselec\" (ngModelChange)=\"selecPais($event)\">\r\n        <option *ngFor=\"let p of pais\" [value]=\"p.id\" >{{p.nombre}}</option>\r\n      </select>\r\n  </nb-action>\r\n     \r\n  <!--nb-action class=\"control-item\" icon=\"{{iconBlogs}}\" (click)=\"getEventBlog()\"></nb-action-->\r\n  <!-- <nb-action class=\"control-item\">\r\n    <nb-search type=\"rotate-layout\" (click)=\"startSearch()\"></nb-search>\r\n  </nb-action> -->\r\n</nb-actions>\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -1274,6 +1274,8 @@ var HeaderComponent = /** @class */ (function () {
         this.establecimiento_id = localStorage.getItem('mouvers_establecimiento_id');
         //public establecimiento_nom = localStorage.getItem('mouvers_user_nombre');
         this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+        this.paisselec = localStorage.getItem('mouvers_pais');
+        this.ciudadselec = localStorage.getItem('mouvers_ciudad');
         //Detectar una nueva notificaion
         this.viewHeaderEventService.viewHeaderData.subscribe(function (data) {
             //console.log(data); 
@@ -1293,6 +1295,8 @@ var HeaderComponent = /** @class */ (function () {
             this.initConversationsCli();
             this.initConversationsRep();
             this.initNotificationsCli();
+            this.paises();
+            this.ciudades();
         }
         else if (this.mouvers_user_tipo == '4') {
             //Cargar las notificaciones de clientes para los establecimientos
@@ -1348,6 +1352,51 @@ var HeaderComponent = /** @class */ (function () {
             bodyOutputType: __WEBPACK_IMPORTED_MODULE_13_angular2_toaster__["a" /* BodyOutputType */].TrustedHtml,
         };
         this.toasterService.popAsync(toast);
+    };
+    HeaderComponent.prototype.paises = function () {
+        var _this = this;
+        this.http.get(this.rutaService.getRutaApi() + 'pais?token=' + localStorage.getItem('mouvers_token'))
+            .toPromise()
+            .then(function (data) {
+            _this.data = data;
+            _this.pais = _this.data.coordenadas;
+            console.log(_this.pais);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+        });
+    };
+    HeaderComponent.prototype.ciudades = function () {
+        var _this = this;
+        this.http.get(this.rutaService.getRutaApi() + 'ciudad?token=' + localStorage.getItem('mouvers_token'))
+            .toPromise()
+            .then(function (data) {
+            _this.data = data;
+            _this.ciudad = _this.data.coordenadas;
+            console.log(_this.ciudad);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+        });
+    };
+    HeaderComponent.prototype.selecPais = function (pais) {
+        //console.log(pais);
+        for (var i = 0; i < this.pais.length; i++) {
+            if (pais == this.pais[i].id) {
+                //console.log(this.pais[i]);
+                this.selecPais2(this.pais[i].ciudad);
+            }
+        }
+    };
+    HeaderComponent.prototype.selecPais2 = function (ciudades) {
+        console.log(ciudades);
+        this.ciudad = ciudades;
+    };
+    HeaderComponent.prototype.selecCiudad = function (ciudad) {
+        console.log(ciudad);
+        this.ciudadselec = ciudad;
+        localStorage.setItem('mouvers_ciudad', this.ciudadselec);
+        window.location.reload();
     };
     HeaderComponent.prototype.initConversationsCli = function () {
         var _this = this;
@@ -4182,21 +4231,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 var RutaBaseService = /** @class */ (function () {
+    //Remoto cPanel
+    //public api_base = 'http://mouvers.mx/mouversAPI2/public/';
+    //public images_base = 'http://mouvers.mx/images_uploads/';
+    //Remoto vps
+    //public api_base = 'http://3.222.253.189/alinstanteAPI/public/';
+    //public images_base = 'http://3.222.253.189/alinstanteAPI/public/images_uploads/';
+    //public api_base = 'https://service24.app/apii/public/';
+    //public images_base = 'https://service24.app/apii/public/images_uploads/';
     //Remoto vps https
     //public api_base = 'https://service24.app/alinstanteAPI/public/';
     //public images_base = 'https://service24.app/alinstanteAPI/public/images_uploads/';
     function RutaBaseService() {
         //Local freddy
-        //public api_base = 'http://localhost/apii/public/';
-        //public images_base = 'http://localhost/apii/public/images_uploads/';
-        //Remoto cPanel
-        //public api_base = 'http://mouvers.mx/mouversAPI2/public/';
-        //public images_base = 'http://mouvers.mx/images_uploads/';
-        //Remoto vps
-        //public api_base = 'http://3.222.253.189/alinstanteAPI/public/';
-        //public images_base = 'http://3.222.253.189/alinstanteAPI/public/images_uploads/';
-        this.api_base = 'https://service24.app/apii/public/';
-        this.images_base = 'https://service24.app/apii/public/images_uploads/';
+        this.api_base = 'http://localhost/apii/public/';
+        this.images_base = 'http://localhost/apii/public/images_uploads/';
     }
     RutaBaseService.prototype.getRutaApi = function () {
         return this.api_base;

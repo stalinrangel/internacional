@@ -145,7 +145,9 @@ var LoginfComponent = /** @class */ (function () {
             localStorage.setItem('mouvers_user_imagen', _this.data.user.imagen);
             localStorage.setItem('mouvers_user_tipo', _this.data.user.tipo_usuario);
             localStorage.setItem('mouvers_ciudad', _this.data.user.ciudad);
-            console.log(localStorage.getItem('mouvers_ciudad'));
+            localStorage.setItem('mouvers_pais', _this.data.user.pais_id);
+            console.log('ciudad: ' + localStorage.getItem('mouvers_ciudad'));
+            console.log('pais: ' + localStorage.getItem('mouvers_pais'));
             if (_this.data.user.tipo_usuario == 4) {
                 localStorage.setItem('mouvers_establecimiento_id', _this.data.user.establecimiento.id);
             }

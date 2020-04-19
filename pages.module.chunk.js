@@ -6289,6 +6289,14 @@ var MENU_ITEMS = [
         icon: 'nb-location',
         children: [
             {
+                title: 'Paises',
+                link: '/pages/zonas/pais',
+            },
+            {
+                title: 'Ciudades',
+                link: '/pages/zonas/ciudades',
+            },
+            {
                 title: 'Ver Zonas',
                 link: '/pages/zonas/todas',
             },
