@@ -1361,6 +1361,7 @@ var HeaderComponent = /** @class */ (function () {
             _this.data = data;
             _this.pais = _this.data.coordenadas;
             console.log(_this.pais);
+            _this.ciudades();
         }, function (msg) {
             console.log(msg);
             console.log(msg.error.error);
@@ -1372,18 +1373,22 @@ var HeaderComponent = /** @class */ (function () {
             .toPromise()
             .then(function (data) {
             _this.data = data;
+            _this.todaslasciudades = _this.data.coordenadas;
             _this.ciudad = _this.data.coordenadas;
             console.log(_this.ciudad);
+            _this.paisselec = localStorage.getItem('mouvers_pais');
+            _this.selecPais(_this.paisselec);
         }, function (msg) {
             console.log(msg);
             console.log(msg.error.error);
         });
     };
     HeaderComponent.prototype.selecPais = function (pais) {
-        //console.log(pais);
+        console.log(pais);
+        localStorage.setItem('mouvers_pais', pais);
         for (var i = 0; i < this.pais.length; i++) {
             if (pais == this.pais[i].id) {
-                //console.log(this.pais[i]);
+                console.log(this.pais[i]);
                 this.selecPais2(this.pais[i].ciudad);
             }
         }
@@ -1396,7 +1401,7 @@ var HeaderComponent = /** @class */ (function () {
         console.log(ciudad);
         this.ciudadselec = ciudad;
         localStorage.setItem('mouvers_ciudad', this.ciudadselec);
-        window.location.reload();
+        //window.location.reload();
     };
     HeaderComponent.prototype.initConversationsCli = function () {
         var _this = this;

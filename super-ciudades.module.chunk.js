@@ -3,7 +3,7 @@ webpackJsonp(["super-ciudades.module"],{
 /***/ "../../../../../src/app/pages/super-ciudades/ciudades-agregar/ciudades-agregar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nb-card [hidden]=\"editando\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Ciudades</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <div style=\"text-align: right;\">\r\n      <button type=\"submit\" class=\"btn btn-primary\" (click)=\"aEditar2()\">crear</button>\r\n    </div>\r\n    <table class=\"table\">\r\n      <thead>\r\n         <!-- <th style=\"text-align: center;\">ID</th> -->\r\n         <!-- <th style=\"text-align: center;\">Imagen</th> -->\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Pais</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <!-- <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\"></td> -->\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.pais.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" [hidden]=\"!editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar Ciudad</nb-card-header>\r\n      <nb-card-body>\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"form-group\">\r\n            <label for=\"exampleInputEmail1\">Nombre</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n            <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n              <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"exampleInputEstb\">Pais a la que pertenece la ciudad</label>\r\n              <select class=\"form-control\" id=\"exampleInputCiudad\" formControlName=\"pais_id\">\r\n                <option *ngFor=\"let item of cuidad\" [value]=\"item.id\">{{item.nombre}}</option>\r\n              </select>\r\n          </div>          \r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" *ngIf=\"!editando2\">Editar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"crear()\" *ngIf=\"editando2\">Crear ciudad</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
+module.exports = "<nb-card [hidden]=\"editando\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Ciudades</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <div style=\"text-align: right;\">\r\n      <button type=\"submit\" class=\"btn btn-primary\" (click)=\"aEditar2()\">crear</button>\r\n    </div>\r\n    <table class=\"table\">\r\n      <thead>\r\n         <!-- <th style=\"text-align: center;\">ID</th> -->\r\n         <!-- <th style=\"text-align: center;\">Imagen</th> -->\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Pais</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <!-- <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\"></td> -->\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.pais.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" [hidden]=\"!editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header *ngIf=\"!editando2\">Editar Ciudad</nb-card-header>\r\n      <nb-card-header *ngIf=\"editando2\">Crear Ciudad</nb-card-header>\r\n      <nb-card-body>\r\n\r\n        <div class=\"row\" *ngIf=\"editando2\">\r\n          <div class=\"form-group\" class=\"col-4\"> \r\n            <label for=\"exampleInputNombre\">Nombre del usuario Admin de la cuidad</label>\r\n            <input type=\"text\" class=\"form-control\"  placeholder=\"Nombre\" [(ngModel)]=\"nombre_u\">\r\n          </div>\r\n          <div class=\"form-group\" class=\"col-4\"> \r\n            <label for=\"exampleInputNombre\">Email del usuario Admin de la ciudad</label>\r\n            <input type=\"text\" class=\"form-control\"  placeholder=\"Email\" [(ngModel)]=\"email_u\">\r\n          </div>\r\n          <div class=\"form-group\" class=\"col-4\"> \r\n            <label for=\"exampleInputNombre\">Password de la cuenta de la ciudad</label>\r\n            <input type=\"text\" class=\"form-control\"  placeholder=\"Contraseña\" [(ngModel)]=\"password_u\">\r\n          </div>\r\n        </div><br>\r\n\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"form-group\">\r\n            <label for=\"exampleInputEmail1\">Nombre de la ciudad</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n            <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n              <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"exampleInputEstb\">Pais a la que pertenece la ciudad</label>\r\n              <select class=\"form-control\" id=\"exampleInputCiudad\" formControlName=\"pais_id\">\r\n                <option *ngFor=\"let item of cuidad\" [value]=\"item.id\">{{item.nombre}}</option>\r\n              </select>\r\n          </div>          \r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" *ngIf=\"!editando2\">Editar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"crear()\" *ngIf=\"editando2\">Crear ciudad</button>\r\n        </form>\r\n\r\n\r\n          \r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
 
 /***/ }),
 
@@ -112,6 +112,9 @@ var CiudadesAgregarComponent = /** @class */ (function () {
         //directionsService: any = null;
         this.ciudad_id = null;
         this.editando2 = false;
+        this.nombre_u = '';
+        this.email_u = '';
+        this.password_u = '';
         this.pages = 4;
         this.pageSize = 5;
         this.pageNumber = 0;
@@ -177,7 +180,7 @@ var CiudadesAgregarComponent = /** @class */ (function () {
             }
         });
         this.loading = true;
-        this.http.get(this.rutaService.getRutaApi() + 'zonas?token=' + localStorage.getItem('mouvers_token'))
+        this.http.get(this.rutaService.getRutaApi() + 'ciudad?pais_id=' + localStorage.getItem('mouvers_pais') + 'token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             console.log(data);
@@ -332,19 +335,30 @@ var CiudadesAgregarComponent = /** @class */ (function () {
             .then(function (data) {
             console.log(data);
             _this.data = data;
-            /*for (var i = 0; i < this.productList.length; ++i) {
-              if (this.productList[i].id == this.myFormEditar.value.id) {
-                 this.productList[i].nombre = this.myFormEditar.value.nombre;
-              }
-            }
-
-            this.filteredItems = this.productList;*/
-            _this.init();
-            //console.log(this.productList);
-            //alert(this.data.message);
+            _this.data = _this.data.ciudad;
+            console.log('ciudad_id: ' + _this.data.id);
+            var send = {
+                nombre: _this.nombre_u,
+                email: _this.email_u,
+                password: _this.password_u,
+                ciudad: _this.data.id,
+                pais_id: _this.data.pais_id,
+                telefono: 1,
+                tipo_usuario: 1,
+                tipo_registro: 1,
+                zona_id: 1
+            };
+            _this.http.post(_this.rutaService.getRutaApi() + 'usuarios', send)
+                .toPromise()
+                .then(function (data) {
+                console.log(data);
+            }, function (msg) {
+                console.log(msg);
+            });
             _this.loading = false;
             _this.editando = false;
             _this.showToast('success', 'Success!', _this.data.message);
+            _this.ngOnInit();
         }, function (msg) {
             console.log(msg);
             console.log(msg.error.error);
@@ -1550,7 +1564,7 @@ var SuperCiudadesAgregarComponent = /** @class */ (function () {
     SuperCiudadesAgregarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.loading = true;
-        this.http.get(this.rutaService.getRutaApi() + 'ciudad?token=' + localStorage.getItem('mouvers_token'))
+        this.http.get(this.rutaService.getRutaApi() + 'ciudad?pais_id=' + localStorage.getItem('mouvers_pais') + 'token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             _this.data = data;
@@ -1581,7 +1595,6 @@ var SuperCiudadesAgregarComponent = /** @class */ (function () {
         var _this = this;
         var options = {
             types: ['address'],
-            componentRestrictions: { country: "uy" }
         };
         if (document.getElementById('places')) {
             var inputElement = document.getElementById('places') /*.getElementsByTagName('input')[0]*/;
@@ -2035,7 +2048,7 @@ var SuperCiudadesTodasComponent = /** @class */ (function () {
             // this.router.navigateByUrl('/pagessimples/loginf');
         }
         this.loading = true;
-        this.http.get(this.rutaService.getRutaApi() + 'zonas?token=' + localStorage.getItem('mouvers_token'))
+        this.http.get(this.rutaService.getRutaApi() + 'zonas?ciudad_id=' + localStorage.getItem('mouvers_ciudad') + 'token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             console.log(data);
@@ -2811,7 +2824,7 @@ var SuperCiudadesVerComponent = /** @class */ (function () {
             localStorage.removeItem('mouvers_establecimiento_id');
             // this.router.navigateByUrl('/pagessimples/loginf');
         }
-        this.http.get(this.rutaService.getRutaApi() + 'ciudad?token=' + localStorage.getItem('mouvers_token'))
+        this.http.get(this.rutaService.getRutaApi() + 'ciudad?pais_id=' + localStorage.getItem('mouvers_pais') + 'token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             _this.data = data;
@@ -2837,7 +2850,7 @@ var SuperCiudadesVerComponent = /** @class */ (function () {
             }
         });
         this.loading = true;
-        this.http.get(this.rutaService.getRutaApi() + 'zonas?token=' + localStorage.getItem('mouvers_token'))
+        this.http.get(this.rutaService.getRutaApi() + 'zonas?ciudad_id=' + localStorage.getItem('mouvers_ciudad') + 'token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             console.log(data);
@@ -2872,7 +2885,6 @@ var SuperCiudadesVerComponent = /** @class */ (function () {
         var _this = this;
         var options = {
             types: ['address'],
-            componentRestrictions: { country: "mx" }
         }; //
         if (document.getElementById('places')) {
             var inputElement = document.getElementById('places') /*.getElementsByTagName('input')[0]*/;
