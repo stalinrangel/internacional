@@ -148,13 +148,7 @@ var LoginfComponent = /** @class */ (function () {
             localStorage.setItem('mouvers_pais', _this.data.user.pais_id);
             console.log('ciudad: ' + localStorage.getItem('mouvers_ciudad'));
             console.log('pais: ' + localStorage.getItem('mouvers_pais'));
-            if (_this.data.user.tipo_usuario == 4) {
-                localStorage.setItem('mouvers_establecimiento_id', _this.data.user.establecimiento.id);
-            }
-            else {
-                localStorage.setItem('mouvers_establecimiento_id', '');
-            }
-            if (_this.data.user.tipo_usuario == 1) {
+            if (_this.data.user.tipo_usuario == 0 || _this.data.user.tipo_usuario == 1 || _this.data.user.tipo_usuario == 5 || _this.data.user.tipo_usuario == 6 || _this.data.user.tipo_usuario == 7) {
                 _this.router.navigateByUrl('/pages/dashboard');
                 //this.router.navigate(['pages']);
             }

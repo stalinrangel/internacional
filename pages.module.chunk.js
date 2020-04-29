@@ -6132,9 +6132,535 @@ var StatusCardComponent = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MENU_ITEMS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MENU_ITEMS2; });
-var MENU_ITEMS = [
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MENU_ITEMS0; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MENU_ITEMS1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return MENU_ITEMS5; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return MENU_ITEMS6; });
+/* unused harmony export MENU_ITEMS7 */
+/*
+MENU_ITEMS0
+MENU_ITEMS1
+MENU_ITEMS5
+MENU_ITEMS6
+MENU_ITEMS7
+*/
+var MENU_ITEMS0 = [
+    {
+        title: 'Dashboard',
+        icon: 'ion-home',
+        link: '/pages/dashboard',
+        home: true,
+    }, {
+        title: 'Pedidos',
+        icon: 'nb-compose',
+        children: [
+            {
+                title: 'Por aceptar',
+                link: '/pages/pedidos/aceptar',
+            },
+            {
+                title: 'En curso',
+                link: '/pages/pedidos/encurso',
+            },
+            {
+                title: 'Finalizados',
+                link: '/pages/pedidos/finalizados',
+            },
+            {
+                title: 'Cancelados',
+                link: '/pages/pedidos/cancelados',
+            },
+        ],
+    },
+    /*{
+      title: 'Login',
+      icon: 'nb-locked',
+      link: '/pagessinples/loginf',
+      home: true,
+    },*/
+    {
+        title: 'Clientes',
+        icon: 'ion-ios-people-outline',
+        children: [
+            /*{
+              title: 'Crear Clientes',
+              link: '/pages/clientes/crear',
+            },*/
+            {
+                title: 'Ver Clientes',
+                link: '/pages/clientes/ver',
+            },
+        ],
+    },
+    {
+        title: 'Servicios',
+        icon: 'ion-ios-box-outline',
+        children: [
+            /*{
+              title: 'Agregar Servicios',
+              link: '/pages/productos/agregar',
+            },*/
+            {
+                title: 'Ver Servicios',
+                link: '/pages/productos/ver',
+            },
+        ],
+    },
+    /*{
+      title: 'Establecimientos',
+      icon: 'nb-home',
+      children: [
+        {
+          title: 'Agregar Establecimientos',
+          link: '/pages/establecimientos/agregar',
+        },
+        {
+          title: 'Ver Establecimientos',
+          link: '/pages/establecimientos/ver',
+        },
+       
+      ],
+    },*/
+    {
+        title: 'Proveedores',
+        icon: 'ion-android-bicycle',
+        children: [
+            /* {
+               title: 'Agregar Proveedores',
+               link: '/pages/socios/agregar',
+             },*/
+            {
+                title: 'Ver Proveedores',
+                link: '/pages/socios/ver',
+            },
+            {
+                title: 'Por registar',
+                link: '/pages/socios/registrar',
+            },
+            {
+                title: 'Reporte Excel',
+                link: '/pages/socios/reporte',
+            }
+        ],
+    },
+    {
+        title: 'Cobros',
+        icon: 'ion-social-usd',
+        children: [
+            {
+                title: 'Crear recibo',
+                link: '/pages/cobro/crear',
+            },
+            {
+                title: 'Por Pagar',
+                link: '/pages/cobro/ver',
+            },
+            {
+                title: 'Pagados',
+                link: '/pages/cobro/agregar',
+            }
+        ],
+    },
+    {
+        title: 'Chat',
+        icon: 'nb-email',
+        link: '/pages/chat-box',
+        home: true,
+    },
+    {
+        title: 'Notificaciones',
+        icon: 'nb-notifications',
+        link: '/pages/notificaciones',
+        home: true,
+    },
+    /* {
+       title: 'Blogs',
+       icon: 'fa fa-book',
+       link: '/pages/blogs',
+       home: true,
+     },
+     {
+       title: 'Pagos',
+       icon: 'ion-social-usd',
+       children: [
+         {
+           title: 'Pendientes',
+           link: '/pages/pagos/pendientes',
+         },
+         {
+           title: 'Realizados',
+           link: '/pages/pagos/realizados',
+         },
+        
+       ],
+     },*/
+    {
+        title: 'Zonas',
+        icon: 'nb-location',
+        children: [
+            {
+                title: 'Paises',
+                link: '/pages/zonas/pais',
+            },
+            {
+                title: 'Ciudades',
+                link: '/pages/zonas/ciudades',
+            },
+            {
+                title: 'Ver Zonas',
+                link: '/pages/zonas/todas',
+            },
+            {
+                title: 'Agregar Zona',
+                link: '/pages/zonas/agregar',
+            },
+            {
+                title: 'Editar Zonas',
+                link: '/pages/zonas/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorias principales',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Principales',
+                link: '/pages/categoriasPrincipales/agregar',
+            },
+            {
+                title: 'Ver Principales',
+                link: '/pages/categoriasPrincipales/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Categorías',
+                link: '/pages/categorias/agregar',
+            },
+            {
+                title: 'Ver Categorías',
+                link: '/pages/categorias/ver',
+            },
+        ],
+    },
+    {
+        title: 'Subcategorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Subcategorías',
+                link: '/pages/subcategorias/agregar',
+            },
+            {
+                title: 'Ver Subcategorías',
+                link: '/pages/subcategorias/ver',
+            },
+        ],
+    },
+];
+var MENU_ITEMS1 = [
+    {
+        title: 'Dashboard',
+        icon: 'ion-home',
+        link: '/pages/dashboard',
+        home: true,
+    }, {
+        title: 'Pedidos',
+        icon: 'nb-compose',
+        children: [
+            {
+                title: 'Por aceptar',
+                link: '/pages/pedidos/aceptar',
+            },
+            {
+                title: 'En curso',
+                link: '/pages/pedidos/encurso',
+            },
+            {
+                title: 'Finalizados',
+                link: '/pages/pedidos/finalizados',
+            },
+            {
+                title: 'Cancelados',
+                link: '/pages/pedidos/cancelados',
+            },
+        ],
+    },
+    {
+        title: 'Usuarios',
+        icon: 'ion-ios-people-outline',
+        children: [
+            {
+                title: 'Ver Usuarios',
+                link: '/pages/clientes/ver',
+            },
+        ],
+    },
+    {
+        title: 'Servicios',
+        icon: 'ion-ios-box-outline',
+        children: [
+            {
+                title: 'Ver Servicios',
+                link: '/pages/productos/ver',
+            },
+        ],
+    },
+    {
+        title: 'Proveedores',
+        icon: 'ion-android-bicycle',
+        children: [
+            {
+                title: 'Ver Proveedores',
+                link: '/pages/socios/ver',
+            },
+            {
+                title: 'Por registar',
+                link: '/pages/socios/registrar',
+            },
+            {
+                title: 'Reporte Excel',
+                link: '/pages/socios/reporte',
+            }
+        ],
+    },
+    {
+        title: 'Cobros',
+        icon: 'ion-social-usd',
+        children: [
+            {
+                title: 'Crear recibo',
+                link: '/pages/cobro/crear',
+            },
+            {
+                title: 'Por Pagar',
+                link: '/pages/cobro/ver',
+            },
+            {
+                title: 'Pagados',
+                link: '/pages/cobro/agregar',
+            }
+        ],
+    },
+    {
+        title: 'Chat',
+        icon: 'nb-email',
+        link: '/pages/chat-box',
+        home: true,
+    },
+    {
+        title: 'Notificaciones',
+        icon: 'nb-notifications',
+        link: '/pages/notificaciones',
+        home: true,
+    },
+    {
+        title: 'Zonas',
+        icon: 'nb-location',
+        children: [
+            {
+                title: 'Ciudades',
+                link: '/pages/zonas/ciudades',
+            },
+            {
+                title: 'Ver Zonas',
+                link: '/pages/zonas/todas',
+            },
+            {
+                title: 'Agregar Zona',
+                link: '/pages/zonas/agregar',
+            },
+            {
+                title: 'Editar Zonas',
+                link: '/pages/zonas/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorias principales',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Principales',
+                link: '/pages/categoriasPrincipales/agregar',
+            },
+            {
+                title: 'Ver Principales',
+                link: '/pages/categoriasPrincipales/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Categorías',
+                link: '/pages/categorias/agregar',
+            },
+            {
+                title: 'Ver Categorías',
+                link: '/pages/categorias/ver',
+            },
+        ],
+    },
+    {
+        title: 'Subcategorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Subcategorías',
+                link: '/pages/subcategorias/agregar',
+            },
+            {
+                title: 'Ver Subcategorías',
+                link: '/pages/subcategorias/ver',
+            },
+        ],
+    },
+];
+var MENU_ITEMS5 = [
+    {
+        title: 'Dashboard',
+        icon: 'ion-home',
+        link: '/pages/dashboard',
+        home: true,
+    }, {
+        title: 'Pedidos',
+        icon: 'nb-compose',
+        children: [
+            {
+                title: 'Por aceptar',
+                link: '/pages/pedidos/aceptar',
+            },
+            {
+                title: 'En curso',
+                link: '/pages/pedidos/encurso',
+            },
+            {
+                title: 'Finalizados',
+                link: '/pages/pedidos/finalizados',
+            },
+            {
+                title: 'Cancelados',
+                link: '/pages/pedidos/cancelados',
+            },
+        ],
+    },
+    {
+        title: 'Usuarios',
+        icon: 'ion-ios-people-outline',
+        children: [
+            /*{
+              title: 'Crear Usuarios',
+              link: '/pages/clientes/crear',
+            },*/
+            {
+                title: 'Ver Usuarios',
+                link: '/pages/clientes/ver',
+            },
+        ],
+    },
+    {
+        title: 'Servicios',
+        icon: 'ion-ios-box-outline',
+        children: [
+            {
+                title: 'Ver Servicios',
+                link: '/pages/productos/ver',
+            },
+        ],
+    },
+    {
+        title: 'Proveedores',
+        icon: 'ion-android-bicycle',
+        children: [
+            {
+                title: 'Ver Proveedores',
+                link: '/pages/socios/ver',
+            },
+            {
+                title: 'Por registar',
+                link: '/pages/socios/registrar',
+            },
+            {
+                title: 'Reporte Excel',
+                link: '/pages/socios/reporte',
+            }
+        ],
+    },
+    {
+        title: 'Cobros',
+        icon: 'ion-social-usd',
+        children: [
+            {
+                title: 'Crear recibo',
+                link: '/pages/cobro/crear',
+            },
+            {
+                title: 'Por Pagar',
+                link: '/pages/cobro/ver',
+            },
+            {
+                title: 'Pagados',
+                link: '/pages/cobro/agregar',
+            }
+        ],
+    },
+    {
+        title: 'Chat',
+        icon: 'nb-email',
+        link: '/pages/chat-box',
+        home: true,
+    },
+    {
+        title: 'Notificaciones',
+        icon: 'nb-notifications',
+        link: '/pages/notificaciones',
+        home: true,
+    },
+];
+var MENU_ITEMS6 = [
+    {
+        title: 'Dashboard',
+        icon: 'ion-home',
+        link: '/pages/dashboard',
+        home: true,
+    }, {
+        title: 'Pedidos',
+        icon: 'nb-compose',
+        children: [
+            {
+                title: 'Por aceptar',
+                link: '/pages/pedidos/aceptar',
+            },
+            {
+                title: 'En curso',
+                link: '/pages/pedidos/encurso',
+            },
+            {
+                title: 'Finalizados',
+                link: '/pages/pedidos/finalizados',
+            },
+            {
+                title: 'Cancelados',
+                link: '/pages/pedidos/cancelados',
+            },
+        ],
+    },
+    {
+        title: 'Chat',
+        icon: 'nb-email',
+        link: '/pages/chat-box',
+        home: true,
+    },
+];
+var MENU_ITEMS7 = [
     {
         title: 'Dashboard',
         icon: 'ion-home',
@@ -6353,62 +6879,6 @@ var MENU_ITEMS = [
         ],
     },
 ];
-var MENU_ITEMS2 = [
-    {
-        title: 'Dashboard',
-        icon: 'ion-home',
-        link: '/pages/mi/dashboard',
-        home: true,
-    },
-    {
-        title: ' Mis Productos',
-        icon: 'ion-ios-box-outline',
-        children: [
-            {
-                title: 'Agregar Productos',
-                link: '/pages/mis/productos/agregar',
-            },
-            {
-                title: 'Ver Productos',
-                link: '/pages/mis/productos/ver',
-            },
-        ],
-    },
-    {
-        title: 'Mis Pedidos',
-        icon: 'nb-compose',
-        children: [
-            {
-                title: 'En curso',
-                link: '/pages/mis/pedidos/encurso',
-            },
-            {
-                title: 'Despachados',
-                link: '/pages/mis/pedidos/finalizados',
-            },
-        ],
-    },
-    {
-        title: 'Mis Pagos',
-        icon: 'ion-social-usd',
-        children: [
-            {
-                title: 'Pendientes',
-                link: '/pages/mis/pagos/pendientes',
-            },
-            {
-                title: 'Realizados',
-                link: '/pages/mis/pagos/realizados',
-            },
-        ],
-    },
-    {
-        title: 'Ordenar',
-        icon: 'ion-document-text',
-        link: '/pages/ordenar',
-        home: true,
-    },
-];
 
 
 /***/ }),
@@ -6568,16 +7038,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var PagesComponent = /** @class */ (function () {
     function PagesComponent() {
         //menu = MENU_ITEMS;
         this.menu = [];
         var tipo_usuario = localStorage.getItem('mouvers_user_tipo');
-        if (tipo_usuario == '1') {
-            this.menu = __WEBPACK_IMPORTED_MODULE_1__pages_menu__["a" /* MENU_ITEMS */];
+        console.log(tipo_usuario);
+        if (tipo_usuario == '0') {
+            this.menu = __WEBPACK_IMPORTED_MODULE_1__pages_menu__["a" /* MENU_ITEMS0 */];
         }
-        else if (tipo_usuario == '4') {
-            this.menu = __WEBPACK_IMPORTED_MODULE_1__pages_menu__["b" /* MENU_ITEMS2 */];
+        else if (tipo_usuario == '1') {
+            this.menu = __WEBPACK_IMPORTED_MODULE_1__pages_menu__["b" /* MENU_ITEMS1 */];
+        }
+        else if (tipo_usuario == '5') {
+            this.menu = __WEBPACK_IMPORTED_MODULE_1__pages_menu__["c" /* MENU_ITEMS5 */];
+        }
+        else if (tipo_usuario == '6') {
+            this.menu = __WEBPACK_IMPORTED_MODULE_1__pages_menu__["d" /* MENU_ITEMS6 */];
         }
     }
     PagesComponent = __decorate([
