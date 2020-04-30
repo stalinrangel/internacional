@@ -148,6 +148,7 @@ var LoginfComponent = /** @class */ (function () {
             localStorage.setItem('mouvers_pais', _this.data.user.pais_id);
             console.log('ciudad: ' + localStorage.getItem('mouvers_ciudad'));
             console.log('pais: ' + localStorage.getItem('mouvers_pais'));
+            console.log('tipo: ' + localStorage.getItem('mouvers_user_tipo'));
             if (_this.data.user.tipo_usuario == 0 || _this.data.user.tipo_usuario == 1 || _this.data.user.tipo_usuario == 5 || _this.data.user.tipo_usuario == 6 || _this.data.user.tipo_usuario == 7) {
                 _this.router.navigateByUrl('/pages/dashboard');
                 //this.router.navigate(['pages']);

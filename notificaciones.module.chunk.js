@@ -128,11 +128,22 @@ var notificacionesComponent = /** @class */ (function () {
         this.sistConfigurado = false;
         this.notificaciones_clientes = [];
         this.notificaciones_proveedores = [];
+        this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
         this.msg = '';
         this.msgp = '';
     }
     notificacionesComponent.prototype.ngOnInit = function () {
         var _this = this;
+        if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+        }
+        else {
+            localStorage.removeItem('mouvers_token');
+            localStorage.removeItem('mouvers_user_id');
+            localStorage.removeItem('mouvers_user_nombre');
+            localStorage.removeItem('mouvers_user_tipo');
+            localStorage.removeItem('mouvers_establecimiento_id');
+            this.router.navigateByUrl('/pagessimples/loginf');
+        }
         this.http.get(this.rutaService.getRutaApi() + 'notificaciones_generales?ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
             .toPromise()
             .then(function (data) {

@@ -126,7 +126,9 @@ var EstablecimientosAgregarComponent = /** @class */ (function () {
     EstablecimientosAgregarComponent.prototype.ngOnInit = function () {
         var _this = this;
         console.log(this.myFormAgregar.value.horario);
-        if (this.mouvers_user_tipo != '1') {
+        if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+        }
+        else {
             localStorage.removeItem('mouvers_token');
             localStorage.removeItem('mouvers_user_id');
             localStorage.removeItem('mouvers_user_nombre');
@@ -579,7 +581,9 @@ var EstablecimientosVerComponent = /** @class */ (function () {
     }
     EstablecimientosVerComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.mouvers_user_tipo != '1') {
+        if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+        }
+        else {
             localStorage.removeItem('mouvers_token');
             localStorage.removeItem('mouvers_user_id');
             localStorage.removeItem('mouvers_user_nombre');

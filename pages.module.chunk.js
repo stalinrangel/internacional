@@ -858,13 +858,15 @@ var DashboardComponent = /** @class */ (function () {
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.mouvers_user_tipo != '1') {
+        if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+        }
+        else {
             localStorage.removeItem('mouvers_token');
             localStorage.removeItem('mouvers_user_id');
             localStorage.removeItem('mouvers_user_nombre');
             localStorage.removeItem('mouvers_user_tipo');
             localStorage.removeItem('mouvers_establecimiento_id');
-            //this.router.navigateByUrl('/pagessimples/loginf');
+            this.router.navigateByUrl('/pagessimples/loginf');
         }
         //this.themeService.changeTheme('cosmic');
         this.themeService.changeTheme('default');
@@ -6306,10 +6308,10 @@ var MENU_ITEMS0 = [
                 title: 'Ciudades',
                 link: '/pages/zonas/ciudades',
             },
-            {
-                title: 'Ver Zonas',
-                link: '/pages/zonas/todas',
-            },
+            /*{
+              title: 'Ver Zonas',
+              link: '/pages/zonas/todas',
+            },*/
             {
                 title: 'Agregar Zona',
                 link: '/pages/zonas/agregar',
@@ -6468,10 +6470,6 @@ var MENU_ITEMS1 = [
                 link: '/pages/zonas/ciudades',
             },
             {
-                title: 'Ver Zonas',
-                link: '/pages/zonas/todas',
-            },
-            {
                 title: 'Agregar Zona',
                 link: '/pages/zonas/agregar',
             },
@@ -6556,10 +6554,6 @@ var MENU_ITEMS5 = [
         title: 'Usuarios',
         icon: 'ion-ios-people-outline',
         children: [
-            /*{
-              title: 'Crear Usuarios',
-              link: '/pages/clientes/crear',
-            },*/
             {
                 title: 'Ver Usuarios',
                 link: '/pages/clientes/ver',
@@ -6623,6 +6617,66 @@ var MENU_ITEMS5 = [
         icon: 'nb-notifications',
         link: '/pages/notificaciones',
         home: true,
+    },
+    {
+        title: 'Zonas',
+        icon: 'nb-location',
+        children: [
+            {
+                title: 'Ciudades',
+                link: '/pages/zonas/ciudades',
+            },
+            {
+                title: 'Agregar Zona',
+                link: '/pages/zonas/agregar',
+            },
+            {
+                title: 'Editar Zonas',
+                link: '/pages/zonas/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorias principales',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Principales',
+                link: '/pages/categoriasPrincipales/agregar',
+            },
+            {
+                title: 'Ver Principales',
+                link: '/pages/categoriasPrincipales/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Categorías',
+                link: '/pages/categorias/agregar',
+            },
+            {
+                title: 'Ver Categorías',
+                link: '/pages/categorias/ver',
+            },
+        ],
+    },
+    {
+        title: 'Subcategorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Subcategorías',
+                link: '/pages/subcategorias/agregar',
+            },
+            {
+                title: 'Ver Subcategorías',
+                link: '/pages/subcategorias/ver',
+            },
+        ],
     },
 ];
 var MENU_ITEMS6 = [
@@ -6654,54 +6708,9 @@ var MENU_ITEMS6 = [
         ],
     },
     {
-        title: 'Chat',
-        icon: 'nb-email',
-        link: '/pages/chat-box',
-        home: true,
-    },
-];
-var MENU_ITEMS7 = [
-    {
-        title: 'Dashboard',
-        icon: 'ion-home',
-        link: '/pages/dashboard',
-        home: true,
-    }, {
-        title: 'Pedidos',
-        icon: 'nb-compose',
-        children: [
-            {
-                title: 'Por aceptar',
-                link: '/pages/pedidos/aceptar',
-            },
-            {
-                title: 'En curso',
-                link: '/pages/pedidos/encurso',
-            },
-            {
-                title: 'Finalizados',
-                link: '/pages/pedidos/finalizados',
-            },
-            {
-                title: 'Cancelados',
-                link: '/pages/pedidos/cancelados',
-            },
-        ],
-    },
-    /*{
-      title: 'Login',
-      icon: 'nb-locked',
-      link: '/pagessinples/loginf',
-      home: true,
-    },*/
-    {
         title: 'Usuarios',
         icon: 'ion-ios-people-outline',
         children: [
-            /*{
-              title: 'Crear Usuarios',
-              link: '/pages/clientes/crear',
-            },*/
             {
                 title: 'Ver Usuarios',
                 link: '/pages/clientes/ver',
@@ -6712,39 +6721,16 @@ var MENU_ITEMS7 = [
         title: 'Servicios',
         icon: 'ion-ios-box-outline',
         children: [
-            /*{
-              title: 'Agregar Servicios',
-              link: '/pages/productos/agregar',
-            },*/
             {
                 title: 'Ver Servicios',
                 link: '/pages/productos/ver',
             },
         ],
     },
-    /*{
-      title: 'Establecimientos',
-      icon: 'nb-home',
-      children: [
-        {
-          title: 'Agregar Establecimientos',
-          link: '/pages/establecimientos/agregar',
-        },
-        {
-          title: 'Ver Establecimientos',
-          link: '/pages/establecimientos/ver',
-        },
-       
-      ],
-    },*/
     {
         title: 'Proveedores',
         icon: 'ion-android-bicycle',
         children: [
-            /* {
-               title: 'Agregar Proveedores',
-               link: '/pages/socios/agregar',
-             },*/
             {
                 title: 'Ver Proveedores',
                 link: '/pages/socios/ver',
@@ -6789,43 +6775,167 @@ var MENU_ITEMS7 = [
         link: '/pages/notificaciones',
         home: true,
     },
-    /* {
-       title: 'Blogs',
-       icon: 'fa fa-book',
-       link: '/pages/blogs',
-       home: true,
-     },
-     {
-       title: 'Pagos',
-       icon: 'ion-social-usd',
-       children: [
-         {
-           title: 'Pendientes',
-           link: '/pages/pagos/pendientes',
-         },
-         {
-           title: 'Realizados',
-           link: '/pages/pagos/realizados',
-         },
-        
-       ],
-     },*/
     {
         title: 'Zonas',
         icon: 'nb-location',
         children: [
             {
-                title: 'Paises',
-                link: '/pages/zonas/pais',
-            },
-            {
                 title: 'Ciudades',
                 link: '/pages/zonas/ciudades',
             },
             {
-                title: 'Ver Zonas',
-                link: '/pages/zonas/todas',
+                title: 'Agregar Zona',
+                link: '/pages/zonas/agregar',
             },
+            {
+                title: 'Editar Zonas',
+                link: '/pages/zonas/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorias principales',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Principales',
+                link: '/pages/categoriasPrincipales/agregar',
+            },
+            {
+                title: 'Ver Principales',
+                link: '/pages/categoriasPrincipales/ver',
+            },
+        ],
+    },
+    {
+        title: 'Categorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Categorías',
+                link: '/pages/categorias/agregar',
+            },
+            {
+                title: 'Ver Categorías',
+                link: '/pages/categorias/ver',
+            },
+        ],
+    },
+    {
+        title: 'Subcategorías',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Agregar Subcategorías',
+                link: '/pages/subcategorias/agregar',
+            },
+            {
+                title: 'Ver Subcategorías',
+                link: '/pages/subcategorias/ver',
+            },
+        ],
+    },
+];
+var MENU_ITEMS7 = [
+    {
+        title: 'Dashboard',
+        icon: 'ion-home',
+        link: '/pages/dashboard',
+        home: true,
+    }, {
+        title: 'Pedidos',
+        icon: 'nb-compose',
+        children: [
+            {
+                title: 'Por aceptar',
+                link: '/pages/pedidos/aceptar',
+            },
+            {
+                title: 'En curso',
+                link: '/pages/pedidos/encurso',
+            },
+            {
+                title: 'Finalizados',
+                link: '/pages/pedidos/finalizados',
+            },
+            {
+                title: 'Cancelados',
+                link: '/pages/pedidos/cancelados',
+            },
+        ],
+    },
+    {
+        title: 'Usuarios',
+        icon: 'ion-ios-people-outline',
+        children: [
+            {
+                title: 'Ver Usuarios',
+                link: '/pages/clientes/ver',
+            },
+        ],
+    },
+    {
+        title: 'Servicios',
+        icon: 'ion-ios-box-outline',
+        children: [
+            {
+                title: 'Ver Servicios',
+                link: '/pages/productos/ver',
+            },
+        ],
+    },
+    {
+        title: 'Proveedores',
+        icon: 'ion-android-bicycle',
+        children: [
+            {
+                title: 'Ver Proveedores',
+                link: '/pages/socios/ver',
+            },
+            {
+                title: 'Por registar',
+                link: '/pages/socios/registrar',
+            },
+            {
+                title: 'Reporte Excel',
+                link: '/pages/socios/reporte',
+            }
+        ],
+    },
+    {
+        title: 'Cobros',
+        icon: 'ion-social-usd',
+        children: [
+            {
+                title: 'Crear recibo',
+                link: '/pages/cobro/crear',
+            },
+            {
+                title: 'Por Pagar',
+                link: '/pages/cobro/ver',
+            },
+            {
+                title: 'Pagados',
+                link: '/pages/cobro/agregar',
+            }
+        ],
+    },
+    {
+        title: 'Chat',
+        icon: 'nb-email',
+        link: '/pages/chat-box',
+        home: true,
+    },
+    {
+        title: 'Notificaciones',
+        icon: 'nb-notifications',
+        link: '/pages/notificaciones',
+        home: true,
+    },
+    {
+        title: 'Zonas',
+        icon: 'nb-location',
+        children: [
             {
                 title: 'Agregar Zona',
                 link: '/pages/zonas/agregar',
