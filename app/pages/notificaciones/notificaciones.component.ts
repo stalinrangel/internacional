@@ -80,6 +80,8 @@ export class notificacionesComponent implements OnInit{
 	         .toPromise()
 	         .then(
 	           data => { // Success
+	           	 this.notificaciones_clientes=[];
+	           	 this.notificaciones_proveedores=[];
 	             console.log(data);
 	             this.data=data;
 	             this.data=this.data.Notificaciones_generales;
@@ -137,6 +139,67 @@ export class notificacionesComponent implements OnInit{
 	  };
 	  this.toasterService.popAsync(toast);
 	}
+
+	//Abrir modal por defecto
+	open(modal) {
+	    this.modalService.open(modal);
+	}
+	public objAEliminar:any;
+    public eliminar_id:any;
+    public eliminar_nombre:any;
+
+	aEliminar(obj): void {
+      this.objAEliminar = obj;
+      console.log(this.objAEliminar);
+      this.eliminar_id = this.objAEliminar.id;
+      this.eliminar_nombre = this.objAEliminar.nombre;
+    }
+
+    eliminar(): void {
+      console.log(this.objAEliminar);
+      
+      this.loading = true;
+
+      var datos= {
+        token: localStorage.getItem('mouvers_token')
+      }
+
+      this.http.delete(this.rutaService.getRutaApi()+'notificaciones_generales/'+this.eliminar_id+'?token='+localStorage.getItem('mouvers_token'))
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+             
+              this.ngOnInit();
+              
+              //console.log(this.productList);
+              //alert(this.data.message);
+              this.loading = false;
+              this.showToast('success', 'Success!', this.data.message);    
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+
+             this.loading = false;
+
+             //token invalido/ausente o token expiro
+             if(msg.status == 400 || msg.status == 401){ 
+                  //alert(msg.error.error);
+                  //ir a login
+
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              //no encontrada o confilto
+              else if(msg.status == 404 || msg.status == 409){ 
+                  //alert(msg.error.error);
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+
+           }
+         );
+    }
+
 	public msg='';
 
 	enviar_clientes(){
@@ -162,7 +225,7 @@ export class notificacionesComponent implements OnInit{
 	            //this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
 			     
 			    this.loading = false;
-			    this.ngOnInit();
+			    //this.ngOnInit();
 			    
 			    this.enviarNotificaciones();
 
@@ -208,7 +271,7 @@ export class notificacionesComponent implements OnInit{
 	           
 			     
 			    this.loading = false;
-			    this.ngOnInit();
+			    //this.ngOnInit();
 			   
 			    this.enviarNotificacionesP();
 
@@ -279,7 +342,7 @@ export class notificacionesComponent implements OnInit{
              this.data=data;
 
             this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
-		     
+		    this.ngOnInit();
 		    this.loading = false;
 		      this.msgp='';
            },

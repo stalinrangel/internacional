@@ -22,7 +22,17 @@
                 <label style="font-weight: bold;">Notificaciones previas</label><br>
                 <div class="col-md-12">
                     <div  *ngFor="let item of notificaciones_clientes">
-                      <p style="border-radius: 1px">{{item.mensaje}} - {{item.created_at}}</p><hr>
+                      <div class="row">
+                        <div class="col-md-10">
+                          <p style="border-radius: 1px">{{item.mensaje}} - {{item.created_at}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-danger btn-icon btn-sm btn-table" title="Eliminar" (click)="open(modal1); aEliminar(item)">
+                          <i class="nb-trash"></i>
+                        </button>
+                        </div>
+                      </div>
+                      <hr>
                     </div>
                 </div>
             </div>
@@ -55,7 +65,17 @@
                 <label style="font-weight: bold;">Notificaciones previas</label><br>
                 <div class="col-md-12">
                     <div  *ngFor="let item of notificaciones_proveedores">
-                      <p style="border-radius: 1px">{{item.mensaje}} - {{item.created_at}}</p><hr>
+                      <div class="row">
+                        <div class="col-md-10">
+                          <p style="border-radius: 1px">{{item.mensaje}} - {{item.created_at}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-danger btn-icon btn-sm btn-table" title="Eliminar" (click)="open(modal1); aEliminar(item)">
+                          <i class="nb-trash"></i>
+                        </button>
+                        </div>
+                      </div>
+                      <hr>
                     </div>
                 </div>
             </div>
@@ -64,7 +84,21 @@
   </div>
 </div>
 
-
+<ng-template #modal1 let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Eliminar Notificación: </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Realmente desea eliminar esta notificación?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')" [disabled]="mouvers_user_tipo==7">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="c('Close click'); eliminar()" [disabled]="mouvers_user_tipo==7">Eliminar</button>
+  </div>
+</ng-template>
 
 <toaster-container [toasterconfig]="config"></toaster-container>
 

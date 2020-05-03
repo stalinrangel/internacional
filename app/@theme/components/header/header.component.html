@@ -78,7 +78,9 @@
           </div>
       </div>
   </nb-action>
-
+  <nb-action class="control-item" (click)="reload_panel()">
+    <i class="fa ion-refresh" ></i>
+  </nb-action>
   <nb-action class="control-item">
       <select class="form-control" [(ngModel)]="ciudadselec" (ngModelChange)="selecCiudad($event)" [disabled]="mouvers_user_tipo =='6'">
         <option *ngFor="let c of ciudad" [value]="c.id" >{{c.nombre}}</option>

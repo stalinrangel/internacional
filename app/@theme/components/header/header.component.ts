@@ -237,7 +237,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.selecPais2(this.pais[i].ciudad);
       }
     }
-    window.location.reload();
+    //window.location.reload();
   }
   selecPais2(ciudades){
     console.log(ciudades);
@@ -252,6 +252,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     localStorage.setItem('mouvers_ciudad', this.ciudadselec);
     
 
+  }
+  reload_panel(){
+    window.location.reload();
   }
 
   initConversationsCli(){

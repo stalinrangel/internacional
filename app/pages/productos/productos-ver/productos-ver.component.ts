@@ -119,6 +119,7 @@ export class ProductosVerComponent implements OnInit{
       }
     
     this.loading = true;
+    this.getSubcategorias();
     this.http.get(this.rutaService.getRutaApi()+'productos/subcategoria/establecimiento?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
        .toPromise()
        .then(
@@ -162,6 +163,8 @@ export class ProductosVerComponent implements OnInit{
 
          }
        );
+
+
   }
 
   private showToast(type: string, title: string, body: string) {
@@ -196,7 +199,7 @@ export class ProductosVerComponent implements OnInit{
   }
 
     getSubcategorias(): void {
-      this.http.get(this.rutaService.getRutaApi()+'subcategorias/habilitadas?token='+localStorage.getItem('mouvers_token'))
+      this.http.get(this.rutaService.getRutaApi()+'subcategorias/habilitadas?ciudad_id='+localStorage.getItem('mouvers_ciudad')+'token='+localStorage.getItem('mouvers_token'))
          .toPromise()
          .then(
            data => { // Success
