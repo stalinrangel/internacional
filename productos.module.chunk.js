@@ -484,6 +484,7 @@ var ProductosVerComponent = /** @class */ (function () {
             this.router.navigateByUrl('/pagessimples/loginf');
         }
         this.loading = true;
+        this.getSubcategorias();
         this.http.get(this.rutaService.getRutaApi() + 'productos/subcategoria/establecimiento?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
             .toPromise()
             .then(function (data) {
@@ -544,7 +545,7 @@ var ProductosVerComponent = /** @class */ (function () {
     };
     ProductosVerComponent.prototype.getSubcategorias = function () {
         var _this = this;
-        this.http.get(this.rutaService.getRutaApi() + 'subcategorias/habilitadas?token=' + localStorage.getItem('mouvers_token'))
+        this.http.get(this.rutaService.getRutaApi() + 'subcategorias/habilitadas?ciudad_id=' + localStorage.getItem('mouvers_ciudad') + 'token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             console.log(data);

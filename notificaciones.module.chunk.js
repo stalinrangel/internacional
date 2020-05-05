@@ -48,7 +48,7 @@ var routedComponents = [
 /***/ "../../../../../src/app/pages/notificaciones/notificaciones.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-lg-6\" style=\"display:block; margin:auto\">\n  \n    <nb-card>\n      <nb-card-header>Envia mensajes a los clientes</nb-card-header>\n      <nb-card-body>\n        <div class=\"card-body \">\n              \n              <div class=\"form-group row\">\n                <!-- <label class=\"col-md-3 form-control-label\" for=\"textarea-input\">Textarea</label> -->\n                <div class=\"col-md-12\">\n                  <textarea id=\"textarea-input\" name=\"textarea-input\" rows=\"9\" class=\"form-control\" placeholder=\"Escribe un mensaje...\" [(ngModel)]=\"msg\" maxlength=\"280\"></textarea>\n                </div>\n              </div>\n              \n            </div>\n            <div class=\"card-footer\">\n              <button type=\"submit\" class=\"btn btn-sm btn-success\" (click)=\"enviar_clientes()\" [disabled]=\"msg == ''\" ><i class=\"fa fa-dot-circle-o\"></i> Enviar</button>\n            </div>\n            <br><br>\n            <div class=\"form-group row\">\n                <label style=\"font-weight: bold;\">Notificaciones previas</label><br>\n                <div class=\"col-md-12\">\n                    <div  *ngFor=\"let item of notificaciones_clientes\">\n                      <p style=\"border-radius: 1px\">{{item.mensaje}} - {{item.created_at}}</p><hr>\n                    </div>\n                </div>\n            </div>\n\n\n      </nb-card-body>\n    </nb-card>\n  </div>\n\n  <div class=\"col-lg-6\" style=\"display:block; margin:auto\">\n  \n    <nb-card>\n      <nb-card-header>Envia mensajes a los Proveedores</nb-card-header>\n      <nb-card-body>\n        <div class=\"card-body \">\n              \n              <div class=\"form-group row\">\n                <!-- <label class=\"col-md-3 form-control-label\" for=\"textarea-input\">Textarea</label> -->\n                <div class=\"col-md-12\">\n                  <textarea id=\"textarea-input\" name=\"textarea-input\" rows=\"9\" class=\"form-control\" placeholder=\"Escribe un mensaje...\" [(ngModel)]=\"msgp\" maxlength=\"280\"></textarea>\n                </div>\n              </div>\n              \n            </div>\n            <div class=\"card-footer\">\n              <button type=\"submit\" class=\"btn btn-sm btn-success\" (click)=\"enviar_proveedores()\" [disabled]=\"msgp == ''\" ><i class=\"fa fa-dot-circle-o\"></i> Enviar</button>\n            </div>\n        <br>\n         <div class=\"form-group row\">\n                <label style=\"font-weight: bold;\">Notificaciones previas</label><br>\n                <div class=\"col-md-12\">\n                    <div  *ngFor=\"let item of notificaciones_proveedores\">\n                      <p style=\"border-radius: 1px\">{{item.mensaje}} - {{item.created_at}}</p><hr>\n                    </div>\n                </div>\n            </div>\n      </nb-card-body>\n    </nb-card>\n  </div>\n</div>\n\n\n\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\n\n<div class=\"my-container\">\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\n</div>\n\n\n"
+module.exports = "<div class=\"row\">\n  <div class=\"col-lg-6\" style=\"display:block; margin:auto\">\n  \n    <nb-card>\n      <nb-card-header>Envia mensajes a los clientes</nb-card-header>\n      <nb-card-body>\n        <div class=\"card-body \">\n              \n              <div class=\"form-group row\">\n                <!-- <label class=\"col-md-3 form-control-label\" for=\"textarea-input\">Textarea</label> -->\n                <div class=\"col-md-12\">\n                  <textarea id=\"textarea-input\" name=\"textarea-input\" rows=\"9\" class=\"form-control\" placeholder=\"Escribe un mensaje...\" [(ngModel)]=\"msg\" maxlength=\"280\"></textarea>\n                </div>\n              </div>\n              \n            </div>\n            <div class=\"card-footer\">\n              <button type=\"submit\" class=\"btn btn-sm btn-success\" (click)=\"enviar_clientes()\" [disabled]=\"msg == ''\" ><i class=\"fa fa-dot-circle-o\"></i> Enviar</button>\n            </div>\n            <br><br>\n            <div class=\"form-group row\">\n                <label style=\"font-weight: bold;\">Notificaciones previas</label><br>\n                <div class=\"col-md-12\">\n                    <div  *ngFor=\"let item of notificaciones_clientes\">\n                      <div class=\"row\">\n                        <div class=\"col-md-10\">\n                          <p style=\"border-radius: 1px\">{{item.mensaje}} - {{item.created_at}}</p>\n                        </div>\n                        <div class=\"col-md-2\">\n                          <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\n                          <i class=\"nb-trash\"></i>\n                        </button>\n                        </div>\n                      </div>\n                      <hr>\n                    </div>\n                </div>\n            </div>\n\n\n      </nb-card-body>\n    </nb-card>\n  </div>\n\n  <div class=\"col-lg-6\" style=\"display:block; margin:auto\">\n  \n    <nb-card>\n      <nb-card-header>Envia mensajes a los Proveedores</nb-card-header>\n      <nb-card-body>\n        <div class=\"card-body \">\n              \n              <div class=\"form-group row\">\n                <!-- <label class=\"col-md-3 form-control-label\" for=\"textarea-input\">Textarea</label> -->\n                <div class=\"col-md-12\">\n                  <textarea id=\"textarea-input\" name=\"textarea-input\" rows=\"9\" class=\"form-control\" placeholder=\"Escribe un mensaje...\" [(ngModel)]=\"msgp\" maxlength=\"280\"></textarea>\n                </div>\n              </div>\n              \n            </div>\n            <div class=\"card-footer\">\n              <button type=\"submit\" class=\"btn btn-sm btn-success\" (click)=\"enviar_proveedores()\" [disabled]=\"msgp == ''\" ><i class=\"fa fa-dot-circle-o\"></i> Enviar</button>\n            </div>\n        <br>\n         <div class=\"form-group row\">\n                <label style=\"font-weight: bold;\">Notificaciones previas</label><br>\n                <div class=\"col-md-12\">\n                    <div  *ngFor=\"let item of notificaciones_proveedores\">\n                      <div class=\"row\">\n                        <div class=\"col-md-10\">\n                          <p style=\"border-radius: 1px\">{{item.mensaje}} - {{item.created_at}}</p>\n                        </div>\n                        <div class=\"col-md-2\">\n                          <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\n                          <i class=\"nb-trash\"></i>\n                        </button>\n                        </div>\n                      </div>\n                      <hr>\n                    </div>\n                </div>\n            </div>\n      </nb-card-body>\n    </nb-card>\n  </div>\n</div>\n\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">Eliminar Notificación: </h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <p>¿Realmente desea eliminar esta notificación?</p>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\" [disabled]=\"mouvers_user_tipo==7\">Cancelar</button>\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\" [disabled]=\"mouvers_user_tipo==7\">Eliminar</button>\n  </div>\n</ng-template>\n\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\n\n<div class=\"my-container\">\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -147,6 +147,8 @@ var notificacionesComponent = /** @class */ (function () {
         this.http.get(this.rutaService.getRutaApi() + 'notificaciones_generales?ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
             .toPromise()
             .then(function (data) {
+            _this.notificaciones_clientes = [];
+            _this.notificaciones_proveedores = [];
             console.log(data);
             _this.data = data;
             _this.data = _this.data.Notificaciones_generales;
@@ -196,6 +198,48 @@ var notificacionesComponent = /** @class */ (function () {
         };
         this.toasterService.popAsync(toast);
     };
+    //Abrir modal por defecto
+    notificacionesComponent.prototype.open = function (modal) {
+        this.modalService.open(modal);
+    };
+    notificacionesComponent.prototype.aEliminar = function (obj) {
+        this.objAEliminar = obj;
+        console.log(this.objAEliminar);
+        this.eliminar_id = this.objAEliminar.id;
+        this.eliminar_nombre = this.objAEliminar.nombre;
+    };
+    notificacionesComponent.prototype.eliminar = function () {
+        var _this = this;
+        console.log(this.objAEliminar);
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token')
+        };
+        this.http.delete(this.rutaService.getRutaApi() + 'notificaciones_generales/' + this.eliminar_id + '?token=' + localStorage.getItem('mouvers_token'))
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.ngOnInit();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else if (msg.status == 404 || msg.status == 409) {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
     notificacionesComponent.prototype.enviar_clientes = function () {
         var _this = this;
         this.loading = true;
@@ -213,8 +257,10 @@ var notificacionesComponent = /** @class */ (function () {
             console.log(data);
             _this.data = data;
             //this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+            _this.msg = '';
             _this.loading = false;
             _this.ngOnInit();
+            _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
             _this.enviarNotificaciones();
         }, function (msg) {
             console.log(msg);
@@ -249,7 +295,9 @@ var notificacionesComponent = /** @class */ (function () {
             _this.data = data;
             _this.loading = false;
             _this.ngOnInit();
+            _this.msgp = '';
             _this.enviarNotificacionesP();
+            _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
         }, function (msg) {
             console.log(msg);
             console.log(msg.error.error);
@@ -275,11 +323,9 @@ var notificacionesComponent = /** @class */ (function () {
             _this.data = data;
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
             _this.loading = false;
-            _this.ngOnInit();
-            _this.msg = '';
         }, function (msg) {
             console.log(msg);
-            console.log(msg.error.error);
+            //console.log(msg.error.error);
             _this.loading = false;
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
             if (msg.status == 400 || msg.status == 401) {
@@ -301,11 +347,12 @@ var notificacionesComponent = /** @class */ (function () {
             console.log(data);
             _this.data = data;
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+            _this.ngOnInit();
             _this.loading = false;
             _this.msgp = '';
         }, function (msg) {
             console.log(msg);
-            console.log(msg.error.error);
+            //console.log(msg.error.error);
             _this.loading = false;
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
             if (msg.status == 400 || msg.status == 401) {
