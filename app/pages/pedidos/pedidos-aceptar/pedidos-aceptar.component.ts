@@ -66,7 +66,7 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
   public repartidor_id = null;
 
   public mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
-
+  public id_operacion:any="";
   constructor( private modalService: NgbModal,
                private toasterService: ToasterService,
                private http: HttpClient,
@@ -80,14 +80,17 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
     //Detectar evento cargar pedido de notificacion entrante
     this.headerToPedidosEventService.headerToPedidosData.subscribe(
         (data: any) => {
-          //console.log(data); 
+          console.log(data); 
+          this.id_operacion=data;
+          this.id_operacion=this.id_operacion.id_operacion;
+          console.log( this.id_operacion); 
           this.headerEvent();
       });
 
     
 
   }
-
+  public datos:any;
   ngOnInit() {
 
     if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
@@ -153,14 +156,16 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
 
            setTimeout(()=>{
                //this.productList = this.data.pedidos;
+               this.datos=this.productList;
                this.filteredItems = this.productList;
                //console.log(this.productList);
                this.init();
-
+               this.loading = false;
                //verificar si hay que cargar un pedido de una notificacion
                setTimeout(()=>{
-                  this.checkHeaderEvent();
-                  this.loading = false;
+                 // this.checkHeaderEvent();
+                
+                  
                 },600);
 
              },1000);
@@ -190,6 +195,27 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
 
          }
        );
+  }
+
+  buscar_id_operacion(){
+     console.log('buscar_id_operacion');
+     console.log(this.id_operacion);
+     if (this.id_operacion!="") {
+       var prod=this.datos;
+       console.log(prod);
+       for (var i = 0; i < prod.length; i++) {
+         
+         if (this.id_operacion==prod[i].id) {
+           console.log(prod[i]);
+           var selec= prod[i];
+           setTimeout(()=>{
+                 console.log(selec);
+                 this.ver(selec);
+                },1000);
+           
+         }
+       }
+     }
   }
 
   ngOnDestroy() {
@@ -467,6 +493,7 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
     }
 
     ver(obj): void {
+      console.log(obj);
       this.viendo = true;
       this.selectedObj = Object.assign({},obj);
       this.selectedObj.telefono1 = this.selectedObj.telefono.substr(1);
@@ -535,6 +562,7 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
        
          this.refreshItems();
          console.log("this.pageNumber :  "+this.pageNumber);
+          this.buscar_id_operacion();
    }
 
    FilterByName(){

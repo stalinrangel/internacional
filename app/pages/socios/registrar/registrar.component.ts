@@ -331,6 +331,8 @@ export class registrarComponent implements OnInit{
     public establecimiento_id=0;
     public refer=true;
     public contrato:any;
+    public usuario_id:any;
+
     aEditar(obj): void {
       console.log(obj);
       this.establecimiento_id=obj.establecimiento.id;
@@ -339,6 +341,7 @@ export class registrarComponent implements OnInit{
       console.log(this.objAEditar);
 
       this.token_notificacion=this.objAEditar.usuario.token_notificacion;
+      this.usuario_id=this.objAEditar.usuario.id;
        var tam_contrato=obj.usuario.contrato.length;
       this.contrato=obj.usuario.contrato[tam_contrato-1].url;
       console.log(this.contrato);
@@ -628,6 +631,7 @@ export class registrarComponent implements OnInit{
               this.editando = false;
               this.showToast('success', 'Success!', '!Proveedor aceptado con éxito!'); 
               this.loading = true;
+              this.enviar_proveedores();
               this.http.get(this.rutaService.getRutaApi()+'registro?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
                  .toPromise()
                  .then(
@@ -885,6 +889,52 @@ export class registrarComponent implements OnInit{
 
 
     }
+
+    enviar_proveedores(){
+        this.loading = true;
+
+          var datos= {
+              token: localStorage.getItem('mouvers_token'),
+              mensaje: '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.',
+              tipo_usuario: 3,
+              ciudad_id: localStorage.getItem('mouvers_ciudad'),
+              zona_id: 1,
+              usuario_id: this.usuario_id,
+             
+            }
+            console.log(datos);
+
+            this.http.post(this.rutaService.getRutaApi()+'notificaciones_generales?ciudad_id='+localStorage.getItem('mouvers_ciudad'), datos)
+               .toPromise()
+               .then(
+                 data => { // Success
+                   console.log(data);
+                   this.data=data;
+         
+               
+              this.loading = false;
+
+ 
+              this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                 },
+                 msg => { // Error
+                   console.log(msg);
+                   console.log(msg.error.error);
+                   this.loading = false;
+               
+                  if(msg.status == 400 || msg.status == 401){ 
+                    //alert(msg.error.error);
+                   // this.showToast('warning', 'Warning!', 'msg.error.error');
+                }
+                else { 
+                    //alert(msg.error.error);
+                    //this.showToast('error', 'Erro!', 'msg.error.error');
+                }   
+                    
+                 }
+               );
+      }
+
     aEliminar(obj): void {
       this.objAEliminar = obj;
       //console.log(this.objAEliminar);

@@ -257,7 +257,6 @@ var notificacionesComponent = /** @class */ (function () {
             console.log(data);
             _this.data = data;
             //this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
-            _this.msg = '';
             _this.loading = false;
             _this.ngOnInit();
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
@@ -295,7 +294,6 @@ var notificacionesComponent = /** @class */ (function () {
             _this.data = data;
             _this.loading = false;
             _this.ngOnInit();
-            _this.msgp = '';
             _this.enviarNotificacionesP();
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
         }, function (msg) {
@@ -323,8 +321,10 @@ var notificacionesComponent = /** @class */ (function () {
             _this.data = data;
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
             _this.loading = false;
+            _this.msg = '';
         }, function (msg) {
             console.log(msg);
+            _this.msg = '';
             //console.log(msg.error.error);
             _this.loading = false;
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
@@ -352,6 +352,7 @@ var notificacionesComponent = /** @class */ (function () {
             _this.msgp = '';
         }, function (msg) {
             console.log(msg);
+            _this.msgp = '';
             //console.log(msg.error.error);
             _this.loading = false;
             _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');

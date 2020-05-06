@@ -223,10 +223,10 @@ export class notificacionesComponent implements OnInit{
 	             this.data=data;
 
 	            //this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
-			     
-			    this.loading = false;
-			    //this.ngOnInit();
 			    
+			    this.loading = false;
+			    this.ngOnInit();
+			    this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
 			    this.enviarNotificaciones();
 
 	           },
@@ -271,10 +271,12 @@ export class notificacionesComponent implements OnInit{
 	           
 			     
 			    this.loading = false;
-			    //this.ngOnInit();
+			    this.ngOnInit();
+			  
+			    
 			   
 			    this.enviarNotificacionesP();
-
+			    this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
 	           },
 	           msg => { // Error
 	             console.log(msg);
@@ -308,14 +310,13 @@ export class notificacionesComponent implements OnInit{
 		     
 		    this.loading = false;
 
-		    this.ngOnInit();
-			  
-			    this.msg='';
+		   this.msg='';
 
            },
            msg => { // Error
              console.log(msg);
-             console.log(msg.error.error);
+             this.msg='';
+             //console.log(msg.error.error);
              this.loading = false;
              this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
             if(msg.status == 400 || msg.status == 401){ 
@@ -348,7 +349,8 @@ export class notificacionesComponent implements OnInit{
            },
            msg => { // Error
              console.log(msg);
-             console.log(msg.error.error);
+             this.msgp='';
+             //console.log(msg.error.error);
              this.loading = false;
              this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
             if(msg.status == 400 || msg.status == 401){ 

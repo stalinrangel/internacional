@@ -159,15 +159,17 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 
 	ngOnInit() {
 
-		if (this.mouvers_user_tipo != '1') {
-	      localStorage.removeItem('mouvers_token');
-	      localStorage.removeItem('mouvers_user_id');
-	      localStorage.removeItem('mouvers_user_nombre');
-	      localStorage.removeItem('mouvers_user_tipo');
-	      localStorage.removeItem('mouvers_establecimiento_id');
+		if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+      
+    	}else{
+          localStorage.removeItem('mouvers_token');
+          localStorage.removeItem('mouvers_user_id');
+          localStorage.removeItem('mouvers_user_nombre');
+          localStorage.removeItem('mouvers_user_tipo');
+          localStorage.removeItem('mouvers_establecimiento_id');
 
-	      this.router.navigateByUrl('/pagessimples/loginf');
-	    }
+          this.router.navigateByUrl('/pagessimples/loginf');
+      	}
 
 		this.toggleSidebar();
 

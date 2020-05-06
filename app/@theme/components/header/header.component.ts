@@ -432,9 +432,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
              pedido = {
                   id: this.data3.notificaciones[i].id,
                   contenido: this.data3.notificaciones[i].mensaje,
+                  accion: this.data3.notificaciones[i].accion,
+                  id_operacion: this.data3.notificaciones[i].id_operacion,
                   created_at: this.data3.notificaciones[i].created_at,
                   icono: "nb-alert",
-                  accion: "6", 
                   tema: "",
                   creador: "", 
               };
@@ -587,9 +588,45 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     console.log(notification);
     console.log(indice);
+    var obj=notification;
+    if (obj.accion == '2') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/socios/registrar');
+    }
+    if (obj.accion == '3') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/clientes/ver');
+    }
+    if (obj.accion == '4') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/socios/ver');
+    }
+    if (obj.accion == '5') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/pedidos/aceptar');
+    }
+    if (obj.accion == '6') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/pedidos/encurso');
+    }
+    if (obj.accion == '8') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/pedidos/cancelados');
+    }
+
+    
+
     var datos={
       visto:1
     };
+
+   
     this.http.put(this.rutaService.getRutaApi()+'notificaciones/'+notification.id+'?token='+localStorage.getItem('mouvers_token'),datos)
          .toPromise()
          .then(
@@ -611,7 +648,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                   this.showToast('warning', 'Warning!', msg.error.error);
                   setTimeout(()=>{
                     this.salir();
-                    this.router.navigateByUrl('/pagessimples/loginf');
+                   // this.router.navigateByUrl('/pagessimples/loginf');
                   },1000);
                   
               }

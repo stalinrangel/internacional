@@ -88,6 +88,7 @@ var PedidosAceptarComponent = /** @class */ (function () {
         this.mostrar = true;
         this.repartidor_id = null;
         this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+        this.id_operacion = "";
         this.comentarios = "Finalizado por Administrador";
         this.pages = 4;
         this.pageSize = 5;
@@ -103,7 +104,10 @@ var PedidosAceptarComponent = /** @class */ (function () {
         this.inputName2 = '';
         //Detectar evento cargar pedido de notificacion entrante
         this.headerToPedidosEventService.headerToPedidosData.subscribe(function (data) {
-            //console.log(data); 
+            console.log(data);
+            _this.id_operacion = data;
+            _this.id_operacion = _this.id_operacion.id_operacion;
+            console.log(_this.id_operacion);
             _this.headerEvent();
         });
     }
@@ -164,13 +168,14 @@ var PedidosAceptarComponent = /** @class */ (function () {
             }
             setTimeout(function () {
                 //this.productList = this.data.pedidos;
+                _this.datos = _this.productList;
                 _this.filteredItems = _this.productList;
                 //console.log(this.productList);
                 _this.init();
+                _this.loading = false;
                 //verificar si hay que cargar un pedido de una notificacion
                 setTimeout(function () {
-                    _this.checkHeaderEvent();
-                    _this.loading = false;
+                    // this.checkHeaderEvent();
                 }, 600);
             }, 1000);
         }, function (msg) {
@@ -191,6 +196,25 @@ var PedidosAceptarComponent = /** @class */ (function () {
                 _this.showToast('info', 'Info!', msg.error.error);
             }
         });
+    };
+    PedidosAceptarComponent.prototype.buscar_id_operacion = function () {
+        var _this = this;
+        console.log('buscar_id_operacion');
+        console.log(this.id_operacion);
+        if (this.id_operacion != "") {
+            var prod = this.datos;
+            console.log(prod);
+            for (var i = 0; i < prod.length; i++) {
+                if (this.id_operacion == prod[i].id) {
+                    console.log(prod[i]);
+                    var selec = prod[i];
+                    setTimeout(function () {
+                        console.log(selec);
+                        _this.ver(selec);
+                    }, 1000);
+                }
+            }
+        }
     };
     PedidosAceptarComponent.prototype.ngOnDestroy = function () {
         // acciones de destrucción
@@ -404,6 +428,7 @@ var PedidosAceptarComponent = /** @class */ (function () {
         });
     };
     PedidosAceptarComponent.prototype.ver = function (obj) {
+        console.log(obj);
         this.viendo = true;
         this.selectedObj = Object.assign({}, obj);
         this.selectedObj.telefono1 = this.selectedObj.telefono.substr(1);
@@ -450,6 +475,7 @@ var PedidosAceptarComponent = /** @class */ (function () {
         }
         this.refreshItems();
         console.log("this.pageNumber :  " + this.pageNumber);
+        this.buscar_id_operacion();
     };
     PedidosAceptarComponent.prototype.FilterByName = function () {
         this.filteredItems = [];

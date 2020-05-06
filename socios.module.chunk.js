@@ -343,6 +343,7 @@ var registrarComponent = /** @class */ (function () {
         this.objAEditar = Object.assign({}, obj);
         console.log(this.objAEditar);
         this.token_notificacion = this.objAEditar.usuario.token_notificacion;
+        this.usuario_id = this.objAEditar.usuario.id;
         var tam_contrato = obj.usuario.contrato.length;
         this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
         console.log(this.contrato);
@@ -596,6 +597,7 @@ var registrarComponent = /** @class */ (function () {
             _this.editando = false;
             _this.showToast('success', 'Success!', '!Proveedor aceptado con éxito!');
             _this.loading = true;
+            _this.enviar_proveedores();
             _this.http.get(_this.rutaService.getRutaApi() + 'registro?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
                 .toPromise()
                 .then(function (data) {
@@ -796,6 +798,39 @@ var registrarComponent = /** @class */ (function () {
                 //alert(msg.error.error);
                 _this.editando = true;
                 _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    registrarComponent.prototype.enviar_proveedores = function () {
+        var _this = this;
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            mensaje: '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.',
+            tipo_usuario: 3,
+            ciudad_id: localStorage.getItem('mouvers_ciudad'),
+            zona_id: 1,
+            usuario_id: this.usuario_id,
+        };
+        console.log(datos);
+        this.http.post(this.rutaService.getRutaApi() + 'notificaciones_generales?ciudad_id=' + localStorage.getItem('mouvers_ciudad'), datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                // this.showToast('warning', 'Warning!', 'msg.error.error');
+            }
+            else {
+                //alert(msg.error.error);
+                //this.showToast('error', 'Erro!', 'msg.error.error');
             }
         });
     };
