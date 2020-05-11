@@ -122,7 +122,9 @@
 <div class="row" *ngIf="editando">
   <div class="col-lg-12" style="display:block; margin:auto">
     <nb-card>
-      <nb-card-header>Editar información del Proveedor</nb-card-header>
+      <nb-card-header>Editar información del Proveedor <br><br>
+        <button class="btn btn-secondary" (click)="atras()">Atras</button><br>
+      </nb-card-header>
       <nb-card-body>
         <form [formGroup]="myFormEditar" novalidate>
           <div class="row">

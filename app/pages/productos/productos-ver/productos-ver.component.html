@@ -98,7 +98,9 @@
 <div class="row" *ngIf="editando">
   <div class="col-lg-12" style="display:block; margin:auto">
     <nb-card>
-      <nb-card-header>Editar Producto</nb-card-header>
+      <nb-card-header>Editar Producto
+        <br><br><button class="btn btn-secondary" (click)="atras()">Atras</button><br>
+      </nb-card-header>
       <nb-card-body>
         <form [formGroup]="myFormEditar" novalidate>
           <div class="form-group">
@@ -116,7 +118,7 @@
             <label for="exampleInputDescripcion">Descripción</label>
             <textarea class="form-control" id="exampleInputDescripcion" placeholder="Descripción" formControlName="descripcion"></textarea>
           </div>
-          <div *ngIf="subcategorias" class="form-group">
+          <div  class="form-group">
             <label for="exampleInputSubcat">Subcategoría</label>
             <select class="form-control" id="exampleInputSubcat" formControlName="subcategoria_id">
               <!-- <option disabled selected>Selecciona una categoría</option> -->

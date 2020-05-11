@@ -64,6 +64,7 @@ export class PedidosCanceladosComponent implements OnInit, OnDestroy{
   selectedObj: any;
 
   public mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+  public id_operacion:any="";
 
   constructor( private modalService: NgbModal,
                private toasterService: ToasterService,
@@ -77,8 +78,14 @@ export class PedidosCanceladosComponent implements OnInit, OnDestroy{
     //Detectar evento cargar pedido de notificacion entrante
     this.headerToPedidosEventService.headerToPedidosData.subscribe(
         (data: any) => {
-          //console.log(data); 
-          this.headerEvent();
+            console.log(data);
+            this.id_operacion=data;
+            this.id_operacion=this.id_operacion.id_operacion;
+            console.log( this.id_operacion); 
+            localStorage.setItem('id_operacion', this.id_operacion);
+          setTimeout(()=>{
+            localStorage.setItem('id_operacion', "");
+          },49600);
       });
 
     
@@ -101,7 +108,7 @@ export class PedidosCanceladosComponent implements OnInit, OnDestroy{
     
     this.viendo = null;
     this.loading = true;
-    this.http.get(this.rutaService.getRutaApi()+'pedidos/estado/cancelados?token='+localStorage.getItem('mouvers_token'))
+    this.http.get(this.rutaService.getRutaApi()+'pedidos/estado/cancelados?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
        .toPromise()
        .then(
          data => { // Success
@@ -156,17 +163,18 @@ export class PedidosCanceladosComponent implements OnInit, OnDestroy{
              }
              
            }
-
+           this.loading = false;
            setTimeout(()=>{
                this.productList = this.data.pedidos;
                this.filteredItems = this.productList;
+               this.datos=this.productList;
                //console.log(this.productList);
                this.init();
-
+               
                //verificar si hay que cargar un pedido de una notificacion
                setTimeout(()=>{
-                  this.checkHeaderEvent();
-                  this.loading = false;
+                 // this.checkHeaderEvent();
+                  
                 },600);
 
              },1000);
@@ -196,6 +204,29 @@ export class PedidosCanceladosComponent implements OnInit, OnDestroy{
 
          }
        );
+  }
+
+  public datos:any;
+  buscar_id_operacion(){
+     console.log('buscar_id_operacion');
+     console.log(localStorage.getItem('id_operacion'));
+     var id_operacion = localStorage.getItem('id_operacion');
+     if (id_operacion!="") {
+       var prod=this.datos;
+       console.log(prod);
+       for (var i = 0; i < prod.length; i++) {
+         
+         if (id_operacion==prod[i].id) {
+           console.log(prod[i]);
+           var selec= prod[i];
+           setTimeout(()=>{
+                 console.log(selec);
+                 this.ver(selec);
+                },1000);
+           
+         }
+       }
+     }
   }
 
   ngOnDestroy() {
@@ -240,6 +271,7 @@ export class PedidosCanceladosComponent implements OnInit, OnDestroy{
       this.viendo = false;
       this.selectedObj = null;
       this.objAEliminar = null; 
+      localStorage.setItem('id_operacion', "");
     }
 
     aEliminar(obj): void {
@@ -371,6 +403,7 @@ export class PedidosCanceladosComponent implements OnInit, OnDestroy{
        
          this.refreshItems();
          console.log("this.pageNumber :  "+this.pageNumber);
+         this.buscar_id_operacion();
    }
 
    FilterByName(){

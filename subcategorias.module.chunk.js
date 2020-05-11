@@ -177,6 +177,7 @@ var SubcategoriasAgregarComponent = /** @class */ (function () {
             categoria_id: this.myFormAgregar.value.categoria_id,
             ciudad_id: this.myFormAgregar.value.ciudad_id
         };
+        console.log(datos);
         this.http.post(this.rutaService.getRutaApi() + 'subcategorias', datos)
             .toPromise()
             .then(function (data) {

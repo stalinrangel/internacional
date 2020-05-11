@@ -1144,7 +1144,7 @@ var FooterComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'ngx-footer',
             styles: [__webpack_require__("../../../../../src/app/@theme/components/footer/footer.component.scss")],
-            template: "\n    <span class=\"created-by\">Created  by <b><a href=\"#\" target=\"_blank\">Service24 Internacional</a></b> 2019</span>\n    \n  ",
+            template: "\n    <span class=\"created-by\">Created  by <b><a href=\"#\" target=\"_blank\">Service24 Internacional</a></b> 2019</span> <span class=\"created-by\">Versi\u00F3n 1.0</span>\n    \n  ",
         })
     ], FooterComponent);
     return FooterComponent;
@@ -1549,6 +1549,7 @@ var HeaderComponent = /** @class */ (function () {
                     contenido: _this.data3.notificaciones[i].mensaje,
                     accion: _this.data3.notificaciones[i].accion,
                     id_operacion: _this.data3.notificaciones[i].id_operacion,
+                    usuario_id: _this.data3.notificaciones[i].usuario_id,
                     created_at: _this.data3.notificaciones[i].created_at,
                     icono: "nb-alert",
                     tema: "",
@@ -1697,6 +1698,16 @@ var HeaderComponent = /** @class */ (function () {
             // emitir obj al pedido para cargarlo
             this.headerToPedidosEventService.headerToPedidosData.emit(notification);
             this.router.navigateByUrl('/pages/pedidos/cancelados');
+        }
+        if (obj.accion == '9') {
+            // emitir obj al pedido para cargarlo
+            this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+            this.router.navigateByUrl('/pages/productos/ver');
+        }
+        if (obj.accion == '10') {
+            // emitir obj al pedido para cargarlo
+            this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+            this.router.navigateByUrl('/pages/productos/ver');
         }
         var datos = {
             visto: 1

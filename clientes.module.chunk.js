@@ -367,6 +367,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_style_loader_angular2_toaster_toaster_css__ = __webpack_require__("../../../../style-loader/index.js!../../../../angular2-toaster/toaster.css");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_style_loader_angular2_toaster_toaster_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_style_loader_angular2_toaster_toaster_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/header-to-pedidos-event-service/header-to-pedidos-event.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_header_service_header_service__ = __webpack_require__("../../../../../src/app/services/header-service/header.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -387,14 +389,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var ClientesVerComponent = /** @class */ (function () {
-    function ClientesVerComponent(modalService, toasterService, http, router, route, rutaService) {
+    function ClientesVerComponent(modalService, toasterService, http, router, route, rutaService, headerToPedidosEventService, headerService) {
+        var _this = this;
         this.modalService = modalService;
         this.toasterService = toasterService;
         this.http = http;
         this.router = router;
         this.route = route;
         this.rutaService = rutaService;
+        this.headerToPedidosEventService = headerToPedidosEventService;
+        this.headerService = headerService;
         this.position = 'toast-top-right';
         this.animationType = 'fade';
         this.title = 'HI there!';
@@ -409,12 +416,24 @@ var ClientesVerComponent = /** @class */ (function () {
         this.loading = false;
         this.mostrar = true;
         this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+        this.id_operacion = "";
         this.pages = 4;
         this.pageSize = 5;
         this.pageNumber = 0;
         this.currentIndex = 1;
         this.pageStart = 1;
         this.inputName = '';
+        //Detectar evento cargar pedido de notificacion entrante
+        this.headerToPedidosEventService.headerToPedidosData.subscribe(function (data) {
+            console.log(data);
+            _this.id_operacion = data;
+            _this.id_operacion = _this.id_operacion.usuario_id;
+            console.log(_this.id_operacion);
+            localStorage.setItem('id_operacion', _this.id_operacion);
+            setTimeout(function () {
+                localStorage.setItem('id_operacion', "");
+            }, 49600);
+        });
     }
     ClientesVerComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -438,6 +457,7 @@ var ClientesVerComponent = /** @class */ (function () {
             _this.productList = _this.productList.sort(function (a, b) { return b.encurso - a.encurso; });
             _this.filteredItems = _this.productList;
             //console.log(this.productList);
+            _this.datos = _this.productList;
             _this.init();
             _this.loading = false;
         }, function (msg) {
@@ -458,6 +478,25 @@ var ClientesVerComponent = /** @class */ (function () {
                 _this.showToast('info', 'Info!', msg.error.error);
             }
         });
+    };
+    ClientesVerComponent.prototype.buscar_id_operacion = function () {
+        console.log('buscar_id_operacion');
+        console.log(localStorage.getItem('id_operacion'));
+        var id_operacion = localStorage.getItem('id_operacion');
+        if (id_operacion != "") {
+            var prod = this.datos;
+            console.log(prod);
+            for (var i = 0; i < prod.length; i++) {
+                if (id_operacion == prod[i].id) {
+                    console.log(prod[i]);
+                    var selec = prod[i];
+                    setTimeout(function () {
+                        console.log(selec);
+                        // this.ver(selec);
+                    }, 1000);
+                }
+            }
+        }
     };
     ClientesVerComponent.prototype.showToast = function (type, title, body) {
         this.config = new __WEBPACK_IMPORTED_MODULE_5_angular2_toaster__["b" /* ToasterConfig */]({
@@ -682,7 +721,9 @@ var ClientesVerComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */]])
+            __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */],
+            __WEBPACK_IMPORTED_MODULE_8__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__["a" /* HeaderToPedidosEventService */],
+            __WEBPACK_IMPORTED_MODULE_9__services_header_service_header_service__["a" /* HeaderService */]])
     ], ClientesVerComponent);
     return ClientesVerComponent;
 }());

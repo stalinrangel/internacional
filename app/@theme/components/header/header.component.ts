@@ -434,6 +434,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                   contenido: this.data3.notificaciones[i].mensaje,
                   accion: this.data3.notificaciones[i].accion,
                   id_operacion: this.data3.notificaciones[i].id_operacion,
+                  usuario_id: this.data3.notificaciones[i].usuario_id,
                   created_at: this.data3.notificaciones[i].created_at,
                   icono: "nb-alert",
                   tema: "",
@@ -619,6 +620,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.headerToPedidosEventService.headerToPedidosData.emit(notification);
       this.router.navigateByUrl('/pages/pedidos/cancelados');
     }
+    if (obj.accion == '9') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/productos/ver');
+    }
+    if (obj.accion == '10') {
+      // emitir obj al pedido para cargarlo
+      this.headerToPedidosEventService.headerToPedidosData.emit(notification);
+      this.router.navigateByUrl('/pages/productos/ver');
+    }
 
     
 
@@ -660,7 +671,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               
            }
          );
-
+    
     /*if (notification.accion == '4') {
 
       if (this.router.url == '/pages/blogs') {

@@ -86,11 +86,16 @@
         <nb-card-header *ngIf="viendo">
           Detalles del Pedido S00{{selectedObj.id}}
           <div class="pull-right" style="margin-right: 10px">
+            <button  class="btn btn-tn btn-secondary" (click)="atras()"><i class="fa fa-arrow-left"></i> Atrás</button>
             Estado: {{selectedObj.estado}} &nbsp;
             <button type="button" class="btn btn-info btn-icon btn-sm btn-table" title="Asignar repartidor" (click)="getRepDisponibles(selectedObj, modal1)">
                 <i class="ion-android-bicycle"></i>
               </button>
-             <a href="https://wa.me/598{{selectedObj.telefono1}}?text=Hola%20*{{selectedObj.repartidor.usuario.nombre}}*,%20tenemos%20un%20pedido%20para%20ustedes%20*S2400{{selectedObj.id}}*%20de%20*{{selectedObj.productos[0].nombre}}*%20del%20usuario%20*{{selectedObj.usuario.nombre}}*%20¡Service24!" class="whatsapp" target="_blank"> <i class="fa fa-whatsapp" style=" color:#00bb2d; border-radius:50px; text-align:center; font-size:30px;"></i>Avisa al proveedor </a>
+                <a href="https://wa.me/{{codigo_pais_selec}}{{selectedObj.telefono}}?text=Hola%20*{{selectedObj.repartidor.usuario.nombre}}*,%20tenemos%20un%20pedido%20para%20ustedes%20*S2400{{selectedObj.id}}*%20de%20*{{selectedObj.productos[0].nombre}}*%20del%20usuario%20*{{selectedObj.usuario.nombre}}*%20¡Service24!" class="whatsapp" target="_blank"> <i class="fa fa-whatsapp" style=" color:#00bb2d; border-radius:50px; text-align:center; font-size:30px;"></i>Avisa al proveedor</a>
+             <select [(ngModel)]="codigo_pais_selec">
+              <option *ngFor="let c of codigo_pais" [ngValue]="c.code">{{c.code}}</option>
+             </select>
+              <input [(ngModel)]="selectedObj.telefono">
           </div>
         </nb-card-header>
         <nb-card-body>

@@ -127,6 +127,8 @@ export class LoginfComponent implements OnInit {
 		    localStorage.setItem('mouvers_ciudad', this.data.user.ciudad);
 		    localStorage.setItem('mouvers_pais', this.data.user.pais_id);
 
+		    localStorage.setItem('id_operacion', "");
+
 		    console.log('ciudad: '+localStorage.getItem('mouvers_ciudad'));
 		    console.log('pais: '+localStorage.getItem('mouvers_pais'));
 		    console.log('tipo: '+localStorage.getItem('mouvers_user_tipo'));

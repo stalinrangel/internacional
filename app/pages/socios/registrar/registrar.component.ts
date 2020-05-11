@@ -14,6 +14,9 @@ import 'style-loader!angular2-toaster/toaster.css';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+import { HeaderToPedidosEventService } from '../../../services/eventos-services/header-to-pedidos-event-service/header-to-pedidos-event.service';
+import { HeaderService } from '../../../services/header-service/header.service';
+
 @Component({
   selector: 'ngx-ver-socios',
   templateUrl: './registrar.component.html',
@@ -73,6 +76,7 @@ export class registrarComponent implements OnInit{
   public ciudades:any;
 
   public mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+  public id_operacion:any="";
 
   constructor( private modalService: NgbModal,
                private toasterService: ToasterService,
@@ -80,9 +84,23 @@ export class registrarComponent implements OnInit{
                private router: Router,
                private route: ActivatedRoute,
                private rutaService: RutaBaseService,
-               public fb: FormBuilder)
+               public fb: FormBuilder,
+               private headerToPedidosEventService: HeaderToPedidosEventService,
+               private headerService: HeaderService)
   {
-    
+    //Detectar evento cargar pedido de notificacion entrante
+    this.headerToPedidosEventService.headerToPedidosData.subscribe(
+        (data: any) => {
+            console.log(data);
+            this.id_operacion=data;
+            this.id_operacion=this.id_operacion.usuario_id;
+            console.log( this.id_operacion); 
+            localStorage.setItem('id_operacion', this.id_operacion);
+          setTimeout(()=>{
+            localStorage.setItem('id_operacion', "");
+          },49600);
+      });
+
     this.myFormEditar = this.fb.group({
       id: [''],
       nombre: ['', [Validators.required]],
@@ -181,6 +199,7 @@ export class registrarComponent implements OnInit{
              }
            }
            this.filteredItems = this.productList;
+           this.datos=this.productList;
            //console.log(this.productList);
 
            this.init();
@@ -215,6 +234,29 @@ export class registrarComponent implements OnInit{
        );
   }
 
+  public datos:any;
+  buscar_id_operacion(){
+     console.log('buscar_id_operacion');
+     console.log(localStorage.getItem('id_operacion'));
+     var id_operacion = localStorage.getItem('id_operacion');
+     if (id_operacion!="") {
+       var prod=this.datos;
+       console.log(prod);
+       for (var i = 0; i < prod.length; i++) {
+         
+         if (id_operacion==prod[i].usuario.id) {
+           console.log(prod[i]);
+           var selec= prod[i];
+           setTimeout(()=>{
+                 console.log(selec);
+                 this.aEditar(selec);
+                },1000);
+           
+         }
+       }
+     }
+  }
+
   //Redirigir al chat
   chat(repartidor) {
     console.log(repartidor);
@@ -234,7 +276,7 @@ export class registrarComponent implements OnInit{
   }
 
   getEstados(): void {
-    this.http.get(this.rutaService.getRutaApi()+'entidades/municipios?token='+localStorage.getItem('mouvers_token'))
+    /*this.http.get(this.rutaService.getRutaApi()+'entidades/municipios?token='+localStorage.getItem('mouvers_token'))
   
        .toPromise()
        .then(
@@ -264,6 +306,7 @@ export class registrarComponent implements OnInit{
 
          }
        );
+    */
   }
 
   setEstado1(estado): void {
@@ -326,6 +369,7 @@ export class registrarComponent implements OnInit{
 
       //this.uploadFile = null;
       this.myFormEditar.reset();
+      localStorage.setItem('id_operacion', "");
     }
 
     public establecimiento_id=0;
@@ -1567,6 +1611,7 @@ export class registrarComponent implements OnInit{
        
          this.refreshItems();
          console.log("this.pageNumber :  "+this.pageNumber);
+         this.buscar_id_operacion();
    }
 
    FilterByName(){

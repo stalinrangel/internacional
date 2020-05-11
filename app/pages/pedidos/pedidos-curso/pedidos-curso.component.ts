@@ -144,7 +144,7 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
   public msgList = [];
 
  
-
+  public id_operacion:any="";
   constructor( private modalService: NgbModal,
                private toasterService: ToasterService,
                private http: HttpClient,
@@ -160,8 +160,14 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
     //Detectar evento cargar pedido de notificacion entrante
     this.headerToPedidosEventService.headerToPedidosData.subscribe(
         (data: any) => {
-          //console.log(data); 
-          this.headerEvent();
+            console.log(data);
+            this.id_operacion=data;
+            this.id_operacion=this.id_operacion.id_operacion;
+            console.log( this.id_operacion); 
+            localStorage.setItem('id_operacion', this.id_operacion);
+          setTimeout(()=>{
+            localStorage.setItem('id_operacion', "");
+          },49600);
       });
 
     
@@ -236,15 +242,16 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
            setTimeout(()=>{
                //this.productList = this.data.pedidos;
                this.filteredItems = this.productList;
+               this.datos=this.productList;
                console.log(this.productList);
                this.init();
 
                //verificar si hay que cargar un pedido de una notificacion
                setTimeout(()=>{
                   this.checkHeaderEvent();
-                  this.loading = false;
+                  
                 },600);
-
+               this.loading = false;
              },1000);
          },
          msg => { // Error
@@ -289,6 +296,28 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
       this.loadMap(this.myPosition);
 
       
+  }
+  public datos:any;
+  buscar_id_operacion(){
+     console.log('buscar_id_operacion');
+     console.log(localStorage.getItem('id_operacion'));
+     var id_operacion = localStorage.getItem('id_operacion');
+     if (id_operacion!="") {
+       var prod=this.datos;
+       console.log(prod);
+       for (var i = 0; i < prod.length; i++) {
+         
+         if (id_operacion==prod[i].id) {
+           console.log(prod[i]);
+           var selec= prod[i];
+           setTimeout(()=>{
+                 console.log(selec);
+                 this.ver(selec);
+                },1000);
+           
+         }
+       }
+     }
   }
 
   ngOnDestroy() {
@@ -342,6 +371,7 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
       this.selectedObj = null;
       this.objAEliminar = null; 
       this.repartidor_id = null;
+      localStorage.setItem('id_operacion', "");
     }
 
     aEliminar(obj): void {
@@ -569,6 +599,25 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
     public msgList2:any=[];
     public userid=0;
     public idrep:any;
+    public codigo_pais:any=[
+      {
+        id:1,
+        code:598
+      },
+      {
+        id:2,
+        code:507
+      },
+      {
+        id:3,
+        code:58
+      },
+      {
+        id:4,
+        code:54
+      },
+    ];
+     public codigo_pais_selec:any="";
     ver(obj): void {
       this.viendo = true;
       this.selectedObj = Object.assign({},obj);
@@ -576,6 +625,8 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
       console.log(this.selectedObj);  
       this.userid=this.selectedObj.usuario.id;
       this.idrep=this.selectedObj.repartidor.id;
+      this.codigo_pais_selec = this.codigo_pais_selec_code(localStorage.getItem('mouvers_pais'));
+
 
       if (this.selectedObj.lat && this.selectedObj.lng) {
         this.selectedObj.lat = parseFloat(this.selectedObj.lat);
@@ -643,6 +694,14 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
               
            }
          );
+    }
+
+    codigo_pais_selec_code(id){
+      for (var i = 0; i < this.codigo_pais.length; ++i) {
+        if (id==this.codigo_pais[i].id) {
+          return this.codigo_pais[i].code;
+        }
+      }
     }
 
     public data1:any;
@@ -817,6 +876,7 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
        
          this.refreshItems();
          console.log("this.pageNumber :  "+this.pageNumber);
+         this.buscar_id_operacion();
    }
 
    FilterByName(){

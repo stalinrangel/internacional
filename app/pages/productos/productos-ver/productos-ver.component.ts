@@ -14,6 +14,9 @@ import 'style-loader!angular2-toaster/toaster.css';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+import { HeaderToPedidosEventService } from '../../../services/eventos-services/header-to-pedidos-event-service/header-to-pedidos-event.service';
+import { HeaderService } from '../../../services/header-service/header.service';
+
 @Component({
   selector: 'ngx-ver-prod',
   templateUrl: './productos-ver.component.html',
@@ -82,14 +85,30 @@ export class ProductosVerComponent implements OnInit{
   loadinImg = false;
 
   public mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+  public id_operacion:any="";
 
   constructor( private modalService: NgbModal,
                private toasterService: ToasterService,
                private http: HttpClient,
                private router: Router,
                private rutaService: RutaBaseService,
-               public fb: FormBuilder)
+               public fb: FormBuilder,
+               private headerToPedidosEventService: HeaderToPedidosEventService,
+               private headerService: HeaderService)
   {
+
+    //Detectar evento cargar pedido de notificacion entrante
+    this.headerToPedidosEventService.headerToPedidosData.subscribe(
+        (data: any) => {
+            console.log(data);
+            this.id_operacion=data;
+            this.id_operacion=this.id_operacion.id_operacion;
+            console.log( this.id_operacion); 
+            localStorage.setItem('id_operacion', this.id_operacion);
+          setTimeout(()=>{
+            localStorage.setItem('id_operacion', "");
+          },49600);
+      });
     
     this.myFormEditar = this.fb.group({
       id: [''],
@@ -131,7 +150,7 @@ export class ProductosVerComponent implements OnInit{
            this.data=data;
            this.productList = this.data.productos;
            this.filteredItems = this.productList;
-           //console.log(this.productList);
+           this.datos=this.productList;
 
            this.init();
 
@@ -166,6 +185,30 @@ export class ProductosVerComponent implements OnInit{
 
 
   }
+
+  public datos:any;
+  buscar_id_operacion(){
+     console.log('buscar_id_operacion');
+     console.log(localStorage.getItem('id_operacion'));
+     var id_operacion = localStorage.getItem('id_operacion');
+     if (id_operacion!="") {
+       var prod=this.datos;
+       console.log(prod);
+       for (var i = 0; i < prod.length; i++) {
+         
+         if (id_operacion==prod[i].id) {
+           console.log(prod[i]);
+           var selec= prod[i];
+           setTimeout(()=>{
+                 console.log(selec);
+                 this.aEditar(selec);
+                },1000);
+           
+         }
+       }
+     }
+  }
+
 
   private showToast(type: string, title: string, body: string) {
       this.config = new ToasterConfig({
@@ -240,6 +283,7 @@ export class ProductosVerComponent implements OnInit{
       //this.uploadFile = null;
       this.myFormEditar.reset();
       //this.clearFile()
+      localStorage.setItem('id_operacion', "");
 
     }
 
@@ -613,6 +657,7 @@ export class ProductosVerComponent implements OnInit{
        
          this.refreshItems();
          console.log("this.pageNumber :  "+this.pageNumber);
+         this.buscar_id_operacion();
    }
 
    FilterByName(){

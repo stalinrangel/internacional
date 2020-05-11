@@ -67,6 +67,25 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
 
   public mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
   public id_operacion:any="";
+  public codigo_pais:any=[
+    {
+      id:1,
+      code:598
+    },
+    {
+      id:2,
+      code:507
+    },
+    {
+      id:3,
+      code:58
+    },
+    {
+      id:4,
+      code:54
+    },
+  ];
+   public codigo_pais_selec:any="";
   constructor( private modalService: NgbModal,
                private toasterService: ToasterService,
                private http: HttpClient,
@@ -81,18 +100,29 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
     this.headerToPedidosEventService.headerToPedidosData.subscribe(
         (data: any) => {
           console.log(data); 
-          this.id_operacion=data;
-          this.id_operacion=this.id_operacion.id_operacion;
-          console.log( this.id_operacion); 
-          this.headerEvent();
+          //setTimeout(()=>{
+            console.log(data);
+            this.id_operacion=data;
+            this.id_operacion=this.id_operacion.id_operacion;
+            console.log( this.id_operacion); 
+            localStorage.setItem('id_operacion', this.id_operacion);
+            //this.headerEvent();
+            //this.buscar_id_operacion();
+          //},6600);
+          setTimeout(()=>{
+            localStorage.setItem('id_operacion', "");
+          },49600);
       });
 
     
 
   }
+
+  checkid_operacion() {
+    console.log( this.id_operacion); 
+  }
   public datos:any;
   ngOnInit() {
-
     if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
       
     }else{
@@ -104,7 +134,7 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
 
           this.router.navigateByUrl('/pagessimples/loginf');
       }
-    
+    this.codigo_pais_selec= localStorage.getItem('mouvers_pais');
     this.viendo = null;
     this.loading = true;
     this.http.get(this.rutaService.getRutaApi()+'pedidos/estado/curso?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
@@ -161,6 +191,9 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
                //console.log(this.productList);
                this.init();
                this.loading = false;
+               setTimeout(()=>{      
+                  this.checkid_operacion(); 
+                },6600);
                //verificar si hay que cargar un pedido de una notificacion
                setTimeout(()=>{
                  // this.checkHeaderEvent();
@@ -199,13 +232,14 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
 
   buscar_id_operacion(){
      console.log('buscar_id_operacion');
-     console.log(this.id_operacion);
-     if (this.id_operacion!="") {
+     console.log(localStorage.getItem('id_operacion'));
+     var id_operacion = localStorage.getItem('id_operacion');
+     if (id_operacion!="") {
        var prod=this.datos;
        console.log(prod);
        for (var i = 0; i < prod.length; i++) {
          
-         if (this.id_operacion==prod[i].id) {
+         if (id_operacion==prod[i].id) {
            console.log(prod[i]);
            var selec= prod[i];
            setTimeout(()=>{
@@ -269,6 +303,7 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
       this.selectedObj = null;
       this.objAEliminar = null; 
       this.repartidor_id = null;
+      localStorage.setItem('id_operacion', "");
     }
 
     aEliminar(obj): void {
@@ -493,15 +528,26 @@ export class PedidosAceptarComponent implements OnInit, OnDestroy{
     }
 
     ver(obj): void {
+      console.log( this.id_operacion); 
       console.log(obj);
       this.viendo = true;
       this.selectedObj = Object.assign({},obj);
       this.selectedObj.telefono1 = this.selectedObj.telefono.substr(1);
       console.log(this.selectedObj);
 
+      this.codigo_pais_selec = this.codigo_pais_selec_code(localStorage.getItem('mouvers_pais'));
+
       if (this.selectedObj.lat && this.selectedObj.lng) {
         this.selectedObj.lat = parseFloat(this.selectedObj.lat);
         this.selectedObj.lng = parseFloat(this.selectedObj.lng);
+      }
+    }
+
+    codigo_pais_selec_code(id){
+      for (var i = 0; i < this.codigo_pais.length; ++i) {
+        if (id==this.codigo_pais[i].id) {
+          return this.codigo_pais[i].code;
+        }
       }
     }
 
