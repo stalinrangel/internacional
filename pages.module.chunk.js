@@ -6264,6 +6264,12 @@ var MENU_ITEMS0 = [
         ],
     },
     {
+        title: 'Planes',
+        icon: 'nb-edit',
+        link: '/pages/planes',
+        home: true,
+    },
+    {
         title: 'Chat',
         icon: 'nb-email',
         link: '/pages/chat-box',
@@ -7078,6 +7084,9 @@ var routes = [{
             }, {
                 path: 'notificaciones',
                 loadChildren: './notificaciones/notificaciones.module#notificacionesModule',
+            }, {
+                path: 'planes',
+                loadChildren: './planes/planes.module#planesModule',
             }, {
                 path: 'cobros',
                 loadChildren: './cobros/cobros.module#cobrosModule',

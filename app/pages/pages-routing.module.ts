@@ -71,6 +71,9 @@ const routes: Routes = [{
     path: 'notificaciones',
     loadChildren: './notificaciones/notificaciones.module#notificacionesModule',
   },{
+    path: 'planes',
+    loadChildren: './planes/planes.module#planesModule',
+  },{
     path: 'cobros',
     loadChildren: './cobros/cobros.module#cobrosModule',
   },{

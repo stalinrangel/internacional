@@ -127,6 +127,12 @@ export const MENU_ITEMS0: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Planes',
+    icon: 'nb-edit',
+    link: '/pages/planes',
+    home: true,
+  },
+  {
     title: 'Chat',
     icon: 'nb-email',
     link: '/pages/chat-box',

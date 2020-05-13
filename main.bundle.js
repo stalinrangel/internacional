@@ -91,6 +91,10 @@ var map = {
 		"../../../../../src/app/pages/pedidos/pedidos.module.ts",
 		"pedidos.module"
 	],
+	"./planes/planes.module": [
+		"../../../../../src/app/pages/planes/planes.module.ts",
+		"planes.module"
+	],
 	"./productos/productos.module": [
 		"../../../../../src/app/pages/productos/productos.module.ts",
 		"productos.module"
