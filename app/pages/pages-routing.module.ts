@@ -74,6 +74,9 @@ const routes: Routes = [{
     path: 'planes',
     loadChildren: './planes/planes.module#planesModule',
   },{
+    path: 'contacto',
+    loadChildren: './contacto/contacto.module#contactoModule',
+  },{
     path: 'cobros',
     loadChildren: './cobros/cobros.module#cobrosModule',
   },{

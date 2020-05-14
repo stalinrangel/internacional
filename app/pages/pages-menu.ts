@@ -109,6 +109,18 @@ export const MENU_ITEMS0: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Chat',
+    icon: 'nb-email',
+    link: '/pages/chat-box',
+    home: true,
+  },
+  {
+    title: 'Notificaciones',
+    icon: 'nb-notifications',
+    link: '/pages/notificaciones',
+    home: true,
+  },
+  {
     title: 'Cobros',
     icon: 'ion-social-usd',
     children: [
@@ -127,44 +139,19 @@ export const MENU_ITEMS0: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Planes',
+    title: 'Sistema',
     icon: 'nb-edit',
-    link: '/pages/planes',
-    home: true,
-  },
-  {
-    title: 'Chat',
-    icon: 'nb-email',
-    link: '/pages/chat-box',
-    home: true,
-  },
-  {
-    title: 'Notificaciones',
-    icon: 'nb-notifications',
-    link: '/pages/notificaciones',
-    home: true,
-  },
- /* {
-    title: 'Blogs',
-    icon: 'fa fa-book',
-    link: '/pages/blogs',
-    home: true,
-  },
-  {
-    title: 'Pagos',
-    icon: 'ion-social-usd',
     children: [
       {
-        title: 'Pendientes',
-        link: '/pages/pagos/pendientes',
+        title: 'Planes',
+        link: '/pages/planes',
       },
       {
-        title: 'Realizados',
-        link: '/pages/pagos/realizados',
+        title: 'Contacto',
+        link: '/pages/contacto',
       },
-     
     ],
-  },*/
+  },
   {
     title: 'Zonas',
     icon: 'nb-location',
@@ -494,6 +481,20 @@ export const MENU_ITEMS1: NbMenuItem[] = [
     icon: 'nb-notifications',
     link: '/pages/notificaciones',
     home: true,
+  },
+  {
+    title: 'Sistema',
+    icon: 'nb-edit',
+    children: [
+      {
+        title: 'Planes',
+        link: '/pages/planes',
+      },
+      {
+        title: 'Contacto',
+        link: '/pages/contacto',
+      },
+    ],
   },
   {
     title: 'Zonas',

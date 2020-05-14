@@ -44,6 +44,10 @@ var map = {
 		"../../../../../src/app/pages/components/components.module.ts",
 		"components.module"
 	],
+	"./contacto/contacto.module": [
+		"../../../../../src/app/pages/contacto/contacto.module.ts",
+		"contacto.module"
+	],
 	"./editors/editors.module": [
 		"../../../../../src/app/pages/editors/editors.module.ts",
 		"editors.module"
@@ -1148,7 +1152,7 @@ var FooterComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'ngx-footer',
             styles: [__webpack_require__("../../../../../src/app/@theme/components/footer/footer.component.scss")],
-            template: "\n    <span class=\"created-by\">Created  by <b><a href=\"#\" target=\"_blank\">Service24 Internacional</a></b> 2019</span> <span class=\"created-by\">Versi\u00F3n 1.0</span>\n    \n  ",
+            template: "\n    <span class=\"created-by\">Created  by <b><a href=\"#\" target=\"_blank\">Service24 Internacional</a></b> 2019</span> <span class=\"created-by\">Versi\u00F3n 1.1</span>\n    \n  ",
         })
     ], FooterComponent);
     return FooterComponent;
@@ -4289,19 +4293,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 var RutaBaseService = /** @class */ (function () {
-    //Remoto vps https
-    //public api_base = 'https://service24.app/alinstanteAPI/public/';
-    //public images_base = 'https://service24.app/alinstanteAPI/public/images_uploads/';
     function RutaBaseService() {
         //Local freddy
         //public api_base = 'http://localhost/apii/public/';
         //public images_base = 'http://localhost/apii/public/images_uploads/';
-        //Remoto cPanel
-        //public api_base = 'http://mouvers.mx/mouversAPI2/public/';
-        //public images_base = 'http://mouvers.mx/images_uploads/';
-        //Remoto vps
-        //public api_base = 'http://3.222.253.189/alinstanteAPI/public/';
-        //public images_base = 'http://3.222.253.189/alinstanteAPI/public/images_uploads/ ';
         this.api_base = 'https://service24.app/apii/public/';
         this.images_base = 'https://service24.app/apii/public/images_uploads/';
     }

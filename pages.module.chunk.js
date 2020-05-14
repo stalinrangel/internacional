@@ -6246,6 +6246,18 @@ var MENU_ITEMS0 = [
         ],
     },
     {
+        title: 'Chat',
+        icon: 'nb-email',
+        link: '/pages/chat-box',
+        home: true,
+    },
+    {
+        title: 'Notificaciones',
+        icon: 'nb-notifications',
+        link: '/pages/notificaciones',
+        home: true,
+    },
+    {
         title: 'Cobros',
         icon: 'ion-social-usd',
         children: [
@@ -6264,44 +6276,19 @@ var MENU_ITEMS0 = [
         ],
     },
     {
-        title: 'Planes',
+        title: 'Sistema',
         icon: 'nb-edit',
-        link: '/pages/planes',
-        home: true,
+        children: [
+            {
+                title: 'Planes',
+                link: '/pages/planes',
+            },
+            {
+                title: 'Contacto',
+                link: '/pages/contacto',
+            },
+        ],
     },
-    {
-        title: 'Chat',
-        icon: 'nb-email',
-        link: '/pages/chat-box',
-        home: true,
-    },
-    {
-        title: 'Notificaciones',
-        icon: 'nb-notifications',
-        link: '/pages/notificaciones',
-        home: true,
-    },
-    /* {
-       title: 'Blogs',
-       icon: 'fa fa-book',
-       link: '/pages/blogs',
-       home: true,
-     },
-     {
-       title: 'Pagos',
-       icon: 'ion-social-usd',
-       children: [
-         {
-           title: 'Pendientes',
-           link: '/pages/pagos/pendientes',
-         },
-         {
-           title: 'Realizados',
-           link: '/pages/pagos/realizados',
-         },
-        
-       ],
-     },*/
     {
         title: 'Zonas',
         icon: 'nb-location',
@@ -6466,6 +6453,20 @@ var MENU_ITEMS1 = [
         icon: 'nb-notifications',
         link: '/pages/notificaciones',
         home: true,
+    },
+    {
+        title: 'Sistema',
+        icon: 'nb-edit',
+        children: [
+            {
+                title: 'Planes',
+                link: '/pages/planes',
+            },
+            {
+                title: 'Contacto',
+                link: '/pages/contacto',
+            },
+        ],
     },
     {
         title: 'Zonas',
@@ -7087,6 +7088,9 @@ var routes = [{
             }, {
                 path: 'planes',
                 loadChildren: './planes/planes.module#planesModule',
+            }, {
+                path: 'contacto',
+                loadChildren: './contacto/contacto.module#contactoModule',
             }, {
                 path: 'cobros',
                 loadChildren: './cobros/cobros.module#cobrosModule',

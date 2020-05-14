@@ -71,7 +71,7 @@ export class planesComponent implements OnInit{
 
 	        this.router.navigateByUrl('/pagessimples/loginf');
 	    }
-
+	    this.loading = true;
 		this.http.get(this.rutaService.getRutaApi()+'planes?pais_id='+localStorage.getItem('mouvers_pais'))
 	         .toPromise()
 	         .then(
@@ -186,45 +186,16 @@ export class planesComponent implements OnInit{
     }
 
 
-	enviar_clientes(){
-		this.loading = true;
 
-	    var datos= {
-          token: localStorage.getItem('mouvers_token'),
-          tipo_usuario: 2,
-          ciudad_id: localStorage.getItem('mouvers_ciudad'),
-          zona_id: 1,
-         
-        }
-        console.log(datos);
-
-        this.http.post(this.rutaService.getRutaApi()+'notificaciones_generales?ciudad_id='+localStorage.getItem('mouvers_ciudad'), datos)
-	         .toPromise()
-	         .then(
-	           data => { // Success
-	             console.log(data);
-	             this.data=data;
-
-	            //this.showToast('success', 'Success!', 'éxito');
-			    
-			    this.loading = false;
-			    this.ngOnInit();
-			    this.showToast('success', 'Success!', 'éxito');
-
-	           },
-	           msg => { // Error
-	             console.log(msg);
-	             console.log(msg.error.error);
-	             this.loading = false;
-	            if(msg.status == 400 || msg.status == 401){ 
-		            //alert(msg.error.error);
-		            this.showToast('warning', 'Warning!', 'msg.error.error');
-		        }
-		        
-	              
-	           }
-	         );
+	cambiarEstado2(item){
+		if (item==0) {
+			this.plan.recomendado=1;
+		}else{
+			this.plan.recomendado=0;
+		}
+		console.log(this.plan.recomendado);
 	}
+
 	public agregar_plan_check=true;
 	agregar_plan(){
 		this.plan={
@@ -401,6 +372,8 @@ export class planesComponent implements OnInit{
 		var datos= {
 		  tipo_plan:this.plan.tipo_plan,
 		  costo:this.plan.costo,
+		  descuento:this.plan.descuento,
+		  recomendado:this.plan.recomendado,
           descripcion:JSON.stringify(this.plan.descripcion)
         }
         console.log(datos);

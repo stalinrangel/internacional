@@ -1,14 +1,14 @@
-webpackJsonp(["planes.module"],{
+webpackJsonp(["contacto.module"],{
 
-/***/ "../../../../../src/app/pages/planes/planes-routing.module.ts":
+/***/ "../../../../../src/app/pages/contacto/contacto-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return planesRoutingModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return contactoRoutingModule; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return routedComponents; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__planes_component__ = __webpack_require__("../../../../../src/app/pages/planes/planes.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__contacto_component__ = __webpack_require__("../../../../../src/app/pages/contacto/contacto.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,12 +20,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 var routes = [{
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__planes_component__["a" /* planesComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2__contacto_component__["a" /* contactoComponent */],
     }];
-var planesRoutingModule = /** @class */ (function () {
-    function planesRoutingModule() {
+var contactoRoutingModule = /** @class */ (function () {
+    function contactoRoutingModule() {
     }
-    planesRoutingModule = __decorate([
+    contactoRoutingModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes),
@@ -34,25 +34,25 @@ var planesRoutingModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */],
             ],
         })
-    ], planesRoutingModule);
-    return planesRoutingModule;
+    ], contactoRoutingModule);
+    return contactoRoutingModule;
 }());
 
 var routedComponents = [
-    __WEBPACK_IMPORTED_MODULE_2__planes_component__["a" /* planesComponent */],
+    __WEBPACK_IMPORTED_MODULE_2__contacto_component__["a" /* contactoComponent */],
 ];
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/pages/planes/planes.component.html":
+/***/ "../../../../../src/app/pages/contacto/contacto.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-lg-6\" style=\"display:block; margin:auto\" *ngIf=\"!loading\">\n  \n    <nb-card style=\"height: 1300px;\">\n      <nb-card-header>Planes  <br>\n        <div class=\"form-group row\">\n          <div class=\"col-md-8\" *ngIf=\"ver_plan\">\n          </div>\n          <div class=\"col-md-4\" *ngIf=\"ver_plan\">\n            <button type=\"button\" class=\"btn btn-success\" (click)=\"agregar_plan(item)\" [disabled]=\"mouvers_user_tipo =='6'\">Agregar Plan</button>\n           </div>\n        </div>\n       \n      </nb-card-header>\n      <nb-card-body>\n        <div class=\"card-body \">\n              \n              <div class=\"form-group row\">\n                <div class=\"col-md-12\" *ngIf=\"ver_plan\">\n                  <div  *ngFor=\"let item of planes\">\n                      <div class=\"row\" *ngIf=\"item.tipo_plan!='Opciones'\">\n                        <div class=\"col-md-10\">\n                          <p style=\"border-radius: 1px\">{{item.tipo_plan}}</p>\n                        </div>\n                        <div class=\"col-md-1\">\n                          <button type=\"button\" class=\"btn btn-sm btn-success btn-icon btn-sm btn-table\" (click)=\"ver(item)\"><i class=\"fa fa-eye\"></i></button>\n                        </div>\n                        <div class=\"col-md-1\">\n                          <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"eliminar_plan2(item)\">\n                            <i class=\"nb-trash\"></i>\n                          </button>\n                        </div>\n                      </div>\n                    </div>\n                </div>\n                <div class=\"col-md-12\" *ngIf=\"!ver_plan\">\n                  <button  class=\"btn btn-tn btn-secondary\" (click)=\"atras()\"><i class=\"fa fa-arrow-left\"></i> Atrás</button><br><br>\n\n                  <strong>Nombre del plan: </strong><br>\n                  <input class=\"form-control\" [(ngModel)]=\"plan.tipo_plan\" style=\"width: 100%\"><br>\n                  <strong>Precio del plan: </strong><br>\n                  <input class=\"form-control\" [(ngModel)]=\"plan.costo\" style=\"width: 100%\"><br>\n                  <strong>Precio de promoción: </strong><br>\n                  <input class=\"form-control\" [(ngModel)]=\"plan.descuento\" style=\"width: 100%\"><br>\n                  <strong>Recomendado: </strong>\n                  <nb-checkbox [value]=\"plan.recomendado === 1\"  (change)=\"cambiarEstado2(plan.recomendado)\"></nb-checkbox>\n                  <br><hr><br>\n                  <div  *ngFor=\"let item of plan.descripcion; index as i\">\n                    <div class=\"row\">\n                      <div class=\"col-md-10\">\n                          <input class=\"form-control\" [(ngModel)]=\"item.descripcion\" style=\"width: 100%\"><br>\n                      </div>\n                    \n                      <div class=\"col-md-2\">\n                          <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"aEliminar2(item,i)\">\n                            <i class=\"nb-trash\"></i>\n                          </button>\n                      </div>\n                    </div>\n                  </div>\n                  <button  class=\"btn btn-success\" (click)=\"editar_plan()\" style=\"text-align: center\" *ngIf=\"agregar_plan_check\"> Editar plan</button>\n                  <button  class=\"btn btn-success\" (click)=\"agregar_plan2()\" style=\"text-align: center\" *ngIf=\"!agregar_plan_check\"> Agregar plan</button> \n                </div>\n              </div>\n              \n            </div>\n            <br>\n      </nb-card-body>\n    </nb-card>\n  </div>\n\n  <div class=\"col-lg-6\" style=\"display:block; margin:auto;\" *ngIf=\"!loading\">\n  \n    <nb-card style=\"height: 1300px;\">\n      <nb-card-header>Opciones del plan</nb-card-header>\n      <nb-card-body>\n        <div class=\"card-body \">\n              \n              <div class=\"form-group row\">\n\n                <div class=\"col-md-12\">\n                  <div  *ngFor=\"let item of opciones.descripcion; index as i\">\n                      <div class=\"row\">\n                        <div class=\"col-md-10\">\n                          <p style=\"border-radius: 1px\">{{item.descripcion}}</p>\n                        </div>\n                        <div class=\"col-md-1\">\n                          <button type=\"button\" class=\"btn btn-sm btn-success btn-icon btn-sm btn-table\" (click)=\"add_plan(item)\" *ngIf=\"!ver_plan\"><i class=\"nb-plus\"></i></button>\n                        </div>\n                        <div class=\"col-md-1\">\n                          <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"aEliminar(item,i)\" *ngIf=\"ver_plan\">\n                            <i class=\"nb-trash\"></i>\n                          </button>\n                        </div>\n                      </div>\n                    </div>\n                </div>\n              </div>\n              \n            </div>\n            <div class=\"card-footer\">\n              <strong>Agregar una descripcion: </strong><br>\n              <input class=\"form-control\" [(ngModel)]=\"inputName\" style=\"width: 100%\"><br>\n              <button type=\"submit\" class=\"btn btn-success\" (click)=\"crear_descripcion()\" [disabled]=\"mouvers_user_tipo =='6'\" > Crear observación</button>\n            </div>\n        <br>\n      </nb-card-body>\n    </nb-card>\n  </div>\n</div>\n\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">Eliminar Notificación: </h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <p>¿Realmente desea eliminar esta notificación?</p>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\" [disabled]=\"mouvers_user_tipo==7\">Cancelar</button>\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\" [disabled]=\"mouvers_user_tipo==7\">Eliminar</button>\n  </div>\n</ng-template>\n\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\n\n<div class=\"my-container\">\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\n</div>\n\n\n"
+module.exports = "<div class=\"row\">\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\" *ngIf=\"!loading\">\n  \n    <nb-card>\n      <nb-card-header>Datos de contacto de la app <br>\n      \n      </nb-card-header>\n      <nb-card-body>\n        <div class=\"card-body \">\n              \n                <div class=\"col-md-12\">\n                  <strong>Nombre de contacto: </strong><br>\n                  <input class=\"form-control\" [(ngModel)]=\"plan.contacto\" style=\"width: 100%\"><br>\n                  <strong>Email de contacto: </strong><br>\n                  <input class=\"form-control\" [(ngModel)]=\"plan.correo\" style=\"width: 100%\"><br>\n                  <strong>Teléfono: </strong><br>\n                  <input class=\"form-control\" [(ngModel)]=\"plan.telefono\" style=\"width: 100%\"><br>\n                  <strong>Dirección: </strong><br>\n                  <input class=\"form-control\" [(ngModel)]=\"plan.direccion\" style=\"width: 100%\"><br>\n              \n                  <button  class=\"btn btn-success\" (click)=\"editar_plan()\" style=\"text-align: center\"> Editar Contacto</button>\n                </div>              \n          </div>\n      </nb-card-body>\n    </nb-card>\n  </div> \n</div>\n\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\n\n<div class=\"my-container\">\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\n</div>\n\n\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/pages/planes/planes.component.scss":
+/***/ "../../../../../src/app/pages/contacto/contacto.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -70,11 +70,11 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/pages/planes/planes.component.ts":
+/***/ "../../../../../src/app/pages/contacto/contacto.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return planesComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return contactoComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
@@ -105,8 +105,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var planesComponent = /** @class */ (function () {
-    function planesComponent(modalService, toasterService, http, router, rutaService, fb) {
+var contactoComponent = /** @class */ (function () {
+    function contactoComponent(modalService, toasterService, http, router, rutaService, fb) {
         this.modalService = modalService;
         this.toasterService = toasterService;
         this.http = http;
@@ -127,11 +127,8 @@ var planesComponent = /** @class */ (function () {
         this.loading = false;
         this.inputName = "";
         this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
-        this.agregar_plan_check = true;
-        this.ver_plan = true;
-        this.plan_a_editar = "";
     }
-    planesComponent.prototype.ngOnInit = function () {
+    contactoComponent.prototype.ngOnInit = function () {
         var _this = this;
         if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
         }
@@ -144,37 +141,21 @@ var planesComponent = /** @class */ (function () {
             this.router.navigateByUrl('/pagessimples/loginf');
         }
         this.loading = true;
-        this.http.get(this.rutaService.getRutaApi() + 'planes?pais_id=' + localStorage.getItem('mouvers_pais'))
+        this.http.get(this.rutaService.getRutaApi() + '/sistema/contacto?pais_id=' + localStorage.getItem('mouvers_pais'))
             .toPromise()
             .then(function (data) {
             console.log(data);
             _this.data = data;
-            _this.planes = _this.data.Planes;
-            console.log(_this.planes);
-            for (var i = 0; i < _this.planes.length; ++i) {
-                _this.planes[i].descripcion = JSON.parse(_this.planes[i].descripcion);
-                if (_this.planes[i].tipo_plan == "Opciones") {
-                    _this.opciones = _this.planes[i];
-                }
-            }
-            console.log(_this.opciones);
+            _this.plan = _this.data.contacto;
             _this.loading = false;
         }, function (msg) {
             console.log(msg);
             console.log(msg.error.error);
             _this.loading = false;
-            //this.showToast('success', 'Success!', 'éxito');
-            if (msg.status == 400 || msg.status == 401) {
-                //alert(msg.error.error);
-                // this.showToast('warning', 'Warning!', 'msg.error.error');
-            }
-            else {
-                //alert(msg.error.error);
-                //this.showToast('error', 'Erro!', 'msg.error.error');
-            }
+            _this.showToast('warning', 'Warning!', 'msg.error.error');
         });
     };
-    planesComponent.prototype.showToast = function (type, title, body) {
+    contactoComponent.prototype.showToast = function (type, title, body) {
         this.config = new __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["b" /* ToasterConfig */]({
             positionClass: this.position,
             timeout: this.timeout,
@@ -195,71 +176,20 @@ var planesComponent = /** @class */ (function () {
         this.toasterService.popAsync(toast);
     };
     //Abrir modal por defecto
-    planesComponent.prototype.open = function (modal) {
+    contactoComponent.prototype.open = function (modal) {
         this.modalService.open(modal);
     };
-    planesComponent.prototype.eliminar = function () {
+    contactoComponent.prototype.editar_plan = function () {
         var _this = this;
-        console.log(this.objAEliminar);
-        this.loading = true;
         var datos = {
-            token: localStorage.getItem('mouvers_token')
-        };
-        this.http.delete(this.rutaService.getRutaApi() + 'notificaciones_generales/' + this.eliminar_id + '?token=' + localStorage.getItem('mouvers_token'))
-            .toPromise()
-            .then(function (data) {
-            console.log(data);
-            _this.ngOnInit();
-            //console.log(this.productList);
-            //alert(this.data.message);
-            _this.loading = false;
-            _this.showToast('success', 'Success!', _this.data.message);
-        }, function (msg) {
-            console.log(msg);
-            console.log(msg.error.error);
-            _this.loading = false;
-            //token invalido/ausente o token expiro
-            if (msg.status == 400 || msg.status == 401) {
-                //alert(msg.error.error);
-                //ir a login
-                _this.showToast('warning', 'Warning!', msg.error.error);
-            }
-            else if (msg.status == 404 || msg.status == 409) {
-                //alert(msg.error.error);
-                _this.showToast('error', 'Erro!', msg.error.error);
-            }
-        });
-    };
-    planesComponent.prototype.cambiarEstado2 = function (item) {
-        if (item == 0) {
-            this.plan.recomendado = 1;
-        }
-        else {
-            this.plan.recomendado = 0;
-        }
-        console.log(this.plan.recomendado);
-    };
-    planesComponent.prototype.agregar_plan = function () {
-        this.plan = {
-            tipo_plan: "",
-            costo: 0,
-            descripcion: []
-        };
-        console.log(this.plan);
-        this.ver_plan = false;
-        this.agregar_plan_check = false;
-    };
-    planesComponent.prototype.agregar_plan2 = function () {
-        var _this = this;
-        console.log(this.plan);
-        var datos = {
-            tipo_plan: this.plan.tipo_plan,
-            costo: this.plan.costo,
-            descripcion: JSON.stringify(this.plan.descripcion),
-            pais_id: localStorage.getItem('mouvers_pais')
+            token: localStorage.getItem('mouvers_token'),
+            contacto: this.plan.contacto,
+            correo: this.plan.correo,
+            telefono: this.plan.telefono,
+            direccion: this.plan.direccion,
         };
         console.log(datos);
-        this.http.post(this.rutaService.getRutaApi() + 'planes', datos)
+        this.http.put(this.rutaService.getRutaApi() + 'sistema/contacto/' + this.plan.id, datos)
             .toPromise()
             .then(function (data) {
             console.log(data);
@@ -278,180 +208,11 @@ var planesComponent = /** @class */ (function () {
             }
         });
     };
-    planesComponent.prototype.eliminar_plan2 = function (item) {
-        var _this = this;
-        console.log(this.plan);
-        this.plan = item;
-        this.http.delete(this.rutaService.getRutaApi() + 'planes/' + this.plan.id)
-            .toPromise()
-            .then(function (data) {
-            console.log(data);
-            _this.data = data;
-            //this.showToast('success', 'Success!', 'éxito');
-            _this.loading = false;
-            _this.ngOnInit();
-            _this.showToast('success', 'Success!', 'éxito');
-        }, function (msg) {
-            console.log(msg);
-            console.log(msg.error.error);
-            _this.loading = false;
-            if (msg.status == 400 || msg.status == 401) {
-                //alert(msg.error.error);
-                _this.showToast('warning', 'Warning!', 'msg.error.error');
-            }
-        });
-    };
-    planesComponent.prototype.add_plan = function (item) {
-        console.log(item);
-        this.plan.descripcion.push(item);
-    };
-    planesComponent.prototype.aEliminar = function (obj, index) {
-        this.objAEliminar = obj;
-        console.log(this.objAEliminar);
-        console.log(index);
-        this.opciones.descripcion.splice(index, 1);
-        this.eliminar_descripcion();
-    };
-    planesComponent.prototype.eliminar_descripcion = function () {
-        var _this = this;
-        console.log(this.opciones);
-        var datos = {
-            descripcion: JSON.stringify(this.opciones.descripcion)
-        };
-        console.log(datos);
-        this.http.put(this.rutaService.getRutaApi() + 'planes/' + this.opciones.id, datos)
-            .toPromise()
-            .then(function (data) {
-            console.log(data);
-            _this.data = data;
-            //this.showToast('success', 'Success!', 'éxito');
-            _this.loading = false;
-            _this.ngOnInit();
-            _this.showToast('success', 'Success!', 'éxito');
-        }, function (msg) {
-            console.log(msg);
-            console.log(msg.error.error);
-            _this.loading = false;
-            if (msg.status == 400 || msg.status == 401) {
-                //alert(msg.error.error);
-                _this.showToast('warning', 'Warning!', 'msg.error.error');
-            }
-        });
-    };
-    planesComponent.prototype.aEliminar2 = function (obj, index) {
-        this.objAEliminar = obj;
-        console.log(this.objAEliminar);
-        console.log(index);
-        this.plan.descripcion.splice(index, 1);
-        this.eliminar_descripcion2();
-    };
-    planesComponent.prototype.eliminar_descripcion2 = function () {
-        var _this = this;
-        console.log(this.plan);
-        var datos = {
-            descripcion: JSON.stringify(this.plan.descripcion)
-        };
-        console.log(datos);
-        this.http.put(this.rutaService.getRutaApi() + 'planes/' + this.plan.id, datos)
-            .toPromise()
-            .then(function (data) {
-            console.log(data);
-            _this.data = data;
-            //this.showToast('success', 'Success!', 'éxito');
-            _this.loading = false;
-            _this.ngOnInit();
-            _this.showToast('success', 'Success!', 'éxito');
-        }, function (msg) {
-            console.log(msg);
-            console.log(msg.error.error);
-            _this.loading = false;
-            if (msg.status == 400 || msg.status == 401) {
-                //alert(msg.error.error);
-                _this.showToast('warning', 'Warning!', 'msg.error.error');
-            }
-        });
-    };
-    planesComponent.prototype.editar_plan = function () {
-        var _this = this;
-        console.log(this.plan);
-        var datos = {
-            tipo_plan: this.plan.tipo_plan,
-            costo: this.plan.costo,
-            descuento: this.plan.descuento,
-            recomendado: this.plan.recomendado,
-            descripcion: JSON.stringify(this.plan.descripcion)
-        };
-        console.log(datos);
-        this.http.put(this.rutaService.getRutaApi() + 'planes/' + this.plan.id, datos)
-            .toPromise()
-            .then(function (data) {
-            console.log(data);
-            _this.data = data;
-            //this.showToast('success', 'Success!', 'éxito');
-            _this.loading = false;
-            _this.ngOnInit();
-            _this.showToast('success', 'Success!', 'éxito');
-        }, function (msg) {
-            console.log(msg);
-            console.log(msg.error.error);
-            _this.loading = false;
-            if (msg.status == 400 || msg.status == 401) {
-                //alert(msg.error.error);
-                _this.showToast('warning', 'Warning!', 'msg.error.error');
-            }
-        });
-    };
-    planesComponent.prototype.crear_descripcion = function () {
-        var _this = this;
-        console.log(this.opciones);
-        console.log(this.inputName);
-        this.opciones.descripcion.push({
-            "descripcion": this.inputName
-        });
-        var datos = {
-            descripcion: JSON.stringify(this.opciones.descripcion)
-        };
-        console.log(datos);
-        this.http.put(this.rutaService.getRutaApi() + 'planes/' + this.opciones.id, datos)
-            .toPromise()
-            .then(function (data) {
-            console.log(data);
-            _this.data = data;
-            //this.showToast('success', 'Success!', 'éxito');
-            _this.loading = false;
-            _this.ngOnInit();
-            _this.showToast('success', 'Success!', 'éxito');
-        }, function (msg) {
-            console.log(msg);
-            console.log(msg.error.error);
-            _this.loading = false;
-            if (msg.status == 400 || msg.status == 401) {
-                //alert(msg.error.error);
-                _this.showToast('warning', 'Warning!', 'msg.error.error');
-            }
-        });
-    };
-    planesComponent.prototype.ver = function (item) {
-        console.log(item);
-        this.plan = item;
-        this.ver_plan = false;
-    };
-    planesComponent.prototype.atras = function () {
-        this.ver_plan = true;
-        this.agregar_plan_check = true;
-    };
-    planesComponent.prototype.edit_plan = function (item) {
-        this.plan_a_editar = item.descripcion;
-        console.log(item);
-    };
-    planesComponent.prototype.eliminar_plan = function (item) {
-        console.log(item);
-    };
-    planesComponent = __decorate([
+    contactoComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'planes',
-            styles: [__webpack_require__("../../../../../src/app/pages/planes/planes.component.scss")],
-            template: __webpack_require__("../../../../../src/app/pages/planes/planes.component.html"),
+            selector: 'contacto',
+            styles: [__webpack_require__("../../../../../src/app/pages/contacto/contacto.component.scss")],
+            template: __webpack_require__("../../../../../src/app/pages/contacto/contacto.component.html"),
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
             __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["d" /* ToasterService */],
@@ -459,23 +220,23 @@ var planesComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */],
             __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */],
             __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormBuilder"]])
-    ], planesComponent);
-    return planesComponent;
+    ], contactoComponent);
+    return contactoComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/pages/planes/planes.module.ts":
+/***/ "../../../../../src/app/pages/contacto/contacto.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "planesModule", function() { return planesModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "contactoModule", function() { return contactoModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__theme_theme_module__ = __webpack_require__("../../../../../src/app/@theme/theme.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__planes_routing_module__ = __webpack_require__("../../../../../src/app/pages/planes/planes-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__contacto_routing_module__ = __webpack_require__("../../../../../src/app/pages/contacto/contacto-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ngx_loading__ = __webpack_require__("../../../../ngx-loading/ngx-loading/ngx-loading.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -490,15 +251,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 //Mis imports
 
 
-var planesModule = /** @class */ (function () {
-    function planesModule() {
+var contactoModule = /** @class */ (function () {
+    function contactoModule() {
     }
-    planesModule = __decorate([
+    contactoModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_4_angular2_toaster__["c" /* ToasterModule */],
                 __WEBPACK_IMPORTED_MODULE_1__theme_theme_module__["a" /* ThemeModule */],
-                __WEBPACK_IMPORTED_MODULE_2__planes_routing_module__["a" /* planesRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_2__contacto_routing_module__["a" /* contactoRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_3_ngx_loading__["b" /* LoadingModule */].forRoot({
                     animationType: __WEBPACK_IMPORTED_MODULE_3_ngx_loading__["a" /* ANIMATION_TYPES */].chasingDots,
                     backdropBackgroundColour: 'rgba(0,0,0,0.5)',
@@ -509,11 +270,11 @@ var planesModule = /** @class */ (function () {
                     fullScreenBackdrop: true
                 })
             ],
-            declarations: __WEBPACK_IMPORTED_MODULE_2__planes_routing_module__["b" /* routedComponents */].slice(),
+            declarations: __WEBPACK_IMPORTED_MODULE_2__contacto_routing_module__["b" /* routedComponents */].slice(),
             providers: [],
         })
-    ], planesModule);
-    return planesModule;
+    ], contactoModule);
+    return contactoModule;
 }());
 
 
@@ -521,4 +282,4 @@ var planesModule = /** @class */ (function () {
 /***/ })
 
 });
-//# sourceMappingURL=planes.module.chunk.js.map
+//# sourceMappingURL=contacto.module.chunk.js.map
