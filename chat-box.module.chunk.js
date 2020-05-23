@@ -926,6 +926,7 @@ var ChatBoxComponent = /** @class */ (function () {
             receptor_id: parseInt(this.admin_id),
             token: localStorage.getItem('mouvers_token'),
         };
+        console.log(datos);
         this.http.put(this.rutaService.getRutaApi() + 'chats/' + url_final + '/leer', datos)
             .toPromise()
             .then(function (data) {

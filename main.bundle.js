@@ -1509,6 +1509,7 @@ var HeaderComponent = /** @class */ (function () {
     }*/
     //leer (eliminar) mgs de la lista
     HeaderComponent.prototype.leerMsg = function (msg, indice) {
+        console.log(msg);
         if (this.router.url == '/pages/chat-box') {
             // emitir obj al chat para cargarlo
             this.headerToChatEventService.headerToChatData.emit(msg);
