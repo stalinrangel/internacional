@@ -76,23 +76,24 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatBoxComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__ = __webpack_require__("../../../../../src/app/services/ruta-base/ruta-base.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__ = __webpack_require__("../../../../style-loader/index.js!../../../../angular2-toaster/toaster.css");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_chat_service_chat_service__ = __webpack_require__("../../../../../src/app/services/chat-service/chat.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_conversationsCli_service_conversations_cli_service__ = __webpack_require__("../../../../../src/app/services/conversationsCli-service/conversations-cli.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_conversationsRep_service_conversations_rep_service__ = __webpack_require__("../../../../../src/app/services/conversationsRep-service/conversations-rep.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__nebular_theme__ = __webpack_require__("../../../../@nebular/theme/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_eventos_services_view_chat_event_service_view_chat_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/view-chat-event-service/view-chat-event.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_eventos_services_header_to_chat_event_service_header_to_chat_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/header-to-chat-event-service/header-to-chat-event.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__services_header_service_header_service__ = __webpack_require__("../../../../../src/app/services/header-service/header.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_ruta_base_ruta_base_service__ = __webpack_require__("../../../../../src/app/services/ruta-base/ruta-base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_style_loader_angular2_toaster_toaster_css__ = __webpack_require__("../../../../style-loader/index.js!../../../../angular2-toaster/toaster.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_style_loader_angular2_toaster_toaster_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_style_loader_angular2_toaster_toaster_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_chat_service_chat_service__ = __webpack_require__("../../../../../src/app/services/chat-service/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_conversationsCli_service_conversations_cli_service__ = __webpack_require__("../../../../../src/app/services/conversationsCli-service/conversations-cli.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_conversationsRep_service_conversations_rep_service__ = __webpack_require__("../../../../../src/app/services/conversationsRep-service/conversations-rep.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__nebular_theme__ = __webpack_require__("../../../../@nebular/theme/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_eventos_services_view_chat_event_service_view_chat_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/view-chat-event-service/view-chat-event.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__services_eventos_services_header_to_chat_event_service_header_to_chat_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/header-to-chat-event-service/header-to-chat-event.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_header_service_header_service__ = __webpack_require__("../../../../../src/app/services/header-service/header.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -102,6 +103,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 //Mis imports
 
@@ -120,7 +122,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ChatBoxComponent = /** @class */ (function () {
-    function ChatBoxComponent(sidebarService, modalService, toasterService, http, router, rutaService, fb, chatService, conversationsCliService, conversationsRepService, viewChatEventService, headerToChatEventService, headerService) {
+    function ChatBoxComponent(sidebarService, modalService, toasterService, http, router, rutaService, fb, chatService, conversationsCliService, conversationsRepService, viewChatEventService, headerToChatEventService, headerService, datePipe) {
         var _this = this;
         this.sidebarService = sidebarService;
         this.modalService = modalService;
@@ -135,6 +137,7 @@ var ChatBoxComponent = /** @class */ (function () {
         this.viewChatEventService = viewChatEventService;
         this.headerToChatEventService = headerToChatEventService;
         this.headerService = headerService;
+        this.datePipe = datePipe;
         this.position = 'toast-top-right';
         this.animationType = 'fade';
         this.title = 'HI there!';
@@ -167,7 +170,8 @@ var ChatBoxComponent = /** @class */ (function () {
             emisor: 'admin',
             token_notificacion: '',
             token: '',
-            chat_id: ''
+            chat_id: '',
+            created_at: new Date()
         };
         this.conversationsCli = [];
         this.conversationsRep = [];
@@ -421,7 +425,12 @@ var ChatBoxComponent = /** @class */ (function () {
         this.send_msg.token_notificacion = this.token_notificacion;
         this.send_msg.chat_id = this.chat_id;
         this.send_msg.token = localStorage.getItem('mouvers_token');
+        var date;
+        date = new Date();
+        date = this.datePipe.transform(date, "yyyy-MM-dd HH:mm:ss");
+        this.send_msg.created_at = date;
         console.log(this.send_msg);
+        console.log(url_final);
         this.http.post(this.rutaService.getRutaApi() + 'chats/' + url_final + '/mensaje', this.send_msg)
             .toPromise()
             .then(function (data) {
@@ -589,7 +598,7 @@ var ChatBoxComponent = /** @class */ (function () {
         }
     };
     ChatBoxComponent.prototype.showToast = function (type, title, body) {
-        this.config = new __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["b" /* ToasterConfig */]({
+        this.config = new __WEBPACK_IMPORTED_MODULE_7_angular2_toaster__["b" /* ToasterConfig */]({
             positionClass: this.position,
             timeout: this.timeout,
             newestOnTop: this.isNewestOnTop,
@@ -604,7 +613,7 @@ var ChatBoxComponent = /** @class */ (function () {
             body: body,
             timeout: this.timeout,
             showCloseButton: this.isCloseButton,
-            bodyOutputType: __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["a" /* BodyOutputType */].TrustedHtml,
+            bodyOutputType: __WEBPACK_IMPORTED_MODULE_7_angular2_toaster__["a" /* BodyOutputType */].TrustedHtml,
         };
         this.toasterService.popAsync(toast);
     };
@@ -1015,19 +1024,20 @@ var ChatBoxComponent = /** @class */ (function () {
             styles: [__webpack_require__("../../../../../src/app/pages/chat-box/chat-box.component.scss")],
             template: __webpack_require__("../../../../../src/app/pages/chat-box/chat-box.component.html"),
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_12__nebular_theme__["l" /* NbSidebarService */],
-            __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["d" /* ToasterService */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */],
-            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormBuilder"],
-            __WEBPACK_IMPORTED_MODULE_9__services_chat_service_chat_service__["a" /* ChatService */],
-            __WEBPACK_IMPORTED_MODULE_10__services_conversationsCli_service_conversations_cli_service__["a" /* ConversationsCliService */],
-            __WEBPACK_IMPORTED_MODULE_11__services_conversationsRep_service_conversations_rep_service__["a" /* ConversationsRepService */],
-            __WEBPACK_IMPORTED_MODULE_13__services_eventos_services_view_chat_event_service_view_chat_event_service__["a" /* ViewChatEventService */],
-            __WEBPACK_IMPORTED_MODULE_14__services_eventos_services_header_to_chat_event_service_header_to_chat_event_service__["a" /* HeaderToChatEventService */],
-            __WEBPACK_IMPORTED_MODULE_15__services_header_service_header_service__["a" /* HeaderService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_13__nebular_theme__["l" /* NbSidebarService */],
+            __WEBPACK_IMPORTED_MODULE_9__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_7_angular2_toaster__["d" /* ToasterService */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["a" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_5__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */],
+            __WEBPACK_IMPORTED_MODULE_6__angular_forms__["FormBuilder"],
+            __WEBPACK_IMPORTED_MODULE_10__services_chat_service_chat_service__["a" /* ChatService */],
+            __WEBPACK_IMPORTED_MODULE_11__services_conversationsCli_service_conversations_cli_service__["a" /* ConversationsCliService */],
+            __WEBPACK_IMPORTED_MODULE_12__services_conversationsRep_service_conversations_rep_service__["a" /* ConversationsRepService */],
+            __WEBPACK_IMPORTED_MODULE_14__services_eventos_services_view_chat_event_service_view_chat_event_service__["a" /* ViewChatEventService */],
+            __WEBPACK_IMPORTED_MODULE_15__services_eventos_services_header_to_chat_event_service_header_to_chat_event_service__["a" /* HeaderToChatEventService */],
+            __WEBPACK_IMPORTED_MODULE_16__services_header_service_header_service__["a" /* HeaderService */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["DatePipe"]])
     ], ChatBoxComponent);
     return ChatBoxComponent;
 }());
@@ -1043,17 +1053,19 @@ var ChatBoxComponent = /** @class */ (function () {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatBoxModule", function() { return ChatBoxModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__theme_theme_module__ = __webpack_require__("../../../../../src/app/@theme/theme.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__chat_box_routing_module__ = __webpack_require__("../../../../../src/app/pages/chat-box/chat-box-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ngx_loading__ = __webpack_require__("../../../../ngx-loading/ngx-loading/ngx-loading.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pipes_relative_time2_relative_time2__ = __webpack_require__("../../../../../src/app/pipes/relative-time2/relative-time2.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__theme_theme_module__ = __webpack_require__("../../../../../src/app/@theme/theme.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__chat_box_routing_module__ = __webpack_require__("../../../../../src/app/pages/chat-box/chat-box-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_loading__ = __webpack_require__("../../../../ngx-loading/ngx-loading/ngx-loading.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pipes_relative_time2_relative_time2__ = __webpack_require__("../../../../../src/app/pipes/relative-time2/relative-time2.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1067,11 +1079,11 @@ var ChatBoxModule = /** @class */ (function () {
     ChatBoxModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_4_angular2_toaster__["c" /* ToasterModule */],
-                __WEBPACK_IMPORTED_MODULE_1__theme_theme_module__["a" /* ThemeModule */],
-                __WEBPACK_IMPORTED_MODULE_2__chat_box_routing_module__["a" /* ChatBoxRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_3_ngx_loading__["b" /* LoadingModule */].forRoot({
-                    animationType: __WEBPACK_IMPORTED_MODULE_3_ngx_loading__["a" /* ANIMATION_TYPES */].chasingDots,
+                __WEBPACK_IMPORTED_MODULE_5_angular2_toaster__["c" /* ToasterModule */],
+                __WEBPACK_IMPORTED_MODULE_2__theme_theme_module__["a" /* ThemeModule */],
+                __WEBPACK_IMPORTED_MODULE_3__chat_box_routing_module__["a" /* ChatBoxRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_4_ngx_loading__["b" /* LoadingModule */].forRoot({
+                    animationType: __WEBPACK_IMPORTED_MODULE_4_ngx_loading__["a" /* ANIMATION_TYPES */].chasingDots,
                     backdropBackgroundColour: 'rgba(0,0,0,0.5)',
                     backdropBorderRadius: '4px',
                     primaryColour: '#ffffff',
@@ -1080,10 +1092,12 @@ var ChatBoxModule = /** @class */ (function () {
                     fullScreenBackdrop: true
                 })
             ],
-            declarations: __WEBPACK_IMPORTED_MODULE_2__chat_box_routing_module__["b" /* routedComponents */].concat([
-                __WEBPACK_IMPORTED_MODULE_5__pipes_relative_time2_relative_time2__["a" /* RelativeTimePipe2 */]
+            declarations: __WEBPACK_IMPORTED_MODULE_3__chat_box_routing_module__["b" /* routedComponents */].concat([
+                __WEBPACK_IMPORTED_MODULE_6__pipes_relative_time2_relative_time2__["a" /* RelativeTimePipe2 */]
             ]),
-            providers: [],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["DatePipe"]
+            ],
         })
     ], ChatBoxModule);
     return ChatBoxModule;
