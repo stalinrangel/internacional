@@ -144,7 +144,7 @@ var planesComponent = /** @class */ (function () {
             this.router.navigateByUrl('/pagessimples/loginf');
         }
         this.loading = true;
-        this.http.get(this.rutaService.getRutaApi() + 'planes?pais_id=' + localStorage.getItem('mouvers_pais'))
+        this.http.get(this.rutaService.getRutaApi() + 'planes?panel=1&pais_id=' + localStorage.getItem('mouvers_pais'))
             .toPromise()
             .then(function (data) {
             console.log(data);

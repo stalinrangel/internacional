@@ -6206,6 +6206,10 @@ var MENU_ITEMS0 = [
                 title: 'Ver Servicios',
                 link: '/pages/productos/ver',
             },
+            {
+                title: 'Servicios Editados',
+                link: '/pages/productos/ver',
+            },
         ],
     },
     /*{
@@ -6404,6 +6408,10 @@ var MENU_ITEMS1 = [
                 title: 'Ver Servicios',
                 link: '/pages/productos/ver',
             },
+            {
+                title: 'Servicios Editados',
+                link: '/pages/productos/ver',
+            },
         ],
     },
     {
@@ -6575,6 +6583,10 @@ var MENU_ITEMS5 = [
                 title: 'Ver Servicios',
                 link: '/pages/productos/ver',
             },
+            {
+                title: 'Servicios Editados',
+                link: '/pages/productos/ver',
+            },
         ],
     },
     {
@@ -6732,6 +6744,10 @@ var MENU_ITEMS6 = [
                 title: 'Ver Servicios',
                 link: '/pages/productos/ver',
             },
+            {
+                title: 'Servicios Editados',
+                link: '/pages/productos/ver',
+            },
         ],
     },
     {
@@ -6887,6 +6903,10 @@ var MENU_ITEMS7 = [
         children: [
             {
                 title: 'Ver Servicios',
+                link: '/pages/productos/ver',
+            },
+            {
+                title: 'Servicios Editados',
                 link: '/pages/productos/ver',
             },
         ],
