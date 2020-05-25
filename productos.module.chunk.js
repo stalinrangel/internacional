@@ -337,7 +337,7 @@ var routes = [{
                 path: 'ver',
                 component: __WEBPACK_IMPORTED_MODULE_3__productos_ver_productos_ver_component__["a" /* ProductosVerComponent */],
             }, {
-                path: 'Editados',
+                path: 'editados',
                 component: __WEBPACK_IMPORTED_MODULE_4__productos_ver_editados_productos_ver_editados_component__["a" /* ProductosVerEditadosComponent */],
             }, {
                 path: 'agregar',

@@ -6208,7 +6208,7 @@ var MENU_ITEMS0 = [
             },
             {
                 title: 'Servicios Editados',
-                link: '/pages/productos/ver',
+                link: '/pages/productos/editados',
             },
         ],
     },
