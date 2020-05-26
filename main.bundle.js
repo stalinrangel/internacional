@@ -1406,7 +1406,7 @@ var HeaderComponent = /** @class */ (function () {
     HeaderComponent.prototype.selecPais2 = function (ciudades) {
         console.log(ciudades);
         this.ciudad = ciudades;
-        localStorage.setItem('mouvers_ciudad', this.ciudad[0].id);
+        //localStorage.setItem('mouvers_ciudad', this.ciudad[0].id);
         //alert('Te has cambiado a la ciudad: '+this.ciudad[0].nombre );
     };
     HeaderComponent.prototype.selecCiudad = function (ciudad) {
@@ -1415,6 +1415,7 @@ var HeaderComponent = /** @class */ (function () {
         localStorage.setItem('mouvers_ciudad', this.ciudadselec);
     };
     HeaderComponent.prototype.reload_panel = function () {
+        alert('pais: ' + localStorage.getItem('mouvers_pais') + ' .ciudad: ' + localStorage.getItem('mouvers_ciudad'));
         window.location.reload();
     };
     HeaderComponent.prototype.initConversationsCli = function () {
