@@ -6305,10 +6305,10 @@ var MENU_ITEMS0 = [
                 title: 'Ciudades',
                 link: '/pages/zonas/ciudades',
             },
-            /*{
-              title: 'Ver Zonas',
-              link: '/pages/zonas/todas',
-            },*/
+            {
+                title: 'Ver Zonas',
+                link: '/pages/zonas/todas',
+            },
             {
                 title: 'Agregar Zona',
                 link: '/pages/zonas/agregar',
