@@ -369,11 +369,25 @@ export class SuperCiudadesTodasComponent implements OnInit, AfterViewInit{
     }
 
     zonas(obj){
-
       let ultimoPunto={
+          lat: 0,
+          lng: 0
+        };
+      if (localStorage.getItem("mouvers_pais")=='1') {
+        console.log('uru');
+        ultimoPunto={
           lat: -34.4626456,
           lng: -57.8409687
         };
+      }
+      if (localStorage.getItem("mouvers_pais")=='2') {
+        console.log('pana');
+        ultimoPunto={
+          lat:8.96622821620688,
+          lng:-79.54461472797337};
+      }
+
+      
       let mapEle: HTMLElement = document.getElementById('map');
         this.myLatLng = ultimoPunto;
 

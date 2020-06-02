@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 export class RutaBaseService {
 
 	//Local freddy
-	public api_base = 'http://localhost/apii/public/';
-	public images_base = 'http://localhost/apii/public/images_uploads/';
+	//public api_base = 'http://localhost/apii/public/';
+	//public images_base = 'http://localhost/apii/public/images_uploads/';
 
 
-	//public api_base = 'https://service24.app/apii/public/';
-	//public images_base = 'https://service24.app/apii/public/images_uploads/';
+	public api_base = 'https://service24.app/apii/public/';
+	public images_base = 'https://service24.app/apii/public/images_uploads/';
 
 	constructor() { }
 

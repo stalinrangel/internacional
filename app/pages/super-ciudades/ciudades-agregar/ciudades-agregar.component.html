@@ -105,6 +105,8 @@
           <button type="submit" class="btn btn-primary" (click)="crear()" *ngIf="editando2" [disabled]="mouvers_user_tipo =='6'">Crear ciudad </button>
         </form>
         <br><br><br>
+        <button type="submit" class="btn btn-primary" (click)="crear_categorias()" [disabled]="mouvers_user_tipo =='6'">Crear Todas las Categorias en {{ciudad_Nombre_selec}} id: {{ciudad_id_selec}}</button>
+        <br><br><br>
         <div style="text-align: right;" [hidden]="editando_usuario">
           <button type="submit" class="btn btn-primary" (click)="crear_usuario()" [disabled]="mouvers_user_tipo =='6'">Crear usuario en {{ciudad_Nombre_selec}}</button>
         </div><br>

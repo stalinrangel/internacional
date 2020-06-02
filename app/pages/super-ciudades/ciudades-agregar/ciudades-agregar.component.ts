@@ -365,6 +365,26 @@ export class CiudadesAgregarComponent implements OnInit, AfterViewInit{
       this.tipo_u="";
     }
 
+    crear_categorias(){
+      var send={
+        nueva_ciudad_id:this.ciudad_id_selec,
+        ciudad_id:1
+      };
+      console.log(send);
+      this.http.get(this.rutaService.getRutaApi()+'replicar_categorias?ciudad_id=1&nueva_ciudad_id='+this.ciudad_id_selec+'')
+     .toPromise()
+     .then(
+       data => { // Success
+          console.log(data);
+          this.ngOnInit();
+          alert('Todas las categorias creadas con éxito');
+          },
+       msg => { // Error
+         console.log(msg);  
+         alert('ERROR categorias No creado');
+       });
+    }
+
     crear_usuario_send(){
       var send={
         nombre:this.nombre_u,

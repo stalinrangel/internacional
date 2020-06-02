@@ -242,7 +242,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   selecPais2(ciudades){
     console.log(ciudades);
     this.ciudad=ciudades;
-    localStorage.setItem('mouvers_ciudad', this.ciudad[0].id);
+    //localStorage.setItem('mouvers_ciudad', this.ciudad[0].id);
     //alert('Te has cambiado a la ciudad: '+this.ciudad[0].nombre );
   }
   selecCiudad(ciudad){
@@ -254,13 +254,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   }
   reload_panel(){
+    alert('pais: '+localStorage.getItem('mouvers_pais')+' .ciudad: '+localStorage.getItem('mouvers_ciudad'));
+
+
     window.location.reload();
   }
 
   initConversationsCli(){
     this.headerService.ressetConversationsCli();
-    this.http.get(this.rutaService.getRutaApi()+'chats/sinleer/clientes/'+localStorage.getItem('mouvers_user_id')+'?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad')
-)
+    //this.http.get(this.rutaService.getRutaApi()+'chats/sinleer/clientes/'+localStorage.getItem('mouvers_user_id')+'?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
+    this.http.get(this.rutaService.getRutaApi()+'mensajesp/clientes/noleidos?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
        .toPromise()
        .then(
          data => { // Success
@@ -294,7 +297,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   initConversationsRep(){
     this.headerService.ressetConversationsRep();
-    this.http.get(this.rutaService.getRutaApi()+'chats/sinleer/repartidores/'+localStorage.getItem('mouvers_user_id')+'?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
+    this.http.get(this.rutaService.getRutaApi()+'/mensajesp/repartidores/noleidos?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
        .toPromise()
        .then(
          data => { // Success
@@ -374,7 +377,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   //leer (eliminar) mgs de la lista
   leerMsg(msg, indice){
-
+    console.log(msg);
     if (this.router.url == '/pages/chat-box') {
       // emitir obj al chat para cargarlo
       this.headerToChatEventService.headerToChatData.emit(msg);

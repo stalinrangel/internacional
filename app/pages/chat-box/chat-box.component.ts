@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-
+import { DatePipe } from '@angular/common';
 //Mis imports
 import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -87,7 +87,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 	  	emisor: 'admin',
 	  	token_notificacion: '',
 	  	token: '',
-	  	chat_id: ''
+	  	chat_id: '',
+	  	created_at: new Date()
 	};
 
 	conversationsCli: Conversation[] = [];
@@ -116,7 +117,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 	       private conversationsRepService: ConversationsRepService,
 	       private viewChatEventService: ViewChatEventService,
 	       private headerToChatEventService: HeaderToChatEventService,
-	       private headerService: HeaderService)
+	       private headerService: HeaderService,
+	       private datePipe: DatePipe)
 	{
 		//Detectar evento add msg al chat
 		this.viewChatEventService.viewChatData.subscribe(
@@ -426,8 +428,12 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 		this.send_msg.token_notificacion = this.token_notificacion;
 		this.send_msg.chat_id = this.chat_id;
 		this.send_msg.token = localStorage.getItem('mouvers_token');
+		 var date:any;
+		 date = new Date();
+   		 date = this.datePipe.transform(date,"yyyy-MM-dd HH:mm:ss");
+		this.send_msg.created_at = date;
 		console.log(this.send_msg);
-
+		console.log(url_final);
 		this.http.post(this.rutaService.getRutaApi()+'chats/'+url_final+'/mensaje', this.send_msg)
 	    .toPromise()
 	    .then(
@@ -1041,7 +1047,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 			receptor_id: parseInt(this.admin_id),
 	        token: localStorage.getItem('mouvers_token'),
 	      }
-
+	     console.log(datos);
 		this.http.put(this.rutaService.getRutaApi()+'chats/'+url_final+'/leer', datos)
 	    .toPromise()
 	    .then(

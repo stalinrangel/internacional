@@ -152,6 +152,7 @@ export class SuperCiudadesVerComponent implements OnInit, AfterViewInit{
   }
 
   public cuidad:any;
+
   ngOnInit() {
 
     if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
@@ -189,7 +190,7 @@ export class SuperCiudadesVerComponent implements OnInit, AfterViewInit{
                 //ir a login
                 //this.showToast('warning', 'Warning!', msg.error.error);
                 setTimeout(()=>{
-                  this.router.navigateByUrl('/pagessimples/loginf');
+                  //this.router.navigateByUrl('/pagessimples/loginf');
                 },1000);
             }
             //sin categorias o todas deshabilitadas OFF
@@ -249,6 +250,7 @@ export class SuperCiudadesVerComponent implements OnInit, AfterViewInit{
 
 
        this.geolocalizar();
+ 
   }
 
   ngAfterViewInit(): void {
@@ -576,10 +578,24 @@ export class SuperCiudadesVerComponent implements OnInit, AfterViewInit{
           }
           else{
 
-            this.myPosition = {
+            /*this.myPosition = {
               lat: -34.4626456,
               lng: -57.8409687
-            };
+            };*/
+
+            if (localStorage.getItem("mouvers_pais")=='1') {
+              console.log('uru');
+              this.myPosition={
+                lat: -34.4626456,
+                lng: -57.8409687
+              };
+            }
+            if (localStorage.getItem("mouvers_pais")=='2') {
+              console.log('pana');
+              this.myPosition={
+                lat:8.96622821620688,
+                lng:-79.54461472797337};
+            }
             //this.loadMap(this.myPosition);
 
           }
@@ -631,6 +647,8 @@ export class SuperCiudadesVerComponent implements OnInit, AfterViewInit{
       });
     }
 
+
+  public triangleCoords2:any=[];
   loadMap(position){
     //this.loading.dismiss();
     let mapEle: HTMLElement = document.getElementById('map');
@@ -663,6 +681,30 @@ export class SuperCiudadesVerComponent implements OnInit, AfterViewInit{
     for (var j = 0; j < this.areaTriangle.length; j++) {
         this.areaTriangle[j].setMap(this.map);
     }  
+
+     this.triangleCoords2 = this.productList;
+      console.log(this.triangleCoords2);
+
+      
+     
+      //console.log(this.triangleCoords2);
+        for (var i = 0; i < this.triangleCoords2.length; ++i) {
+        //  console.log(JSON.parse(this.triangleCoords2[i].coordenadas));
+           console.log('entro ZONAS');
+          // Constr=uct the polygon.
+          var color='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+          var bermudaTriangle = new google.maps.Polygon({
+            paths: JSON.parse(this.triangleCoords2[i].coordenadas),
+            strokeColor: color,
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: color,
+            fillOpacity: 0.35
+          });
+          bermudaTriangle.setMap(this.map);
+          
+        }
+
 
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
       //mapEle.classList.add('show-map');

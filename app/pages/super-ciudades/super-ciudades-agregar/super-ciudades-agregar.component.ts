@@ -119,6 +119,9 @@ export class SuperCiudadesAgregarComponent implements OnInit, AfterViewInit{
   }
 
   public cuidad:any;
+  public productList:any;
+  public filteredItems:any;
+
   ngOnInit() {
 
     if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
@@ -170,7 +173,123 @@ export class SuperCiudadesAgregarComponent implements OnInit, AfterViewInit{
        );
 
        this.geolocalizar();
+  
+
+       
+    this.http.get(this.rutaService.getRutaApi()+'zonas?ciudad_id='+localStorage.getItem('mouvers_ciudad')+'token='+localStorage.getItem('mouvers_token'))
+       .toPromise()
+       .then(
+         data => { // Success
+           console.log(data);
+           this.data=data;
+           this.productList = this.data.coordenadas;
+           
+           this.productList = this.productList.sort((a, b) => b.nombre - a.nombre);
+
+           this.filteredItems = this.productList;
+           console.log(this.productList);
+
+           //this.init();
+
+           this.loading = false;
+
+           setTimeout(()=>{
+                // this.zonas(this.productList);
+                },2000);
+            setTimeout(()=>{
+                this.geolocalizar();
+                },5000);
+         },
+         msg => { // Error
+           console.log(msg);
+           console.log(msg.error.error);
+
+           this.loading = false;
+
+           //token invalido/ausente o token expiro
+           if(msg.status == 400 || msg.status == 401){ 
+                //alert(msg.error.error);
+
+                this.showToast('warning', 'Warning!', msg.error.error);
+               
+                setTimeout(()=>{
+                 // this.router.navigateByUrl('/pagessimples/loginf');
+                },1000);
+                   
+            }
+            //sin ciudades
+            else if(msg.status == 404){ 
+                //alert(msg.error.error);
+                this.showToast('info', 'Info!', msg.error.error);
+            }
+            
+
+         }
+       );
+
+
+       
+    
   }
+  public triangleCoords2:any=[];
+  zonas(obj){
+      let ultimoPunto={
+          lat: 0,
+          lng: 0
+        };
+      if (localStorage.getItem("mouvers_pais")=='1') {
+        console.log('uru');
+        ultimoPunto={
+          lat: -34.4626456,
+          lng: -57.8409687
+        };
+      }
+      if (localStorage.getItem("mouvers_pais")=='2') {
+        console.log('pana');
+        ultimoPunto={
+          lat:8.96622821620688,
+          lng:-79.54461472797337};
+      }
+
+      
+      let mapEle: HTMLElement = document.getElementById('map');
+        this.myLatLng = ultimoPunto;
+
+        this.map = new google.maps.Map(mapEle, {
+          center: this.myLatLng,
+          zoom: 10,
+          mapTypeControl: true,
+          fullscreenControl: true,
+          streetViewControl:true,
+          zoomControl: true
+        });
+
+      this.areaTriangle=[];
+      this.triangleCoords2 = obj;
+      console.log(this.triangleCoords2);
+
+      
+      console.log('entro ZONAS');
+        for (var i = 0; i < this.triangleCoords2.length; ++i) {
+          console.log(JSON.parse(this.triangleCoords2[i].coordenadas));
+          
+          // Constr=uct the polygon.
+          var color='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+          var bermudaTriangle = new google.maps.Polygon({
+            paths: JSON.parse(this.triangleCoords2[i].coordenadas),
+            strokeColor: color,
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: color,
+            fillOpacity: 0.35
+          });
+          bermudaTriangle.setMap(this.map);
+          
+        }
+        
+       
+       
+    }
 
 
   ngAfterViewInit(): void {
@@ -339,7 +458,7 @@ export class SuperCiudadesAgregarComponent implements OnInit, AfterViewInit{
 
     this.map = new google.maps.Map(mapEle, {
       center: this.myLatLng,
-      zoom: 15,
+      zoom: 19,
       mapTypeControl: true,
         fullscreenControl: true,
         streetViewControl:true,
@@ -363,6 +482,72 @@ export class SuperCiudadesAgregarComponent implements OnInit, AfterViewInit{
     for (var j = 0; j < this.areaTriangle.length; j++) {
         this.areaTriangle[j].setMap(this.map);
     }  
+
+     // this.areaTriangle=[];
+      this.triangleCoords2 = this.productList;
+      console.log(this.triangleCoords2);
+
+      
+     
+      //console.log(this.triangleCoords2);
+        for (var i = 0; i < this.triangleCoords2.length; ++i) {
+        //  console.log(JSON.parse(this.triangleCoords2[i].coordenadas));
+           console.log('entro ZONAS');
+          // Constr=uct the polygon.
+          var color='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+          var bermudaTriangle = new google.maps.Polygon({
+            paths: JSON.parse(this.triangleCoords2[i].coordenadas),
+            strokeColor: color,
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: color,
+            fillOpacity: 0.35
+          });
+          bermudaTriangle.setMap(this.map);
+          
+        }
+
+    google.maps.event.addListenerOnce(this.map, 'idle', () => {
+      //mapEle.classList.add('show-map');
+      this.createMarker(this.myLatLng);
+
+    });
+
+  }
+
+  loadMap2(position){
+    //this.loading.dismiss();
+    let mapEle: HTMLElement = document.getElementById('map');
+    this.myLatLng = position;
+
+    this.map = new google.maps.Map(mapEle, {
+      center: this.myLatLng,
+      zoom: 19,
+      mapTypeControl: true,
+        fullscreenControl: true,
+        streetViewControl:true,
+        zoomControl: true
+    });
+
+    //Reiniciar el area
+    this.areaTriangle = [];
+    for (var i = 0; i < this.triangleCoords.length; ++i) {
+      this.areaTriangle.push(new google.maps.Polygon({
+        paths: this.triangleCoords[i].coordenada,
+        strokeColor: '#222220',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillColor: '#222220',
+        fillOpacity: 0.1
+    }));
+    }
+
+    this.directionsDisplay.setMap(this.map);
+    for (var j = 0; j < this.areaTriangle.length; j++) {
+        this.areaTriangle[j].setMap(this.map);
+    }  
+
+
 
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
       //mapEle.classList.add('show-map');
@@ -398,11 +583,13 @@ export class SuperCiudadesAgregarComponent implements OnInit, AfterViewInit{
   }
 
   addPunto(){
+
     console.log(this.myLatLng);
+    console.log(this.triangleCoords);
     if (this.triangleCoords.length == 0) {
 
       this.triangleCoords.push({coordenada:[this.myLatLng]});
-      this.loadMap(this.myLatLng);
+      this.loadMap2(this.myLatLng);
     }else{
       if (this.triangleCoords[0].coordenada[this.triangleCoords[0].coordenada.length - 1]  != this.myLatLng) {
         this.triangleCoords[0].coordenada.push(this.myLatLng);

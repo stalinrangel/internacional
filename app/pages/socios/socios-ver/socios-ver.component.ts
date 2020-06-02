@@ -77,6 +77,7 @@ export class SociosVerComponent implements OnInit{
   public ciudades:any;
 
   public mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+  public pais = localStorage.getItem('mouvers_pais');
 
   public edit_contrato=false;
   public contrato:any;
@@ -394,11 +395,14 @@ export class SociosVerComponent implements OnInit{
     }
     public establecimiento_id=0;
     public refer=true;
+    public token_notificacion:any;
     aEditar(obj): void {
       console.log(obj);
       this.establecimiento_id=obj.establecimiento.id;
       this.editando = true;
       this.objAEditar = Object.assign({},obj);
+
+       this.token_notificacion=this.objAEditar.usuario.token_notificacion;
 
       for (var i = 0; i < this.objAEditar.establecimiento.productos.length; i++) {
         console.log(this.objAEditar.establecimiento.productos[i].fotos);
@@ -943,13 +947,15 @@ export class SociosVerComponent implements OnInit{
     cambiarEstado2(obj): void {
 
       var v_estado: any;
-
+      var mensaje_producto='';
       if (obj.estado == 'ON') {
         //obj.estado = 'OFF';
         v_estado = 'OFF';
+        mensaje_producto="Su servicio "+obj.nombre+" se ha desactivado. Para mayor información contacta a soporte.";
       }else{
         //obj.estado = 'ON';
         v_estado = 'ON';
+        mensaje_producto="Felicidades! Su servicio "+obj.nombre+" se ha activado!";
       }
 
       var datos= {
@@ -965,6 +971,34 @@ export class SociosVerComponent implements OnInit{
               this.data = data;
               this.showToast('success', 'Success!', this.data.message);
               obj.estado = v_estado;
+
+              this.http.get(this.rutaService.getRutaApi()+'onesignal.php?accion=17&token_notificacion='+this.token_notificacion+'&contenido='+mensaje_producto)
+               .toPromise()
+               .then(
+                 data => { // Success
+                   console.log(data);
+                   this.data=data;
+
+                  this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+               
+                  this.loading = false;
+                 },
+                 msg => { // Error
+                   console.log(msg);
+                   console.log(msg.error.error);
+                   this.loading = false;
+                   this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                  if(msg.status == 400 || msg.status == 401){ 
+                    //alert(msg.error.error);
+                   // this.showToast('warning', 'Warning!', 'msg.error.error');
+                  }
+                  else { 
+                      //alert(msg.error.error);
+                      //this.showToast('error', 'Erro!', 'msg.error.error');
+                  }   
+                    
+                 }
+              );
               
            },
            msg => { // Error

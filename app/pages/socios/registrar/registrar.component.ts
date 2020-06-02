@@ -658,6 +658,7 @@ export class registrarComponent implements OnInit{
       var datosa= {
         token: localStorage.getItem('mouvers_token'),
         activo: 1,
+        activar:1,
         msg:'¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.'
       }
 
@@ -730,7 +731,7 @@ export class registrarComponent implements OnInit{
 
                   this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
                
-              this.loading = false;
+                  this.loading = false;
                  },
                  msg => { // Error
                    console.log(msg);
@@ -740,14 +741,14 @@ export class registrarComponent implements OnInit{
                   if(msg.status == 400 || msg.status == 401){ 
                     //alert(msg.error.error);
                    // this.showToast('warning', 'Warning!', 'msg.error.error');
-                }
-                else { 
-                    //alert(msg.error.error);
-                    //this.showToast('error', 'Erro!', 'msg.error.error');
-                }   
+                  }
+                  else { 
+                      //alert(msg.error.error);
+                      //this.showToast('error', 'Erro!', 'msg.error.error');
+                  }   
                     
                  }
-               );
+              );
            },
            msg => { // Error
              console.log(msg);
@@ -1101,13 +1102,15 @@ export class registrarComponent implements OnInit{
     cambiarEstado2(obj): void {
 
       var v_estado: any;
-
+      var mensaje_producto='';
       if (obj.estado == 'ON') {
         //obj.estado = 'OFF';
         v_estado = 'OFF';
+        mensaje_producto="Su servicio "+obj.nombre+" se ha desactivado. Para mayor información contacta a soporte.";
       }else{
         //obj.estado = 'ON';
         v_estado = 'ON';
+        mensaje_producto="Felicidades! Su servicio "+obj.nombre+" se ha activado!";
       }
 
       var datos= {
@@ -1123,6 +1126,34 @@ export class registrarComponent implements OnInit{
               this.data = data;
               this.showToast('success', 'Success!', this.data.message);
               obj.estado = v_estado;
+
+              this.http.get(this.rutaService.getRutaApi()+'onesignal.php?accion=17&token_notificacion='+this.token_notificacion+'&contenido='+mensaje_producto)
+               .toPromise()
+               .then(
+                 data => { // Success
+                   console.log(data);
+                   this.data=data;
+
+                  this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+               
+                  this.loading = false;
+                 },
+                 msg => { // Error
+                   console.log(msg);
+                   console.log(msg.error.error);
+                   this.loading = false;
+                   this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                  if(msg.status == 400 || msg.status == 401){ 
+                    //alert(msg.error.error);
+                   // this.showToast('warning', 'Warning!', 'msg.error.error');
+                  }
+                  else { 
+                      //alert(msg.error.error);
+                      //this.showToast('error', 'Erro!', 'msg.error.error');
+                  }   
+                    
+                 }
+              );
               
            },
            msg => { // Error

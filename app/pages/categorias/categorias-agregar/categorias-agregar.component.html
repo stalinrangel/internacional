@@ -51,11 +51,11 @@
                 <button type="button" class="btn btn-danger btn-tn" (click)="clearFile()">clear file</button>
               </div>
 
-              <p [hidden]="clear" style="color: #c71717"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>
+              <p [hidden]="clear" style="color: #c71717"><b>Sugerencia:</b>px.</p>
           </div>
           
           <br>
-          <button type="submit" class="btn btn-info" (click)="crear()" [disabled]="myFormEditar.invalid || mouvers_user_tipo =='6'">Agregar</button>
+          <button type="submit" class="btn btn-info" (click)="crear()" [disabled]="mouvers_user_tipo =='6'">Agregar</button>
         </form>
       </nb-card-body>
     </nb-card>

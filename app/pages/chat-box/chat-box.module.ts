@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import {DatePipe} from '@angular/common';
 import { ThemeModule } from '../../@theme/theme.module';
 import { ChatBoxRoutingModule, routedComponents } from './chat-box-routing.module';
 
@@ -29,7 +30,7 @@ import { RelativeTimePipe2 } from '../../pipes/relative-time2/relative-time2';
     RelativeTimePipe2
   ],
    providers: [
-
+     DatePipe
   ],
 })
 export class ChatBoxModule { }

@@ -167,7 +167,9 @@ export class CategoriasAgregarComponent implements OnInit{
       console.log(this.myFormAgregar.value);
 
       this.loading = true;
-
+      if (this.myFormAgregar.value.catprincipales_id==0 || this.myFormAgregar.value.catprincipales_id=='') {
+        alert('Debe seleccionar una categoria principal!');
+      }
       var datos= {
         token: localStorage.getItem('mouvers_token'),
         nombre: this.myFormAgregar.value.nombre,
@@ -178,6 +180,7 @@ export class CategoriasAgregarComponent implements OnInit{
         ciudad_id: this.myFormAgregar.value.ciudad_id
       }
       console.log(datos);
+
 
       this.http.post(this.rutaService.getRutaApi()+'categorias', datos)
          .toPromise()

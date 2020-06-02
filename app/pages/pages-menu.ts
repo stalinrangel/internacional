@@ -68,6 +68,10 @@ export const MENU_ITEMS0: NbMenuItem[] = [
         title: 'Ver Servicios',
         link: '/pages/productos/ver',
       },
+      {
+        title: 'Servicios Editados',
+        link: '/pages/productos/editados',
+      },
      
     ],
   },
@@ -164,10 +168,10 @@ export const MENU_ITEMS0: NbMenuItem[] = [
         title: 'Ciudades',
         link: '/pages/zonas/ciudades',
       },
-      /*{
+      {
         title: 'Ver Zonas',
         link: '/pages/zonas/todas',
-      },*/
+      },
       {
         title: 'Agregar Zona',
         link: '/pages/zonas/agregar',
@@ -431,6 +435,10 @@ export const MENU_ITEMS1: NbMenuItem[] = [
         title: 'Ver Servicios',
         link: '/pages/productos/ver',
       },
+      {
+        title: 'Servicios Editados',
+        link: '/pages/productos/ver',
+      },
      
     ],
   },
@@ -610,6 +618,10 @@ export const MENU_ITEMS5: NbMenuItem[] = [
         title: 'Ver Servicios',
         link: '/pages/productos/ver',
       },
+      {
+        title: 'Servicios Editados',
+        link: '/pages/productos/ver',
+      },
      
     ],
   },
@@ -775,6 +787,10 @@ export const MENU_ITEMS6: NbMenuItem[] = [
         title: 'Ver Servicios',
         link: '/pages/productos/ver',
       },
+      {
+        title: 'Servicios Editados',
+        link: '/pages/productos/ver',
+      },
      
     ],
   },
@@ -938,6 +954,10 @@ export const MENU_ITEMS7: NbMenuItem[] = [
 
       {
         title: 'Ver Servicios',
+        link: '/pages/productos/ver',
+      },
+      {
+        title: 'Servicios Editados',
         link: '/pages/productos/ver',
       },
      
