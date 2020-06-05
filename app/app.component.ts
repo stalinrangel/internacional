@@ -37,8 +37,8 @@ export class AppComponent implements OnInit {
 
   	let OneSignal = window['OneSignal'] || [];
 
-		OneSignal.push(function() {
-	      /* These examples are all valid */
+		/*OneSignal.push(function() {
+	      // These examples are all valid 
 	      OneSignal.getUserId(function(userId) {
 	      	console.log(userId);
 	        localStorage.setItem('mouvers_token_notificacion', userId);
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
 	        	OneSignal.push(["registerForPushNotifications"]);
 	        }
 	      });
-	    });
+	    });*/
 
     this.analytics.trackPageViews();
 
