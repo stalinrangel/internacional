@@ -489,8 +489,11 @@ export class PedidosCursoComponent implements OnInit, OnDestroy{
       this.selectedObj.telefono1 = this.selectedObj.telefono.substr(1);
       console.log(this.selectedObj);
 
+      let zona_id = this.selectedObj.productos[0].zona_id;
+      let subcategoria_id = this.selectedObj.productos[0].subcategoria_id;
+
       this.loading = true;
-      this.http.get(this.rutaService.getRutaApi()+'repartidores/disponibles?token='+localStorage.getItem('mouvers_token'))
+      this.http.get(this.rutaService.getRutaApi()+'repartidores/disponibles?zona_id='+zona_id+'&subcategoria_id='+subcategoria_id+'&token='+localStorage.getItem('mouvers_token'))
        .toPromise()
        .then(
          data => { // Success
