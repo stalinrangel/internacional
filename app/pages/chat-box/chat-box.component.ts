@@ -88,7 +88,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 	  	token_notificacion: '',
 	  	token: '',
 	  	chat_id: '',
-	  	created_at: new Date()
+	  	created_at: new Date(),
+	  	ciudad_id: '',
 	};
 
 	conversationsCli: Conversation[] = [];
@@ -104,6 +105,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 	eliminar_nombre: any;
 
 	public mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+
+	ciudad_id = localStorage.getItem('mouvers_ciudad');
 
 	constructor( private sidebarService: NbSidebarService,
 		   private modalService: NgbModal,
@@ -169,6 +172,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
           localStorage.removeItem('mouvers_user_nombre');
           localStorage.removeItem('mouvers_user_tipo');
           localStorage.removeItem('mouvers_establecimiento_id');
+          localStorage.removeItem('mouvers__ciudad');
 
           this.router.navigateByUrl('/pagessimples/loginf');
       	}
@@ -221,7 +225,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 
       this.loading2 = true;
 
-      this.http.get(this.rutaService.getRutaApi()+'chats/clientes?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
+      this.http.get(this.rutaService.getRutaApi()+'chats/clientes?ciudad_id='+this.ciudad_id+'&token='+localStorage.getItem('mouvers_token'))
          .toPromise()
          .then(
            data => { // Success
@@ -286,7 +290,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 
       this.loading3 = true;
 
-      this.http.get(this.rutaService.getRutaApi()+'chats/repartidores?token='+localStorage.getItem('mouvers_token')+'&ciudad_id='+localStorage.getItem('mouvers_ciudad'))
+      this.http.get(this.rutaService.getRutaApi()+'chats/repartidores?ciudad_id='+this.ciudad_id+'&token='+localStorage.getItem('mouvers_token'))
          .toPromise()
          .then(
            data => { // Success
@@ -432,6 +436,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 		 date = new Date();
    		 date = this.datePipe.transform(date,"yyyy-MM-dd HH:mm:ss");
 		this.send_msg.created_at = date;
+		this.send_msg.ciudad_id = this.ciudad_id;
+
 		console.log(this.send_msg);
 		console.log(url_final);
 		this.http.post(this.rutaService.getRutaApi()+'chats/'+url_final+'/mensaje', this.send_msg)
@@ -796,7 +802,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy{
 	}
     
     this.loading = true;
-    this.http.get(this.rutaService.getRutaApi()+url_final+'?token='+localStorage.getItem('mouvers_token'))
+    this.http.get(this.rutaService.getRutaApi()+url_final+'?ciudad_id='+this.ciudad_id+'&token='+localStorage.getItem('mouvers_token'))
        .toPromise()
        .then(
          data => { // Success

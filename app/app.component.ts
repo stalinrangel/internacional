@@ -34,21 +34,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-  	let OneSignal = window['OneSignal'] || [];
-
-		/*OneSignal.push(function() {
-	      // These examples are all valid 
-	      OneSignal.getUserId(function(userId) {
-	      	console.log(userId);
-	        localStorage.setItem('mouvers_token_notificacion', userId);
-	        if (!userId) {
-	        	console.log('Register For Push');
-	        	OneSignal.push(["registerForPushNotifications"]);
-	        }
-	      });
-	    });*/
-
     this.analytics.trackPageViews();
 
     	//Set memoria para los chats
@@ -64,10 +49,9 @@ export class AppComponent implements OnInit {
 		localStorage.setItem('mouvers_tema', '');
 		localStorage.setItem('mouvers_creador', '');
 
-		//let OneSignal = window['OneSignal'] || [];
+		let OneSignal = window['OneSignal'] || [];
 		var that = this;
     	
-    	console.log('OneSignal Initialized pre');
     	//Subscripcion a las notificaciones
 	    OneSignal.push(["init", {
 	      appId: "d972ea38-fbba-48de-ac2c-991904917c41",
