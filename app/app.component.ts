@@ -148,96 +148,100 @@ export class AppComponent implements OnInit {
 	        });
 	      });
 	    });
+
+	    setTimeout(()=>{
 	    
-	    OneSignal.on('notificationDisplay', function (event) {
+		    OneSignal.on('notificationDisplay', function (event) {
 
-	    	/*
-		  {
-		      "id": "ce31de29-e1b0-4961-99ee-080644677cd7",
-		      "heading": "OneSignal Test Message",
-		      "content": "This is an example notification.",
-		      "url": "https://onesignal.com?_osp=do_not_open",
-		      "icon": "https://onesignal.com/images/notification_logo.png"
-		  }
-		  */
+		    	/*
+			  {
+			      "id": "ce31de29-e1b0-4961-99ee-080644677cd7",
+			      "heading": "OneSignal Test Message",
+			      "content": "This is an example notification.",
+			      "url": "https://onesignal.com?_osp=do_not_open",
+			      "icon": "https://onesignal.com/images/notification_logo.png"
+			  }
+			  */
 
-			//console.warn('OneSignal notification displayed:', event);
-			console.log("OneSignal notification displayed:");
-			console.log(event);
+				//console.warn('OneSignal notification displayed:', event);
+				console.log("OneSignal notification displayed:");
+				console.log(event);
 
-			//registrar en BD la notificacion detectada
-			/*var error = {
-	          data: JSON.stringify(event)
-	        };
+				//registrar en BD la notificacion detectada
+				/*var error = {
+		          data: JSON.stringify(event)
+		        };
 
-	        that.http.post(that.rutaService.getRutaApi()+'mouversAPI/public/error', error)
-	        .toPromise()
-	        .then(
-	        data => {
-	          
-	        },
-	        msg => {
-	            
-	        });*/
+		        that.http.post(that.rutaService.getRutaApi()+'mouversAPI/public/error', error)
+		        .toPromise()
+		        .then(
+		        data => {
+		          
+		        },
+		        msg => {
+		            
+		        });*/
 
-		  
-		  	if (event.data.accion == '2') {
-		  		
-		  		//var obj = JSON.parse(event.data.obj);
+			  
+			  	if (event.data.accion == '2') {
+			  		
+			  		//var obj = JSON.parse(event.data.obj);
 
-		  		/*Si estoy en el chat y tengo cargador el
-		  		chat de la notificacion entrante*/
-		  		if (that.router.url == '/pages/chat-box') {
-		  			
-		  			console.log('Actualizar header, chat y lista de conversaciones');
-		  			that.viewChatEventService.viewChatData.emit(event.data);
-		  			that.viewHeaderEventService.viewHeaderData.emit(event.data);
+			  		/*Si estoy en el chat y tengo cargador el
+			  		chat de la notificacion entrante*/
+			  		if (that.router.url == '/pages/chat-box') {
+			  			
+			  			console.log('Actualizar header, chat y lista de conversaciones');
+			  			that.viewChatEventService.viewChatData.emit(event.data);
+			  			that.viewHeaderEventService.viewHeaderData.emit(event.data);
 
-		  		}
-		  		/*Si no estoy en el chat*/
-		  		else if(that.router.url != '/pages/chat-box'){
+			  		}
+			  		/*Si no estoy en el chat*/
+			  		else if(that.router.url != '/pages/chat-box'){
 
-			    	/*Setear en el header la alerta con los valores
-			    	de la notificacaion entrante*/
-			    	console.log('Setear solo el header chat');
-			    	that.viewHeaderEventService.viewHeaderData.emit(event.data);
+				    	/*Setear en el header la alerta con los valores
+				    	de la notificacaion entrante*/
+				    	console.log('Setear solo el header chat');
+				    	that.viewHeaderEventService.viewHeaderData.emit(event.data);
 
-		  		}
-			    
-		  	}
-		  	else if (event.data.accion == '4'){
+			  		}
+				    
+			  	}
+			  	else if (event.data.accion == '4'){
 
-		  		//var obj = JSON.parse(event.data.obj);
+			  		//var obj = JSON.parse(event.data.obj);
 
-		  		/*Si estoy en el chat y tengo cargador el
-		  		chat de la notificacion entrante*/
-		  		if (that.router.url == '/pages/blogs') {
-		  			
-		  			console.log('Actualizar header y lista de blogs');
-		  			that.viewBlogEventService.viewBlogData.emit(event.data);
-		  			that.viewHeaderEventService.viewHeaderData.emit(event.data);
+			  		/*Si estoy en el chat y tengo cargador el
+			  		chat de la notificacion entrante*/
+			  		if (that.router.url == '/pages/blogs') {
+			  			
+			  			console.log('Actualizar header y lista de blogs');
+			  			that.viewBlogEventService.viewBlogData.emit(event.data);
+			  			that.viewHeaderEventService.viewHeaderData.emit(event.data);
 
-		  		}
-		  		/*Si no estoy en el chat*/
-		  		else if(that.router.url != '/pages/blogs'){
+			  		}
+			  		/*Si no estoy en el chat*/
+			  		else if(that.router.url != '/pages/blogs'){
 
-			    	/*Setear en el header la alerta con los valores
+				    	/*Setear en el header la alerta con los valores
+				    	de la notificacaion entrante*/
+				    	console.log('Setear solo el header blog');
+				    	that.viewHeaderEventService.viewHeaderData.emit(event.data);
+
+			  		}
+			  	}
+			  	else if (event.data.accion == '5' || event.data.accion == '6' || event.data.accion == '16'){
+
+			  		/*Setear en el header la alerta con los valores
 			    	de la notificacaion entrante*/
 			    	console.log('Setear solo el header blog');
 			    	that.viewHeaderEventService.viewHeaderData.emit(event.data);
 
-		  		}
-		  	}
-		  	else if (event.data.accion == '5' || event.data.accion == '6' || event.data.accion == '16'){
+			  	}
 
-		  		/*Setear en el header la alerta con los valores
-		    	de la notificacaion entrante*/
-		    	console.log('Setear solo el header blog');
-		    	that.viewHeaderEventService.viewHeaderData.emit(event.data);
+			});
 
-		  	}
-
-		});
+		},30);
 
 		/*OneSignal.push(["addListenerForNotificationOpened", function(data) {
 			console.log("Received NotificationOpened:");
