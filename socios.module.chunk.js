@@ -452,7 +452,8 @@ var registrarComponent = /** @class */ (function () {
         this.myFormEditar.patchValue({ referencias12: this.objAEditar.usuario.registro.referencias2 });
         this.myFormEditar.patchValue({ referencias22: JSON.parse(this.objAEditar.usuario.registro.referencias2) });
         if (this.objAEditar.usuario.registro.tipo == 2) {
-            var foto = this.objAEditar.usuario.registro.logo;
+            //var foto= this.objAEditar.usuario.registro.logo;
+            var foto = this.objAEditar.usuario.imagen;
         }
         else if (this.objAEditar.usuario.registro.tipo == 1) {
             var foto = this.objAEditar.usuario.imagen;

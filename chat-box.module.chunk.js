@@ -171,11 +171,13 @@ var ChatBoxComponent = /** @class */ (function () {
             token_notificacion: '',
             token: '',
             chat_id: '',
-            created_at: new Date()
+            created_at: new Date(),
+            ciudad_id: '',
         };
         this.conversationsCli = [];
         this.conversationsRep = [];
         this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+        this.ciudad_id = localStorage.getItem('mouvers_ciudad');
         //----Tabla<
         this.titulo_tabla = '';
         this.pages = 4;
@@ -222,6 +224,7 @@ var ChatBoxComponent = /** @class */ (function () {
             localStorage.removeItem('mouvers_user_nombre');
             localStorage.removeItem('mouvers_user_tipo');
             localStorage.removeItem('mouvers_establecimiento_id');
+            localStorage.removeItem('mouvers__ciudad');
             this.router.navigateByUrl('/pagessimples/loginf');
         }
         this.toggleSidebar();
@@ -260,7 +263,7 @@ var ChatBoxComponent = /** @class */ (function () {
         var _this = this;
         this.conversationsCliService.resetConversas();
         this.loading2 = true;
-        this.http.get(this.rutaService.getRutaApi() + 'chats/clientes?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
+        this.http.get(this.rutaService.getRutaApi() + 'chats/clientes?ciudad_id=' + this.ciudad_id + '&token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             //console.log(dataCli);
@@ -309,7 +312,7 @@ var ChatBoxComponent = /** @class */ (function () {
         var _this = this;
         this.conversationsRepService.resetConversas();
         this.loading3 = true;
-        this.http.get(this.rutaService.getRutaApi() + 'chats/repartidores?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
+        this.http.get(this.rutaService.getRutaApi() + 'chats/repartidores?ciudad_id=' + this.ciudad_id + '&token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             //console.log(dataCli);
@@ -429,6 +432,7 @@ var ChatBoxComponent = /** @class */ (function () {
         date = new Date();
         date = this.datePipe.transform(date, "yyyy-MM-dd HH:mm:ss");
         this.send_msg.created_at = date;
+        this.send_msg.ciudad_id = this.ciudad_id;
         console.log(this.send_msg);
         console.log(url_final);
         this.http.post(this.rutaService.getRutaApi() + 'chats/' + url_final + '/mensaje', this.send_msg)
@@ -730,7 +734,7 @@ var ChatBoxComponent = /** @class */ (function () {
             this.titulo_tabla = 'Repartidores';
         }
         this.loading = true;
-        this.http.get(this.rutaService.getRutaApi() + url_final + '?token=' + localStorage.getItem('mouvers_token'))
+        this.http.get(this.rutaService.getRutaApi() + url_final + '?ciudad_id=' + this.ciudad_id + '&token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
             console.log(data);

@@ -3121,18 +3121,6 @@ var AppComponent = /** @class */ (function () {
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var OneSignal = window['OneSignal'] || [];
-        OneSignal.push(function () {
-            /* These examples are all valid */
-            OneSignal.getUserId(function (userId) {
-                console.log(userId);
-                localStorage.setItem('mouvers_token_notificacion', userId);
-                if (!userId) {
-                    console.log('Register For Push');
-                    OneSignal.push(["registerForPushNotifications"]);
-                }
-            });
-        });
         this.analytics.trackPageViews();
         //Set memoria para los chats
         localStorage.setItem('mouvers_chat_id', '');
@@ -3145,9 +3133,8 @@ var AppComponent = /** @class */ (function () {
         localStorage.setItem('mouvers_blog_id', '');
         localStorage.setItem('mouvers_tema', '');
         localStorage.setItem('mouvers_creador', '');
-        //let OneSignal = window['OneSignal'] || [];
+        var OneSignal = window['OneSignal'] || [];
         var that = this;
-        console.log('OneSignal Initialized pre');
         //Subscripcion a las notificaciones
         OneSignal.push(["init", {
                 appId: "d972ea38-fbba-48de-ac2c-991904917c41",
@@ -3232,72 +3219,74 @@ var AppComponent = /** @class */ (function () {
                 });
             });
         });
-        OneSignal.on('notificationDisplay', function (event) {
-            /*
-          {
-              "id": "ce31de29-e1b0-4961-99ee-080644677cd7",
-              "heading": "OneSignal Test Message",
-              "content": "This is an example notification.",
-              "url": "https://onesignal.com?_osp=do_not_open",
-              "icon": "https://onesignal.com/images/notification_logo.png"
-          }
-          */
-            //console.warn('OneSignal notification displayed:', event);
-            console.log("OneSignal notification displayed:");
-            console.log(event);
-            //registrar en BD la notificacion detectada
-            /*var error = {
-              data: JSON.stringify(event)
-            };
+        setTimeout(function () {
+            OneSignal.on('notificationDisplay', function (event) {
+                /*
+              {
+                  "id": "ce31de29-e1b0-4961-99ee-080644677cd7",
+                  "heading": "OneSignal Test Message",
+                  "content": "This is an example notification.",
+                  "url": "https://onesignal.com?_osp=do_not_open",
+                  "icon": "https://onesignal.com/images/notification_logo.png"
+              }
+              */
+                //console.warn('OneSignal notification displayed:', event);
+                console.log("OneSignal notification displayed:");
+                console.log(event);
+                //registrar en BD la notificacion detectada
+                /*var error = {
+                  data: JSON.stringify(event)
+                };
 
-            that.http.post(that.rutaService.getRutaApi()+'mouversAPI/public/error', error)
-            .toPromise()
-            .then(
-            data => {
-              
-            },
-            msg => {
-                
-            });*/
-            if (event.data.accion == '2') {
-                //var obj = JSON.parse(event.data.obj);
-                /*Si estoy en el chat y tengo cargador el
-                chat de la notificacion entrante*/
-                if (that.router.url == '/pages/chat-box') {
-                    console.log('Actualizar header, chat y lista de conversaciones');
-                    that.viewChatEventService.viewChatData.emit(event.data);
-                    that.viewHeaderEventService.viewHeaderData.emit(event.data);
+                that.http.post(that.rutaService.getRutaApi()+'mouversAPI/public/error', error)
+                .toPromise()
+                .then(
+                data => {
+                  
+                },
+                msg => {
+                    
+                });*/
+                if (event.data.accion == '2') {
+                    //var obj = JSON.parse(event.data.obj);
+                    /*Si estoy en el chat y tengo cargador el
+                    chat de la notificacion entrante*/
+                    if (that.router.url == '/pages/chat-box') {
+                        console.log('Actualizar header, chat y lista de conversaciones');
+                        that.viewChatEventService.viewChatData.emit(event.data);
+                        that.viewHeaderEventService.viewHeaderData.emit(event.data);
+                    }
+                    else if (that.router.url != '/pages/chat-box') {
+                        /*Setear en el header la alerta con los valores
+                        de la notificacaion entrante*/
+                        console.log('Setear solo el header chat');
+                        that.viewHeaderEventService.viewHeaderData.emit(event.data);
+                    }
                 }
-                else if (that.router.url != '/pages/chat-box') {
-                    /*Setear en el header la alerta con los valores
-                    de la notificacaion entrante*/
-                    console.log('Setear solo el header chat');
-                    that.viewHeaderEventService.viewHeaderData.emit(event.data);
+                else if (event.data.accion == '4') {
+                    //var obj = JSON.parse(event.data.obj);
+                    /*Si estoy en el chat y tengo cargador el
+                    chat de la notificacion entrante*/
+                    if (that.router.url == '/pages/blogs') {
+                        console.log('Actualizar header y lista de blogs');
+                        that.viewBlogEventService.viewBlogData.emit(event.data);
+                        that.viewHeaderEventService.viewHeaderData.emit(event.data);
+                    }
+                    else if (that.router.url != '/pages/blogs') {
+                        /*Setear en el header la alerta con los valores
+                        de la notificacaion entrante*/
+                        console.log('Setear solo el header blog');
+                        that.viewHeaderEventService.viewHeaderData.emit(event.data);
+                    }
                 }
-            }
-            else if (event.data.accion == '4') {
-                //var obj = JSON.parse(event.data.obj);
-                /*Si estoy en el chat y tengo cargador el
-                chat de la notificacion entrante*/
-                if (that.router.url == '/pages/blogs') {
-                    console.log('Actualizar header y lista de blogs');
-                    that.viewBlogEventService.viewBlogData.emit(event.data);
-                    that.viewHeaderEventService.viewHeaderData.emit(event.data);
-                }
-                else if (that.router.url != '/pages/blogs') {
+                else if (event.data.accion == '5' || event.data.accion == '6' || event.data.accion == '16') {
                     /*Setear en el header la alerta con los valores
                     de la notificacaion entrante*/
                     console.log('Setear solo el header blog');
                     that.viewHeaderEventService.viewHeaderData.emit(event.data);
                 }
-            }
-            else if (event.data.accion == '5' || event.data.accion == '6' || event.data.accion == '16') {
-                /*Setear en el header la alerta con los valores
-                de la notificacaion entrante*/
-                console.log('Setear solo el header blog');
-                that.viewHeaderEventService.viewHeaderData.emit(event.data);
-            }
-        });
+            });
+        }, 30);
         /*OneSignal.push(["addListenerForNotificationOpened", function(data) {
             console.log("Received NotificationOpened:");
             console.log(data);
