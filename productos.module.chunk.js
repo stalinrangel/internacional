@@ -1134,6 +1134,7 @@ var ProductosVerComponent = /** @class */ (function () {
             .toPromise()
             .then(function (data) {
             //this.getSubcategorias();
+            _this.loading = false;
             console.log(data);
             _this.data = data;
             _this.productList = _this.data.productos;
@@ -1213,10 +1214,12 @@ var ProductosVerComponent = /** @class */ (function () {
         this.http.get(this.rutaService.getRutaApi() + 'subcategorias/habilitadas?ciudad_id=' + localStorage.getItem('mouvers_ciudad') + 'token=' + localStorage.getItem('mouvers_token'))
             .toPromise()
             .then(function (data) {
+            _this.loading = false;
             console.log(data);
             _this.data = data;
             _this.subcategorias = _this.data.subcategorias;
         }, function (msg) {
+            _this.loading = false;
             console.log(msg);
             console.log(msg.error.error);
             //token invalido/ausente o token expiro

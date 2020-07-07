@@ -6410,7 +6410,7 @@ var MENU_ITEMS1 = [
             },
             {
                 title: 'Servicios Editados',
-                link: '/pages/productos/ver',
+                link: '/pages/productos/editados',
             },
         ],
     },
@@ -6585,7 +6585,7 @@ var MENU_ITEMS5 = [
             },
             {
                 title: 'Servicios Editados',
-                link: '/pages/productos/ver',
+                link: '/pages/productos/editados',
             },
         ],
     },
@@ -6746,7 +6746,7 @@ var MENU_ITEMS6 = [
             },
             {
                 title: 'Servicios Editados',
-                link: '/pages/productos/ver',
+                link: '/pages/productos/editados',
             },
         ],
     },
@@ -6907,7 +6907,7 @@ var MENU_ITEMS7 = [
             },
             {
                 title: 'Servicios Editados',
-                link: '/pages/productos/ver',
+                link: '/pages/productos/editados',
             },
         ],
     },
