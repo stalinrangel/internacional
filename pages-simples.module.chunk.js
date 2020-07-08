@@ -167,13 +167,6 @@ var LoginfComponent = /** @class */ (function () {
             _this.loading = false;
             _this.submitted = false;
         });
-        this.http.get('http://18.208.175.229/api/public/validar/e.rangeld@hotmail.com')
-            .toPromise()
-            .then(function (data) {
-            console.log(data);
-        }, function (msg) {
-            console.log(msg);
-        });
     };
     LoginfComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({

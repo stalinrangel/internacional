@@ -393,7 +393,10 @@ var registrarComponent = /** @class */ (function () {
         this.token_notificacion = this.objAEditar.usuario.token_notificacion;
         this.usuario_id = this.objAEditar.usuario.id;
         var tam_contrato = obj.usuario.contrato.length;
-        this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
+        this.contrato = "";
+        if (obj.usuario.contrato.length != 0) {
+            this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
+        }
         console.log(this.contrato);
         this.myFormEditar.patchValue({ id: this.objAEditar.id });
         this.myFormEditar.patchValue({ nombre: this.objAEditar.usuario.nombre });
