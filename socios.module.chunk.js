@@ -3,7 +3,7 @@ webpackJsonp(["socios.module"],{
 /***/ "../../../../../src/app/pages/socios/registrar/registrar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nb-card *ngIf=\"!editando && mostrar\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Socios</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <table class=\"table\">\r\n      <thead>\r\n         <th style=\"text-align: center;\">Imagen</th>\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Email</th>\r\n         <th style=\"text-align: center;\">Teléfono</th>\r\n         <th style=\"text-align: center;\">Zona</th>\r\n         <th style=\"text-align: center;\">Ciudad</th>\r\n         <th style=\"text-align: center;\">Ingresó</th>\r\n         <th style=\"text-align: center;\">Estado</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.usuario.email}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.created_at}}</td>\r\n            <td style=\" vertical-align:middle;\">\r\n              <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div-->\r\n              <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n            </td> \r\n            \r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                <i class=\"nb-trash\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                <i class=\"nb-email\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" *ngIf=\"editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar información del Proveedor<br><br>\r\n            <button class=\"btn btn-secondary\" (click)=\"atras()\">Atras</button><br>\r\n      </nb-card-header>\r\n      <nb-card-body>\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\"> \r\n              <label for=\"exampleInputNombre\">Nombre</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n              <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputEmail\">Email</label>\r\n              <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail\" placeholder=\"Email\" formControlName=\"email\">\r\n              <div *ngIf=\"myFormEditar.get('email').errors && myFormEditar.get('email').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('email').hasError('required')\">Email es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Teléfono</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTelefono\" placeholder=\"Telefono\" formControlName=\"telefono\">\r\n              <div *ngIf=\"myFormEditar.get('telefono').errors && myFormEditar.get('telefono').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('telefono').hasError('required')\">Teléfono es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Foto</label><br>\r\n              <img src=\"{{myFormEditar.value.foto}}\" alt=\"\" style=\"width: 250px; height: 250px; border-radius: 20px;\">\r\n                <input [hidden]=\"clear\" type=\"file\" name=\"imagen\" id=\"imagen\" (change)=\"onFileChange($event)\" #fileInput accept=\"image/*\">\r\n                  <div *ngIf=\"clear\">\r\n                    <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFile()\">Eliminar</button>\r\n                  </div>\r\n                  <p [hidden]=\"clear\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Documento de identidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"cedula\" placeholder=\"\" formControlName=\"cedula\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nacionalidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"nacionalidad\" placeholder=\"\" formControlName=\"nacionalidad\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion\" placeholder=\"\" formControlName=\"direccion\"> {{myFormEditar.value.lat}}-{{myFormEditar.value.lng}}\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección exacta</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion_exacta\" placeholder=\"\" formControlName=\"direccion_exacta\">\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Sexo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"sexo\" placeholder=\"\" formControlName=\"sexo\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Fecha Nacimiento</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"fecha_nacimiento\" placeholder=\"\" formControlName=\"fecha_nacimiento\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Formación</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"formacion\" placeholder=\"\" formControlName=\"formacion\">\r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Tipo de registro</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"Tipo de registro\" formControlName=\"tipo2\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Ruc</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputruc\" placeholder=\"ruc\" formControlName=\"ruc\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Email empresa</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputemail_empresa\" placeholder=\"email\" formControlName=\"email_empresa\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nombre contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputcontacto_nombre\" placeholder=\"\" formControlName=\"contacto_nombre\">\r\n            </div>  \r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Urgencias</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"\" formControlName=\"urgencias\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Factura</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"factura\" placeholder=\"factura\" formControlName=\"factura\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Cargo contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"contacto_cargo\" placeholder=\"\" formControlName=\"contacto_cargo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Idoneidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"idoneidad\" placeholder=\"idoneidad\" formControlName=\"idoneidad\">\r\n            </div>              \r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Años experiencia</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"anos_experiencia\" placeholder=\"\" formControlName=\"anos_experiencia\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Experiencia</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"experiencia\" placeholder=\"\" formControlName=\"experiencia\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.experiencia2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Idiomas</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"idiomas\" placeholder=\"\" formControlName=\"idiomas\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.idiomas2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            \r\n            <nb-card-header>Disponibilidad</nb-card-header>\r\n              <br><br>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Lunes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_i\" placeholder=\"\" formControlName=\"lunes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"lunes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Martes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Miercoles:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Jueves:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Viernes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Sabado:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Domingo:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n              </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\" *ngIf=\"refer\">\r\n            <nb-card-header>Referencias personales</nb-card-header>\r\n            <br><br>\r\n            <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre1}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono1}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion1}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto1}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo1}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre2}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono2}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion2}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto2}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo2}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre3}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono3}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion3}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto3}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo3}}<br>\r\n              <br>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Referencias comerciales</nb-card-header>\r\n            <br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre1}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono1}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion1}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto1}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo1}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre2}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono2}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion2}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto2}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo2}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre3}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono3}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion3}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto3}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo3}}<br>\r\n              <br>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Documento de Indentidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.pasaporte}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangePasaporte($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Logo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.logo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearLogo\" type=\"file\" name=\"Logo\" id=\"Logo\" (change)=\"onFileChangeLogo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearLogo\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileLogo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearLogo\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Aviso Operaciones</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.operaciones}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearOperaciones\" type=\"file\" name=\"Operaciones\" id=\"Operaciones\" (change)=\"onFileChangeOperaciones($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearOperaciones\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileOperaciones()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearOperaciones\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Idoneidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.idoneidad_file}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"Idoneidad_file\" id=\"Idoneidad_file\" (change)=\"onFileChangeIdoneidad_file($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileIdoneidad_file()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Recibo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.recibo_servicio}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangeRecibo_servicio($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" [hidden]=\"contrato==null\">\r\n            <label for=\"exampleInputTelefono\">Contrato:</label><br>\r\n            <a href=\"{{contrato}}\" target=\"_blank\">Ver contrato</a>\r\n          </div>\r\n          <div class=\"form-group\" [hidden]=\"ontrato!=null\">\r\n            <label for=\"exampleInputTelefono\">Sin contrato...</label><br>\r\n          </div>\r\n\r\n\r\n          \r\n\r\n          <br><br>\r\n          <nb-card-header>Servicios del Proveedor</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n               <th style=\"text-align: center;\">Nombre</th>\r\n               <th style=\"text-align: center;\">Categoaria</th>\r\n               <th style=\"text-align: center;\">Descripción</th>\r\n               <th style=\"text-align: center;\"></th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.establecimiento.productos\" >\r\n                <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\" style=\"border-radius: 20px;\"></td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.subcategoria.categoria.catprincipales.nombre}}-{{item.subcategoria.categoria.nombre}}-{{item.subcategoria.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.descripcion}} Estrellas de 5</td>\r\n                  <td>\r\n                    <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado2(item)\"></nb-checkbox>\r\n                    <!--button type=\"button\" class=\"btn btn-secundary  btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado!='ON'\">Hablitar{{item.estado}}\r\n                   </button>\r\n                   <button type=\"button\" class=\"btn btn-danger btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado=='ON'\">Deshabilitar\r\n                   </button-->\r\n                  </td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          <br><br>\r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" >Actualizar datos</button>\r\n          <button type=\"submit\" class=\"btn btn-danger\" (click)=\"aceptar()\">Aceptar proveedor y habilitarlo</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Eliminar Socio: </h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <p>¿Realmente desea eliminar el socio {{eliminar_nombre}}?</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Cancelar</button>\r\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\">Eliminar</button>\r\n  </div>\r\n</ng-template>\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
+module.exports = "<nb-card *ngIf=\"!editando && mostrar\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Socios</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <table class=\"table\">\r\n      <thead>\r\n         <th style=\"text-align: center;\">Imagen</th>\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Email</th>\r\n         <th style=\"text-align: center;\">Teléfono</th>\r\n         <th style=\"text-align: center;\">Zona</th>\r\n         <th style=\"text-align: center;\">Ciudad</th>\r\n         <th style=\"text-align: center;\">Ingresó</th>\r\n         <th style=\"text-align: center;\">Estado</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.usuario.email}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.created_at}}</td>\r\n            <td style=\" vertical-align:middle;\">\r\n              <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div-->\r\n              <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n            </td> \r\n            \r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                <i class=\"nb-trash\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                <i class=\"nb-email\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" *ngIf=\"editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar información del Proveedor<br><br>\r\n            <button class=\"btn btn-secondary\" (click)=\"atras()\">Atras</button><br>\r\n      </nb-card-header>\r\n      <nb-card-body>\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\"> \r\n              <label for=\"exampleInputNombre\">Nombre</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n              <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputEmail\">Email</label>\r\n              <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail\" placeholder=\"Email\" formControlName=\"email\">\r\n              <div *ngIf=\"myFormEditar.get('email').errors && myFormEditar.get('email').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('email').hasError('required')\">Email es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Teléfono</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTelefono\" placeholder=\"Telefono\" formControlName=\"telefono\">\r\n              <div *ngIf=\"myFormEditar.get('telefono').errors && myFormEditar.get('telefono').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('telefono').hasError('required')\">Teléfono es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Foto</label><br>\r\n              <img src=\"{{myFormEditar.value.foto}}\" alt=\"\" style=\"width: 250px; height: 250px; border-radius: 20px;\">\r\n                <input [hidden]=\"clear\" type=\"file\" name=\"imagen\" id=\"imagen\" (change)=\"onFileChange($event)\" #fileInput accept=\"image/*\">\r\n                  <div *ngIf=\"clear\">\r\n                    <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFile()\">Eliminar</button>\r\n                  </div>\r\n                  <p [hidden]=\"clear\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Documento de identidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"cedula\" placeholder=\"\" formControlName=\"cedula\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nacionalidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"nacionalidad\" placeholder=\"\" formControlName=\"nacionalidad\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion\" placeholder=\"\" formControlName=\"direccion\"> {{myFormEditar.value.lat}}-{{myFormEditar.value.lng}}\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección exacta</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion_exacta\" placeholder=\"\" formControlName=\"direccion_exacta\">\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Sexo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"sexo\" placeholder=\"\" formControlName=\"sexo\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Fecha Nacimiento</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"fecha_nacimiento\" placeholder=\"\" formControlName=\"fecha_nacimiento\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Formación</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"formacion\" placeholder=\"\" formControlName=\"formacion\">\r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Tipo de registro</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"Tipo de registro\" formControlName=\"tipo2\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Ruc</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputruc\" placeholder=\"ruc\" formControlName=\"ruc\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Email empresa</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputemail_empresa\" placeholder=\"email\" formControlName=\"email_empresa\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nombre contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputcontacto_nombre\" placeholder=\"\" formControlName=\"contacto_nombre\">\r\n            </div>  \r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Urgencias</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"\" formControlName=\"urgencias\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Factura</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"factura\" placeholder=\"factura\" formControlName=\"factura\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Cargo contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"contacto_cargo\" placeholder=\"\" formControlName=\"contacto_cargo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Idoneidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"idoneidad\" placeholder=\"idoneidad\" formControlName=\"idoneidad\">\r\n            </div>              \r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Años experiencia</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"anos_experiencia\" placeholder=\"\" formControlName=\"anos_experiencia\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Experiencia</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"experiencia\" placeholder=\"\" formControlName=\"experiencia\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.experiencia2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Idiomas</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"idiomas\" placeholder=\"\" formControlName=\"idiomas\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.idiomas2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            \r\n            <nb-card-header>Disponibilidad</nb-card-header>\r\n              <br><br>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Lunes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_i\" placeholder=\"\" formControlName=\"lunes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"lunes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Martes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Miercoles:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Jueves:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Viernes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Sabado:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Domingo:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n              </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n<!--           <div class=\"form-group\" *ngIf=\"refer\">\r\n  <nb-card-header>Referencias personales</nb-card-header>\r\n  <br><br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo3}}<br>\r\n    <br>\r\n</div>\r\n\r\n<br><br>\r\n<hr>\r\n<br><br>\r\n\r\n<div class=\"form-group\">\r\n  <nb-card-header>Referencias comerciales</nb-card-header>\r\n  <br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo3}}<br>\r\n    <br>\r\n</div> -->\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Documento de Indentidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.pasaporte}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangePasaporte($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Logo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.logo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearLogo\" type=\"file\" name=\"Logo\" id=\"Logo\" (change)=\"onFileChangeLogo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearLogo\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileLogo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearLogo\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Aviso Operaciones</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.operaciones}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearOperaciones\" type=\"file\" name=\"Operaciones\" id=\"Operaciones\" (change)=\"onFileChangeOperaciones($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearOperaciones\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileOperaciones()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearOperaciones\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Idoneidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.idoneidad_file}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"Idoneidad_file\" id=\"Idoneidad_file\" (change)=\"onFileChangeIdoneidad_file($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileIdoneidad_file()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Recibo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.recibo_servicio}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangeRecibo_servicio($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" [hidden]=\"contrato==null\">\r\n            <label for=\"exampleInputTelefono\">Contrato:</label><br>\r\n            <a href=\"{{contrato}}\" target=\"_blank\">Ver contrato</a>\r\n          </div>\r\n          <div class=\"form-group\" [hidden]=\"ontrato!=null\">\r\n            <label for=\"exampleInputTelefono\">Sin contrato...</label><br>\r\n          </div>\r\n\r\n\r\n          \r\n\r\n          <br><br>\r\n          <nb-card-header>Servicios del Proveedor</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n               <th style=\"text-align: center;\">Nombre</th>\r\n               <th style=\"text-align: center;\">Categoaria</th>\r\n               <th style=\"text-align: center;\">Descripción</th>\r\n               <th style=\"text-align: center;\"></th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.establecimiento.productos\" >\r\n                <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\" style=\"border-radius: 20px;\"></td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.subcategoria.categoria.catprincipales.nombre}}-{{item.subcategoria.categoria.nombre}}-{{item.subcategoria.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.descripcion}} Estrellas de 5</td>\r\n                  <td>\r\n                    <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado2(item)\"></nb-checkbox>\r\n                    <!--button type=\"button\" class=\"btn btn-secundary  btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado!='ON'\">Hablitar{{item.estado}}\r\n                   </button>\r\n                   <button type=\"button\" class=\"btn btn-danger btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado=='ON'\">Deshabilitar\r\n                   </button-->\r\n                  </td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          <br><br>\r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" >Actualizar datos</button>\r\n          <button type=\"submit\" class=\"btn btn-danger\" (click)=\"aceptar()\">Aceptar proveedor y habilitarlo</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Eliminar Socio: </h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <p>¿Realmente desea eliminar el socio {{eliminar_nombre}}?</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Cancelar</button>\r\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\">Eliminar</button>\r\n  </div>\r\n</ng-template>\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
 
 /***/ }),
 
@@ -1657,6 +1657,2482 @@ var SociosAgregarComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\" *ngIf=\"!editando && mostrar\">\r\n  <div class=\"col-md-12 col-lg-12\">\r\n    <!-- <nb-card size=\"large\"> -->\r\n    <nb-card >\r\n      <nb-tabset fullWidth>\r\n        <nb-tab tabTitle=\"Sin registro\">\r\n\r\n          <nb-card >\r\n            <nb-card-header>\r\n              <div class=\"row show-grid\">\r\n                    <div class=\"col-6\">\r\n                      <div>Lista de Socios</div>\r\n                    </div>\r\n                    <div class=\"col-6\">\r\n                      <div>\r\n                        <div style=\"text-align: right;\">\r\n                         <strong>Buscar: </strong>\r\n                         <input  type=\"text\"  id=\"inputNameA\" [(ngModel)]=\"inputNameA\" (ngModelChange)=\"FilterByNameA()\"/>\r\n                        </div>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n            </nb-card-header>\r\n\r\n            <nb-card-body>\r\n\r\n              <table class=\"table\">\r\n                <thead>\r\n                   <th style=\"text-align: center;\">Imagen</th>\r\n                   <th style=\"text-align: center;\">Nombre</th>\r\n                   <th style=\"text-align: center;\">Email</th>\r\n                   <th style=\"text-align: center;\">Teléfono</th>\r\n                   <th style=\"text-align: center;\">Tipo</th>\r\n                   <th style=\"text-align: center;\">Zona</th>\r\n                   <th style=\"text-align: center;\">Ciudad</th>\r\n                   <th style=\"text-align: center;\">Ingreso</th>\r\n                   <th style=\"text-align: center;\">Estado</th>\r\n                   <th style=\"text-align: center;\">Acciones</th>\r\n                </thead>\r\n                <tbody>\r\n                   <tr *ngFor=\"let item of itemsA\" >\r\n                      <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">\r\n                      {{item.usuario.email}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.tipo2}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.fecha}}</td>\r\n                      <!--td style=\" vertical-align:middle;\">\r\n                        <div class=\"estado\" style=\"display:block; margin:auto\">\r\n                          <label class=\"theme-switch\">\r\n                            <span class=\"light\">OFF</span>\r\n                            <div class=\"switch\">\r\n                              <input type=\"checkbox\" [checked]=\"item.status === 'ON'\" (change)=\"cambiarStatus(item)\" #theme>\r\n                              <span class=\"slider\"></span>\r\n                            </div>\r\n                            <span class=\"cosmic\">ON</span>\r\n                          </label>\r\n                        </div>\r\n                      </td-->\r\n                      <td style=\" vertical-align:middle; vertical-align:middle;\">\r\n                        <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                          <label class=\"theme-switch\">\r\n                            <span class=\"light\">OFF</span>\r\n                            <div class=\"switch\">\r\n                              <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                              <span class=\"slider\"></span>\r\n                            </div>\r\n                            <span class=\"cosmic\">ON</span>\r\n                          </label>\r\n                        </div-->\r\n                        <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n                      </td> \r\n                      \r\n                      <td style=\"text-align: center; vertical-align:middle;\">\r\n                        <!-- <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                          <i class=\"nb-edit\"></i>\r\n                        </button> -->\r\n                        <!-- <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                          <i class=\"nb-trash\"></i>\r\n                        </button> -->\r\n                        <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                          <i class=\"nb-email\"></i>\r\n                        </button>\r\n                      </td>\r\n                   </tr>\r\n                </tbody>\r\n              </table>\r\n                \r\n            </nb-card-body>\r\n            <nb-card-footer>\r\n              <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n                <div class=\"btn-group\">\r\n                   <label style=\"margin-top:10px\">Página {{currentIndexA}}/{{pageNumberA}} </label>\r\n                </div>\r\n                <div class=\"btn-group pull-right\">\r\n                   <ul class=\"pagination\" >\r\n                      <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndexA == 1 || pageNumberA == 0)}\" ><a class=\"page-link\"  (click)=\"prevPageA()\" >Atrás</a></li>\r\n                         <li class=\"page-item\" *ngFor=\"let page of pagesIndexA\"  [ngClass]=\"{'active': (currentIndexA == page)}\">\r\n                            <a class=\"page-link\" (click)=\"setPageA(page)\"  >{{page}} </a>\r\n                         </li>\r\n                      <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndexA == pageNumberA || pageNumberA == 0)}\" ><a class=\"page-link\"   (click)=\"nextPageA()\" >Siguiente</a></li>\r\n                   </ul>\r\n                </div>\r\n              </div>  \r\n            </nb-card-footer>\r\n          </nb-card>          \r\n\r\n        </nb-tab>\r\n        <nb-tab tabTitle=\"Con registro incompleto\">\r\n          \r\n          <nb-card >\r\n            <nb-card-header>\r\n              <div class=\"row show-grid\">\r\n                    <div class=\"col-6\">\r\n                      <div>Lista de Socios</div>\r\n                    </div>\r\n                    <div class=\"col-6\">\r\n                      <div>\r\n                        <div style=\"text-align: right;\">\r\n                         <strong>Buscar: </strong>\r\n                         <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n                        </div>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n            </nb-card-header>\r\n\r\n            <nb-card-body>\r\n\r\n              <table class=\"table\">\r\n                <thead>\r\n                   <th style=\"text-align: center;\">Imagen</th>\r\n                   <th style=\"text-align: center;\">Nombre</th>\r\n                   <th style=\"text-align: center;\">Email</th>\r\n                   <th style=\"text-align: center;\">Teléfono</th>\r\n                   <th style=\"text-align: center;\">Tipo</th>\r\n                   <th style=\"text-align: center;\">Zona</th>\r\n                   <th style=\"text-align: center;\">Ciudad</th>\r\n                   <th style=\"text-align: center;\">Ingreso</th>\r\n                   <th style=\"text-align: center;\">Estado</th>\r\n                   <th style=\"text-align: center;\">Acciones</th>\r\n                </thead>\r\n                <tbody>\r\n                   <tr *ngFor=\"let item of items\" >\r\n                      <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">\r\n                      {{item.usuario.email}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.tipo2}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n                      <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.fecha}}</td>\r\n                      <!--td style=\" vertical-align:middle;\">\r\n                        <div class=\"estado\" style=\"display:block; margin:auto\">\r\n                          <label class=\"theme-switch\">\r\n                            <span class=\"light\">OFF</span>\r\n                            <div class=\"switch\">\r\n                              <input type=\"checkbox\" [checked]=\"item.status === 'ON'\" (change)=\"cambiarStatus(item)\" #theme>\r\n                              <span class=\"slider\"></span>\r\n                            </div>\r\n                            <span class=\"cosmic\">ON</span>\r\n                          </label>\r\n                        </div>\r\n                      </td-->\r\n                      <td style=\" vertical-align:middle; vertical-align:middle;\">\r\n                        <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                          <label class=\"theme-switch\">\r\n                            <span class=\"light\">OFF</span>\r\n                            <div class=\"switch\">\r\n                              <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                              <span class=\"slider\"></span>\r\n                            </div>\r\n                            <span class=\"cosmic\">ON</span>\r\n                          </label>\r\n                        </div-->\r\n                        <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n                      </td> \r\n                      \r\n                      <td style=\"text-align: center; vertical-align:middle;\">\r\n                        <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                          <i class=\"nb-edit\"></i>\r\n                        </button>\r\n                        <!-- <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                          <i class=\"nb-trash\"></i>\r\n                        </button> -->\r\n                        <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                          <i class=\"nb-email\"></i>\r\n                        </button>\r\n                      </td>\r\n                   </tr>\r\n                </tbody>\r\n              </table>\r\n                \r\n            </nb-card-body>\r\n            <nb-card-footer>\r\n              <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n                <div class=\"btn-group\">\r\n                   <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n                </div>\r\n                <div class=\"btn-group pull-right\">\r\n                   <ul class=\"pagination\" >\r\n                      <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n                         <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                            <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n                         </li>\r\n                      <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n                   </ul>\r\n                </div>\r\n              </div>  \r\n            </nb-card-footer>\r\n          </nb-card>          \r\n\r\n        </nb-tab>\r\n\r\n      </nb-tabset>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n<div class=\"row\" *ngIf=\"editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar información del Proveedor <br><br>\r\n        <button class=\"btn btn-secondary\" (click)=\"atras()\">Atras</button><br>\r\n      </nb-card-header>\r\n      <nb-card-body>\r\n\r\n        <h5 style=\"font-size: 1rem;\" class=\"grid-h\">Estado del registro</h5>\r\n        <br>\r\n        <div class=\"row\">\r\n          <div class=\"col-lg-4\">\r\n\r\n            <p>Nombre &nbsp;&nbsp; <i class=\"fa {{ registro_estado.nombre.icon }}\"></i></p> \r\n            <p>Email &nbsp;&nbsp; <i class=\"fa {{ registro_estado.email.icon }}\"></i></p>\r\n            <p>Teléfono &nbsp;&nbsp; <i class=\"fa {{ registro_estado.telefono.icon }}\"></i></p> \r\n            <p>Foto &nbsp;&nbsp; <i class=\"fa {{ registro_estado.foto.icon }}\"></i></p>\r\n\r\n            <p>Documento de identidad &nbsp;&nbsp; <i class=\"fa {{ registro_estado.cedula.icon }}\"></i></p> \r\n            <p>Nacionalidad &nbsp;&nbsp; <i class=\"fa {{ registro_estado.nacionalidad.icon }}\"></i></p>\r\n            <p>Dirección google &nbsp;&nbsp; <i class=\"fa {{ registro_estado.direccion.icon }}\"></i></p>\r\n            <p>Dirección exacta &nbsp;&nbsp; <i class=\"fa {{ registro_estado.direccion_exacta.icon }}\"></i></p>\r\n\r\n            <p>Sexo &nbsp;&nbsp; <i class=\"fa {{ registro_estado.sexo.icon }}\"></i></p>\r\n            <p>Fecha Nacimiento &nbsp;&nbsp; <i class=\"fa {{ registro_estado.fecha_nacimiento.icon }}\"></i></p> \r\n\r\n          </div>\r\n          <div class=\"col-lg-4\">\r\n\r\n            <p>Formación &nbsp;&nbsp; <i class=\"fa {{ registro_estado.formacion.icon }}\"></i></p>\r\n\r\n            <p>Tipo de registro &nbsp;&nbsp; <i class=\"fa {{ registro_estado.tipo2.icon }}\"></i></p> \r\n            <p>Ruc &nbsp;&nbsp; <i class=\"fa {{ registro_estado.ruc.icon }}\"></i></p>\r\n            <p>Email empresa &nbsp;&nbsp; <i class=\"fa {{ registro_estado.email_empresa.icon }}\"></i></p> \r\n            <p>Nombre contacto &nbsp;&nbsp; <i class=\"fa {{ registro_estado.contacto_nombre.icon }}\"></i></p> \r\n\r\n            <p>Urgencias &nbsp;&nbsp; <i class=\"fa {{ registro_estado.urgencias.icon }}\"></i></p> \r\n            <p>Factura &nbsp;&nbsp; <i class=\"fa {{ registro_estado.factura.icon }}\"></i></p>\r\n            <p>Cargo contacto &nbsp;&nbsp; <i class=\"fa {{ registro_estado.contacto_cargo.icon }}\"></i></p> \r\n            <p>Idoneidad &nbsp;&nbsp; <i class=\"fa {{ registro_estado.idoneidad.icon }}\"></i></p>\r\n\r\n            <p>Años experiencia &nbsp;&nbsp; <i class=\"fa {{ registro_estado.anos_experiencia.icon }}\"></i></p>\r\n\r\n          </div>\r\n          <div class=\"col-lg-4\">\r\n\r\n            <p>Experiencia &nbsp;&nbsp; <i class=\"fa {{ registro_estado.experiencia2.icon }}\"></i></p>\r\n            <p>Idiomas &nbsp;&nbsp; <i class=\"fa {{ registro_estado.idiomas2.icon }}\"></i></p>\r\n\r\n            <p>Documento de Indentidad &nbsp;&nbsp; <i class=\"fa {{ registro_estado.pasaporte.icon }}\"></i></p> \r\n            <p>Logo &nbsp;&nbsp; <i class=\"fa {{ registro_estado.logo.icon }}\"></i></p>\r\n            <p>Aviso Operaciones &nbsp;&nbsp; <i class=\"fa {{ registro_estado.operaciones.icon }}\"></i></p>\r\n            <p>Idoneidad &nbsp;&nbsp; <i class=\"fa {{ registro_estado.idoneidad_file.icon }}\"></i></p>\r\n            <p>Recibo &nbsp;&nbsp; <i class=\"fa {{ registro_estado.recibo_servicio.icon }}\"></i></p>\r\n\r\n            <p>Contrato &nbsp;&nbsp; <i class=\"fa {{ registro_estado.contrato_aux.icon }}\"></i></p>\r\n            \r\n          </div>\r\n        </div>\r\n        \r\n        <br><br>\r\n        <hr>\r\n        <br><br>\r\n\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"row\">\r\n          \r\n            <div class=\"form-group\" class=\"col-3\"> \r\n              <label for=\"exampleInputNombre\">Nombre</label>\r\n              <input type=\"text\" class=\"form-control \" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n              <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n              </div>\r\n              <small *ngIf=\"registro_estado.nombre.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputEmail\">Email</label>\r\n              <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail\" placeholder=\"Email\" formControlName=\"email\">\r\n              <div *ngIf=\"myFormEditar.get('email').errors && myFormEditar.get('email').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('email').hasError('required')\">Email es requerido</p>\r\n              </div>\r\n              <small *ngIf=\"registro_estado.email.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Teléfono</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTelefono\" placeholder=\"Telefono\" formControlName=\"telefono\">\r\n              <div *ngIf=\"myFormEditar.get('telefono').errors && myFormEditar.get('telefono').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('telefono').hasError('required')\">Teléfono es requerido</p>\r\n              </div>\r\n              <small *ngIf=\"registro_estado.telefono.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Foto </label>\r\n              <small *ngIf=\"registro_estado.foto.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n              <br>\r\n              <img src=\"{{myFormEditar.value.foto}}\" alt=\"\" style=\"width: 250px; height: 250px; border-radius: 20px;\">\r\n                <input [hidden]=\"clear\" type=\"file\" name=\"imagen\" id=\"imagen\" (change)=\"onFileChange($event)\" #fileInput accept=\"image/*\">\r\n                  <div *ngIf=\"clear\">\r\n                    <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFile()\">Eliminar</button>\r\n                  </div>\r\n                  <p [hidden]=\"clear\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Documento de identidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"cedula\" placeholder=\"\" formControlName=\"cedula\">\r\n              <small *ngIf=\"registro_estado.cedula.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nacionalidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"nacionalidad\" placeholder=\"\" formControlName=\"nacionalidad\">\r\n              <small *ngIf=\"registro_estado.nacionalidad.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Dirección google</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion\" placeholder=\"\" formControlName=\"direccion\">{{myFormEditar.value.lat}}-{{myFormEditar.value.lng}}\r\n              <small *ngIf=\"registro_estado.direccion.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Dirección exacta</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion_exacta\" placeholder=\"\" formControlName=\"direccion_exacta\">\r\n              <small *ngIf=\"registro_estado.direccion_exacta.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n          </div>\r\n          <br>\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Sexo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"sexo\" placeholder=\"\" formControlName=\"sexo\">\r\n              <small *ngIf=\"registro_estado.sexo.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Fecha Nacimiento</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"fecha_nacimiento\" placeholder=\"\" formControlName=\"fecha_nacimiento\">\r\n              <small *ngIf=\"registro_estado.fecha_nacimiento.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Formación</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"formacion\" placeholder=\"\" formControlName=\"formacion\">\r\n              <small *ngIf=\"registro_estado.formacion.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Tipo de registro</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"tipo2\" placeholder=\"Tipo de registro\" formControlName=\"tipo2\">\r\n              <small *ngIf=\"registro_estado.tipo2.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Ruc</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputruc\" placeholder=\"ruc\" formControlName=\"ruc\">\r\n              <small *ngIf=\"registro_estado.ruc.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Email empresa</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputemail_empresa\" placeholder=\"email\" formControlName=\"email_empresa\">\r\n              <small *ngIf=\"registro_estado.email_empresa.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nombre contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputcontacto_nombre\" placeholder=\"\" formControlName=\"contacto_nombre\">\r\n              <small *ngIf=\"registro_estado.contacto_nombre.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>  \r\n          </div>\r\n          <br>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Urgencias</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"urgencias\" placeholder=\"\" formControlName=\"urgencias\">\r\n              <small *ngIf=\"registro_estado.urgencias.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Factura</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"factura\" placeholder=\"factura\" formControlName=\"factura\">\r\n              <small *ngIf=\"registro_estado.factura.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n          </div>\r\n          <br>  \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Cargo contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"contacto_cargo\" placeholder=\"\" formControlName=\"contacto_cargo\">\r\n              <small *ngIf=\"registro_estado.contacto_cargo.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Idoneidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"idoneidad\" placeholder=\"idoneidad\" formControlName=\"idoneidad\">\r\n              <small *ngIf=\"registro_estado.idoneidad.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>              \r\n          </div>\r\n          <br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Años experiencia</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"anos_experiencia\" placeholder=\"\" formControlName=\"anos_experiencia\">\r\n              <small *ngIf=\"registro_estado.anos_experiencia.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Experiencia</label>\r\n              <small *ngIf=\"registro_estado.experiencia2.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"experiencia\" placeholder=\"\" formControlName=\"experiencia\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.experiencia2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Idiomas</label>\r\n              <small *ngIf=\"registro_estado.idiomas2.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"idiomas\" placeholder=\"\" formControlName=\"idiomas\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.idiomas2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            \r\n            <nb-card-header>Disponibilidad</nb-card-header>\r\n              <br><br>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Lunes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_i\" placeholder=\"\" formControlName=\"lunes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"lunes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Martes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_f\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Miercoles:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_f\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Jueves:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_f\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Viernes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_f\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Sabado:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"sabado_i\" placeholder=\"\" formControlName=\"sabado_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"sabado_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Domingo:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_f\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n              </div>\r\n          </div>\r\n          \r\n          <!-- <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" *ngIf=\"refer\">\r\n            <nb-card-header>Referencias personales</nb-card-header>\r\n            <br><br>\r\n            <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre1}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono1}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion1}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto1}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo1}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre2}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono2}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion2}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto2}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo2}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre3}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono3}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion3}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto3}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo3}}<br>\r\n              <br>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Referencias comerciales</nb-card-header>\r\n            <br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre1}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono1}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion1}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto1}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo1}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre2}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono2}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion2}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto2}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo2}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre3}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono3}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion3}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto3}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo3}}<br>\r\n              <br>\r\n          </div> -->\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Documento de Indentidad</nb-card-header>\r\n            <small *ngIf=\"registro_estado.pasaporte.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            <br>\r\n            <img src=\"{{myFormEditar.value.pasaporte}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangePasaporte($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Logo</nb-card-header>\r\n            <small *ngIf=\"registro_estado.logo.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            <br>\r\n            <img src=\"{{myFormEditar.value.logo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearLogo\" type=\"file\" name=\"Logo\" id=\"Logo\" (change)=\"onFileChangeLogo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearLogo\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileLogo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearLogo\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Aviso Operaciones</nb-card-header>\r\n            <small *ngIf=\"registro_estado.operaciones.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            <br>\r\n            <img src=\"{{myFormEditar.value.operaciones}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearOperaciones\" type=\"file\" name=\"Operaciones\" id=\"Operaciones\" (change)=\"onFileChangeOperaciones($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearOperaciones\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileOperaciones()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearOperaciones\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Idoneidad</nb-card-header>\r\n            <small *ngIf=\"registro_estado.idoneidad_file.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            <br>\r\n            <img src=\"{{myFormEditar.value.idoneidad_file}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"Idoneidad_file\" id=\"Idoneidad_file\" (change)=\"onFileChangeIdoneidad_file($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileIdoneidad_file()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Recibo</nb-card-header>\r\n            <small *ngIf=\"registro_estado.recibo_servicio.estado == 0\" class=\"form-text\" style=\"color: #ffa100;\">Campo faltante</small>\r\n            <br>\r\n            <img src=\"{{myFormEditar.value.recibo_servicio}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearrecibo_servicio\" type=\"file\" name=\"recibo_servicio\" id=\"recibo_servicio\" (change)=\"onFileChangerecibo_servicio($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearrecibo_servicio\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilerecibo_servicio()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearrecibo_servicio\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" [hidden]=\"contrato==null\">\r\n            <label for=\"exampleInputTelefono\">Contrato:</label><br>\r\n            <a href=\"{{contrato}}\" target=\"_blank\">Ver contrato</a>\r\n          </div>\r\n          <div class=\"form-group\" [hidden]=\"contrato!=null\">\r\n            <label for=\"exampleInputTelefono\">Sin contrato...</label><br>\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"edit_contrato\">Editar contrato</button>\r\n          <div class=\"row\" [hidden]=\"!edit_contrato\">\r\n\r\n              <div class=\"col-1\">\r\n\r\n              </div>\r\n              <div class=\"col-10\">\r\n                <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"!edit_contrato\">Cerrar contrato</button>\r\n\r\n                <div *ngIf=\"pais==1\">\r\n                  \r\n                  <h3 style=\"text-align: center;\">\r\n                    CONTRATO\r\n                  </h3>\r\n                  <p style=\"text-align: justify;\">En la Colonia de Sacramento, el día <input type=\"text\" formControlName=\"contrato_fecha\"> entre <b>“Service24”</b>, y por la otra, <b><input type=\"text\" formControlName=\"contrato_nombre\"></b> de C.I <input type=\"text\" formControlName=\"contrato_ci\">  quien en lo sucesivo se denominará <b>“El Proveedor”</b>, se ha convenido en celebrar el presente contrato de conformidad con los términos y condiciones siguientes:\r\n                  </p>\r\n                  <p><b>A- OBJETO: “Service24”</b> es una aplicación (plataforma) que actúa como intermediario entre quién busca el producto o servicio, en este caso y en lo sucesivo denominado <b>“El Cliente”</b> y quiénes están registrados en ella para ofrecerlos, en este caso <b>“El Proveedor”</b>, quien solo se encargará de gestionar la logística entre las partes para que los trabajos se lleven a cabo. Por este contrato, quién se presenta en este momento <b>“El Proveedor”</b> solicita y adquiere el uso de la plataforma para ofrecer a través de ella sus productos/servicios de acuerdo a los términos y condiciones que se establecen a continuación.</p>\r\n                  <p><b>B- PRECIO: </b>A partir de la confirmación de esta solicitud, <b>“El Proveedor”</b> debe abonar las siguientes cantidades: </p>\r\n                  <p>I- La zona que se adopte una cuota mensual por el monto de <input type=\"text\" formControlName=\"contrato_costo\">.$u según el plan <b><input type=\"text\" formControlName=\"contrato_plan\"></b>.</p> \r\n                  \r\n\r\n                  <p><b>C- DERECHOS Y OBLIGACIONES:</b> 1- Este contrato se entiende celebrado Intuitu Personae, por lo tanto, ninguna de las partes podrá ceder o traspasar a terceros los derechos y obligaciones que de él se derivan. 2- <b>“El Proveedor”</b> es responsable a partir del momento en el que se coordina el servicio en realizar el trabajo y finalizarlo, cobrando por ese servicio lo que se acuerde entre él y <b>“El Cliente”</b>, estando <b>“Service24”</b> libre de toda responsabilidad contractual que haya podido adquirir con <b>“El Cliente”</b>.</p>\r\n\r\n                  <p><b>D- PLAZO:</b> El presente contrato tendrá una duración de <b>UN (1) AÑO FIJO</b>, contado a partir de la fecha de su aceptación y suscripción, prorrogable automáticamente por igual periodo o por otro, siempre que las partes acuerden su renovación por lo menos con treinta (30) días calendarios antes del vencimiento del plazo fijo o de cualquiera de sus prórrogas.</p>  \r\n\r\n                  <p><b>E- RESCISIÓN: </b>en caso de incumplimiento el presente contrato se rescindirá: 1- Cuando la calificación dada por <b>“El Cliente”</b> a <b>“El Proveedor”</b> en cuanto al servicio brindado se refiere, mediante la plataforma sea de 1 estrella, reiterándose esta situación tres veces y previo análisis de por parte de <b>“Service24”</b>. 2- Por dos (2) faltas cuándo ya se confirmó a <b>“El Cliente”</b> proveer el servicio, determinándose horario y demás condiciones previamente pactadas. Esta situación acarreará treinta (30) días de suspensión. Los retrasos en la llegada al domicilio de <b>“El Cliente”</b> o al lugar donde se ejecutará el servicio, excluyendo demoras por causa del tránsito o alguna urgencia imprevista (las cuales ya están calculadas en un margen aproximado) se computarán como media falta. Posteriormente a esta situación y registrándose dos (2) retrasos más o una falta, este contrato quedará rescindido de pleno derecho. 3- Por abuso, agresión o cualquier situación de violencia que se registre hacia <b>“El Cliente”</b> desde el momento en el que se coordina el servicio y hasta la finalización del mismo. 4- Por la sola voluntad de las partes en dar por terminado el servicio.</p>\r\n\r\n                  <p><b>F- GARANTÍA DEL SERVICIO: </b>A partir del momento en que <b>“El Cliente</b> y <b>“El Proveedor”</b> coordinan el servicio, <b>“Service24”</b> no se hace responsable por negligencia en los trabajos realizados, por caso fortuito o fuerza mayor. <b>“Service24”</b> no brinda ningún tipo de garantía a clientes sobre los trabajos realizados por <b>“El Proveedor”</b> del producto o servicio a través del contacto por la plataforma o de ninguna otra forma posible, ya que <b>“Service24”</b> solo se encarga de gestionar la logística entre las partes como se mencionó en la cláusula A de este contrato. Tampoco garantiza que los pedidos se lleven a cabo en tiempo y forma acordada, esto es únicamente responsabilidad de <b>“El Proveedor”</b>.</p>\r\n\r\n                  <p><b>G- PRIVACIDAD:</b> 1- <b>“Service24”</b> garantiza que la información personal que se envía, cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos, no serán entregados a terceros, salvo: I- los que se muestran a <b>“El Cliente”</b> cuando le es confirmado el producto o servicio, los cuales son proveídos para mayor seguridad del solicitante; II- que la información deba ser revelada en cumplimiento a una orden judicial o requerimientos legales. 2- La suscripción a boletines de correos electrónicos publicitarios es voluntaria y podrá ser seleccionada al momento de crear la cuenta del usuario. <b>“Service24”</b> se reserva el derecho de cambiar o modificar estos términos sin previo aviso.</p> \r\n\r\n                  <p><b>H- AUTENTICIDAD DEL CONTRATO:</b> El presente documento constituye el acuerdo entre las partes en relación con su objeto y deja sin efecto cualquier otra negociación, obligación o comunicación entre éstas, ya sea verbal o escrita, efectuada con anterioridad.  Las partes podrán, en el momento que lo deseen, modificar, por escrito, los términos y condiciones establecidos en el presente instrumento, previo consentimiento de los contratantes, debiéndose agregar a este documento, como parte integrante del mismo. Dichas modificaciones obligarán a los signatarios a partir de la fecha de su firma.</p> \r\n\r\n                  <p><b>I- LEY APLICABLE:</b> Las partes acuerdan expresamente someterse a lo dispuesto en el Código Civil, y demás leyes vigentes que sean aplicables en relación a la materia, para todo lo no previsto por aquéllas en el presente documento.</p>\r\n\r\n                  <p><b>J- NOTIFICACIONES:</b> Toda notificación en virtud de este convenio preliminar podrá realizarse vía fax, telefax o correo certificado, a las direcciones físicas de las partes mencionadas a continuación:</p>\r\n\r\n                  <p><b>“Servicio 24”</b>:  Colonia de Sacramento y 59891960115.</p>\r\n\r\n                  <p><b>“EL Proveedor”</b>: Dirección: <input formControlName=\"direccion\">, Teléfono: <input formControlName=\"telefono\"></p>\r\n\r\n                  <p><b>K- ARBITRAJE:</b> Cualquiera controversia que surja por razón de interpretación, ejecución o incumplimiento del presente contrato, será resuelta entre las partes. En caso de que las partes no logren llegar a un acuerdo, entonces se resolverá mediante arbitraje en Derecho ante el Centro de Conciliación y Arbitraje de la Cámara de Comercio, Industrias y Agricultura de la Colonia de Sacramento, de conformidad con sus normas y reglamentos de procedimiento. Para estos efectos, cada parte designará a un árbitro y éstos, a su vez, designarán a un tercero, quienes conformarán el Tribunal Arbitral. La decisión adoptada por dicho tribunal será final, definitiva y de obligatorio cumplimiento para las partes, por lo que la misma no podrá ser impugnada ante los tribunales de justicia. La parte vencida pagará los costos, gastos y honorarios incurridos en el proceso arbitral. El arbitraje se conducirá en idioma castellano.</p>\r\n\r\n                  <p><b>L- DOMICILIO:</b> Las partes contratantes eligen como domicilio especial a la ciudad de Colonia de Sacramento para todos los efectos, derivados y consecuencias de este contrato. En Colonia de Sacramento, a los '.$fecha.'</p>\r\n                  <div align=\"center\">\r\n                    <img src=\"{{objAEditar.firma}}\" alt=\"\" style=\"width: 250px\">\r\n                    <div style=\"border-bottom: 1px solid #000;margin-bottom: 10px;width: 400px\"></div>\r\n                    <p >{{myFormEditar.value.contrato_nombre}}</p>\r\n                    <p >C.I. No. {{myFormEditar.value.contrato_ci}}</p>\r\n                  </div>\r\n                </div>\r\n                <div *ngIf=\"pais==2\">\r\n                  \r\n                  <h3 style=\"text-align: center;\">\r\n                    CONTRATO\r\n                  </h3>\r\n                  <p style=\"text-align: justify;\">En la Ciudad de Panamá, el día <input type=\"text\" formControlName=\"contrato_fecha\"> entre <b>“Service24 S.A.”</b>sociedad anónima debidamente representada para este acto por Michael Alexander Armas Alvarez, varon, venezolano, portadora de la cédula de identidad personal Nº E-8-128773, con domicilio en: Costa Sur, Corregimiento Juan Diaz, Panamá, República de Panamápor una parte, quien en lo adelante se denominará “Service24 Panamá”, y por la otra, <b><input type=\"text\" formControlName=\"contrato_nombre\"></b> de C.I <input type=\"text\" formControlName=\"contrato_ci\">  quien en lo sucesivo se denominará <b>“El Proveedor”</b>, se ha convenido en celebrar el presente contrato de conformidad con los términos y condiciones siguientes:\r\n                  </p>\r\n                  <p><b>A- OBJETO: “Service24”</b> es una aplicación (plataforma) que actúa como intermediario entre quién busca el producto o servicio, en este caso y en lo sucesivo denominado <b>“El Cliente”</b> y quiénes están registrados en ella para ofrecerlos, en este caso <b>“El Proveedor”</b>, quien solo se encargará de gestionar la logística entre las partes para que los trabajos se lleven a cabo. Por este contrato, quién se presenta en este momento <b>“El Proveedor”</b> solicita y adquiere el uso de la plataforma para ofrecer a través de ella sus productos/servicios de acuerdo a los términos y condiciones que se establecen a continuación.</p>\r\n                  <p><b>B- PRECIO: </b>A partir de la confirmación de esta solicitud, <b>“El Proveedor”</b> debe abonar las siguientes cantidades: </p>\r\n                  <p>I- La zona que se adopte una cuota mensual por el monto de <input type=\"text\" formControlName=\"contrato_costo\">.$ según el plan <b><input type=\"text\" formControlName=\"contrato_plan\"></b>. Monto total debe ser depositado en la cuenta de Service 24 PanamáBanco GeneralNro04-69-98-099966-0.</p> \r\n                  \r\n\r\n                  <p><b>C- DERECHOS Y OBLIGACIONES:</b> 1- Este contrato se entiende celebrado Intuitu Personae, por lo tanto, ninguna de las partes podrá ceder o traspasar a terceros los derechos y obligaciones que de él se derivan. 2- <b>“El Proveedor”</b> es responsable a partir del momento en el que se coordina el servicio en realizar el trabajo y finalizarlo, cobrando por ese servicio lo que se acuerde entre él y <b>“El Cliente”</b>, estando <b>“Service24”</b> libre de toda responsabilidad contractual que haya podido adquirir con <b>“El Cliente”</b>.</p>\r\n\r\n                  <p><b>D- PLAZO:</b> El presente contrato tendrá una duración de <b>UN (1) AÑO FIJO</b>, contado a partir de la fecha de su aceptación y suscripción, prorrogable automáticamente por igual periodo o por otro, siempre que las partes acuerden su renovación por lo menos con treinta (30) días calendarios antes del vencimiento del plazo fijo o de cualquiera de sus prórrogas.</p>  \r\n\r\n                  <p><b>E- RESCISIÓN: </b>en caso de incumplimiento el presente contrato se rescindirá: 1- Cuando la calificación dada por <b>“El Cliente”</b> a <b>“El Proveedor”</b> en cuanto al servicio brindado se refiere, mediante la plataforma sea de 1 estrella, reiterándose esta situación tres veces y previo análisis de por parte de <b>“Service24”</b>. 2- Por dos (2) faltas cuándo ya se confirmó a <b>“El Cliente”</b> proveer el servicio, determinándose horario y demás condiciones previamente pactadas. Esta situación acarreará treinta (30) días de suspensión. Los retrasos en la llegada al domicilio de <b>“El Cliente”</b> o al lugar donde se ejecutará el servicio, excluyendo demoras por causa del tránsito o alguna urgencia imprevista (las cuales ya están calculadas en un margen aproximado) se computarán como media falta. Posteriormente a esta situación y registrándose dos (2) retrasos más o una falta, este contrato quedará rescindido de pleno derecho. 3- Por abuso, agresión o cualquier situación de violencia que se registre hacia <b>“El Cliente”</b> desde el momento en el que se coordina el servicio y hasta la finalización del mismo. 4- Por la sola voluntad de las partes en dar por terminado el servicio.</p>\r\n\r\n                  <p><b>F- GARANTÍA DEL SERVICIO: </b>A partir del momento en que <b>“El Cliente</b> y <b>“El Proveedor”</b> coordinan el servicio, <b>“Service24”</b> no se hace responsable por negligencia en los trabajos realizados, por caso fortuito o fuerza mayor. <b>“Service24”</b> no brinda ningún tipo de garantía a clientes sobre los trabajos realizados por <b>“El Proveedor”</b> del producto o servicio a través del contacto por la plataforma o de ninguna otra forma posible, ya que <b>“Service24”</b> solo se encarga de gestionar la logística entre las partes como se mencionó en la cláusula A de este contrato. Tampoco garantiza que los pedidos se lleven a cabo en tiempo y forma acordada, esto es únicamente responsabilidad de <b>“El Proveedor”</b>.</p>\r\n\r\n                  <p><b>G- PRIVACIDAD:</b> 1- <b>“Service24”</b> garantiza que la información personal que se envía, cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos, no serán entregados a terceros, salvo: I- los que se muestran a <b>“El Cliente”</b> cuando le es confirmado el producto o servicio, los cuales son proveídos para mayor seguridad del solicitante; II- que la información deba ser revelada en cumplimiento a una orden judicial o requerimientos legales. 2- La suscripción a boletines de correos electrónicos publicitarios es voluntaria y podrá ser seleccionada al momento de crear la cuenta del usuario. <b>“Service24”</b> se reserva el derecho de cambiar o modificar estos términos sin previo aviso.</p> \r\n\r\n                  <p><b>H- AUTENTICIDAD DEL CONTRATO:</b> El presente documento constituye el acuerdo entre las partes en relación con su objeto y deja sin efecto cualquier otra negociación, obligación o comunicación entre éstas, ya sea verbal o escrita, efectuada con anterioridad.  Las partes podrán, en el momento que lo deseen, modificar, por escrito, los términos y condiciones establecidos en el presente instrumento, previo consentimiento de los contratantes, debiéndose agregar a este documento, como parte integrante del mismo. Dichas modificaciones obligarán a los signatarios a partir de la fecha de su firma.</p> \r\n\r\n                  <p><b>I- LEY APLICABLE:</b> Las partes acuerdan expresamente someterse a lo dispuesto en el Código Civil, y demás leyes vigentes que sean aplicables en relación a la materia, para todo lo no previsto por aquéllas en el presente documento.</p>\r\n\r\n                  <p><b>J- NOTIFICACIONES:</b> Toda notificación en virtud de este convenio preliminar podrá realizarse vía fax, telefax o correo certificado, a las direcciones físicas de las partes mencionadas a continuación:</p>\r\n\r\n                  <p><b>“Servicio 24”</b>:  Ciudad de Panamá y 50760708072.</p>\r\n\r\n                  <p><b>“EL Proveedor”</b>: Dirección: <input formControlName=\"direccion\">, Teléfono: <input formControlName=\"telefono\"></p>\r\n\r\n                  <p><b>K- ARBITRAJE:</b> Cualquiera controversia que surja por razón de interpretación, ejecución o incumplimiento del presente contrato, será resuelta entre las partes. En caso de que las partes no logren llegar a un acuerdo, entonces se resolverá mediante arbitraje en Derecho ante el Centro de Conciliación y Arbitraje de la Cámara de Comercio, Industrias y Agricultura de la Colonia de Sacramento, de conformidad con sus normas y reglamentos de procedimiento. Para estos efectos, cada parte designará a un árbitro y éstos, a su vez, designarán a un tercero, quienes conformarán el Tribunal Arbitral. La decisión adoptada por dicho tribunal será final, definitiva y de obligatorio cumplimiento para las partes, por lo que la misma no podrá ser impugnada ante los tribunales de justicia. La parte vencida pagará los costos, gastos y honorarios incurridos en el proceso arbitral. El arbitraje se conducirá en idioma castellano.</p>\r\n\r\n                  <p><b>L- DOMICILIO:</b> Las partes contratantes eligen como domicilio especial a la ciudad de Colonia de Sacramento para todos los efectos, derivados y consecuencias de este contrato. En Colonia de Sacramento, a los '.$fecha.'</p>\r\n                  <div align=\"center\">\r\n                    <img src=\"{{objAEditar.firma}}\" alt=\"\" style=\"width: 250px\">\r\n                    <div style=\"border-bottom: 1px solid #000;margin-bottom: 10px;width: 400px\"></div>\r\n                    <p >{{myFormEditar.value.contrato_nombre}}</p>\r\n                    <p >C.I. No. {{myFormEditar.value.contrato_ci}}</p>\r\n                  </div>\r\n                </div>\r\n              </div> \r\n\r\n              <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"!edit_contrato\">Cerrar contrato</button>-----\r\n              <button class=\"btn btn-warning\" (click)=\"editar_contrato()\" [hidden]=\"!edit_contrato\">Editar contrato</button>\r\n              <div class=\"col-1\">\r\n\r\n              </div>                       \r\n          </div>                                          \r\n\r\n          <br><br>\r\n          <nb-card-header>Servicios del Proveedor</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n               <th style=\"text-align: center;\">Nombre</th>\r\n               <th style=\"text-align: center;\">Categoaria</th>\r\n               <th style=\"text-align: center;\">Descripción</th>\r\n               <th style=\"text-align: center;\">Zona</th>\r\n               <th style=\"text-align: center;\">Imagenes</th>\r\n               <th style=\"text-align: center;\">Habilitar</th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.establecimiento.productos\" >\r\n                <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\" style=\"border-radius: 20px;\"></td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.subcategoria.categoria.catprincipales.nombre}}-{{item.subcategoria.categoria.nombre}}-{{item.subcategoria.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.descripcion}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\"><div *ngFor=\"let zonas of item.zonas2\"> {{zonas.nombre}}, </div></td>\r\n                  <td style=\"text-align: center; vertical-align: middle;\"  style=\"display: flex;\">\r\n                    <div *ngFor=\"let fotos of item.fotos; let i = index\">\r\n                      <a href=\"{{fotos.url}}\" target=\"_blank\">\r\n                        <img src=\"{{fotos.url}}\" alt=\"\" style=\"width: 60px; height: 60px\">\r\n                      </a>\r\n                      <button type=\"button\" class=\"btn btn-secundary  btn-table\" (click)=\"borrarfoto(item.id,item.fotos,i)\">x</button>\r\n                    </div>\r\n                  </td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">\r\n                    <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado2(item)\"></nb-checkbox>\r\n                    <!--button type=\"button\" class=\"btn btn-secundary  btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado!='ON'\">Hablitar{{item.estado}}\r\n                   </button>\r\n                   <button type=\"button\" class=\"btn btn-danger btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado=='ON'\">Deshabilitar\r\n                   </button-->\r\n                  </td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          <br><br>\r\n          <nb-card-header>Calificaciones</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">ID</th>\r\n               <th style=\"text-align: center;\">Servicio</th>\r\n               <th style=\"text-align: center;\">Promedio de Califi.</th>\r\n               <th style=\"text-align: center;\">Comentario</th>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.calificaciones\" >\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.id}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.producto.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">\r\n                    <div>\r\n                      <ngb-rating [(rate)]=\"item.puntaje\" max=5>\r\n                        <ng-template let-fill=\"fill\">\r\n                          <span class=\"star fill\" [class.filled]=\"fill === 100\">\r\n                            <i class=\"ion-android-star\" *ngIf=\"fill === 100\"></i>\r\n                            <i class=\"ion-android-star-outline\" *ngIf=\"fill !== 100\"></i>\r\n                          </span>\r\n                        </ng-template>\r\n                      </ngb-rating>\r\n                      <span class=\"current-rate\">{{item.puntaje}}</span>\r\n                    </div>\r\n                  </td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.comentario}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\"></td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" >Actualizar datos</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Eliminar Socio: </h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <p>¿Realmente desea eliminar el socio {{eliminar_nombre}}?</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Cancelar</button>\r\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\">Eliminar</button>\r\n  </div>\r\n</ng-template>\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This is a starting point where we declare the maps of themes and globally available functions/mixins\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n:host-context(.nb-theme-default) nb-tabset {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n:host-context(.nb-theme-default) nb-tab {\n  padding: 1.25rem;\n  width: 100%; }\n\n:host-context(.nb-theme-default) /deep/ ngx-tab1, :host-context(.nb-theme-default) /deep/ ngx-tab2 {\n  display: block;\n  padding: 1.25rem;\n  width: 50%; }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-default) nb-tabset /deep/ ul {\n    font-size: 1rem;\n    padding: 0 0.25rem; } }\n\n:host-context(.nb-theme-default) .estado {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 50%; }\n\n:host-context(.nb-theme-default) .btn-table {\n  display: inline-block; }\n\n:host-context(.nb-theme-default) .img-table {\n  border-radius: 4px;\n  -o-object-fit: cover;\n     object-fit: cover; }\n\n:host-context(.nb-theme-default) .theme-switch {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  margin: 0; }\n  :host-context(.nb-theme-default) .theme-switch > span {\n    font-size: 1rem;\n    font-weight: 600;\n    transition: opacity 0.3s ease; }\n    :host-context(.nb-theme-default) .theme-switch > span.light {\n      color: #4b4b4b;\n      padding-right: 5px; }\n    :host-context(.nb-theme-default) .theme-switch > span.cosmic {\n      color: #a4abb3;\n      padding-left: 5px; }\n    :host-context(.nb-theme-default) .theme-switch > span:active {\n      opacity: 0.78; }\n\n:host-context(.nb-theme-default) .switch {\n  position: relative;\n  display: inline-block;\n  width: 4rem;\n  height: 1.75rem;\n  margin: 0; }\n  :host-context(.nb-theme-default) .switch input {\n    display: none; }\n    :host-context(.nb-theme-default) .switch input:checked + .slider::before {\n      -webkit-transform: translateX(2.25rem);\n              transform: translateX(2.25rem); }\n  :host-context(.nb-theme-default) .switch .slider {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    border-radius: 1.75rem;\n    background-color: #ebeff5; }\n  :host-context(.nb-theme-default) .switch .slider::before {\n    position: absolute;\n    content: '';\n    height: 1.75rem;\n    width: 1.75rem;\n    border-radius: 50%;\n    background-color: #0b417a;\n    transition: 0.2s;\n    box-shadow: 0 0 0.25rem 0 rgba(164, 171, 179, 0.4); }\n\n@media (max-width: 575px) {\n  :host-context(.nb-theme-default) .light, :host-context(.nb-theme-default) .cosmic {\n    display: none; } }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-default) {\n    -webkit-box-align: end;\n        -ms-flex-align: end;\n            align-items: flex-end; } }\n\n:host-context(.nb-theme-cosmic) nb-tabset {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n:host-context(.nb-theme-cosmic) nb-tab {\n  padding: 1.25rem;\n  width: 100%; }\n\n:host-context(.nb-theme-cosmic) /deep/ ngx-tab1, :host-context(.nb-theme-cosmic) /deep/ ngx-tab2 {\n  display: block;\n  padding: 1.25rem;\n  width: 50%; }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-cosmic) nb-tabset /deep/ ul {\n    font-size: 1rem;\n    padding: 0 0.25rem; } }\n\n:host-context(.nb-theme-cosmic) .estado {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 50%; }\n\n:host-context(.nb-theme-cosmic) .btn-table {\n  display: inline-block; }\n\n:host-context(.nb-theme-cosmic) .img-table {\n  border-radius: 4px;\n  -o-object-fit: cover;\n     object-fit: cover; }\n\n:host-context(.nb-theme-cosmic) .theme-switch {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  margin: 0; }\n  :host-context(.nb-theme-cosmic) .theme-switch > span {\n    font-size: 1rem;\n    font-weight: 600;\n    transition: opacity 0.3s ease; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.light {\n      color: #d1d1ff;\n      padding-right: 5px; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.cosmic {\n      color: #76f8f6;\n      padding-left: 5px; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.light {\n      color: #76f8f6; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.cosmic {\n      color: #ffffff; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span:active {\n      opacity: 0.78; }\n\n:host-context(.nb-theme-cosmic) .switch {\n  position: relative;\n  display: inline-block;\n  width: 4rem;\n  height: 1.75rem;\n  margin: 0; }\n  :host-context(.nb-theme-cosmic) .switch input {\n    display: none; }\n    :host-context(.nb-theme-cosmic) .switch input:checked + .slider::before {\n      -webkit-transform: translateX(2.25rem);\n              transform: translateX(2.25rem); }\n  :host-context(.nb-theme-cosmic) .switch .slider {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    border-radius: 1.75rem;\n    background-color: #2f296b; }\n  :host-context(.nb-theme-cosmic) .switch .slider::before {\n    position: absolute;\n    content: '';\n    height: 1.75rem;\n    width: 1.75rem;\n    border-radius: 50%;\n    background-color: #0b417a;\n    transition: 0.2s;\n    box-shadow: 0 0 0.25rem 0 rgba(118, 248, 246, 0.4);\n    background-image: linear-gradient(to right, #0b1c7a, #0b417a); }\n\n@media (max-width: 575px) {\n  :host-context(.nb-theme-cosmic) .light, :host-context(.nb-theme-cosmic) .cosmic {\n    display: none; } }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-cosmic) {\n    -webkit-box-align: end;\n        -ms-flex-align: end;\n            align-items: flex-end; } }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SociosIncompletosComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__ = __webpack_require__("../../../../../src/app/services/ruta-base/ruta-base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__ = __webpack_require__("../../../../style-loader/index.js!../../../../angular2-toaster/toaster.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/header-to-pedidos-event-service/header-to-pedidos-event.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_header_service_header_service__ = __webpack_require__("../../../../../src/app/services/header-service/header.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+//Mis imports
+
+
+
+
+
+
+
+
+
+
+var SociosIncompletosComponent = /** @class */ (function () {
+    function SociosIncompletosComponent(modalService, toasterService, http, router, route, rutaService, fb, headerToPedidosEventService, headerService) {
+        var _this = this;
+        this.modalService = modalService;
+        this.toasterService = toasterService;
+        this.http = http;
+        this.router = router;
+        this.route = route;
+        this.rutaService = rutaService;
+        this.fb = fb;
+        this.headerToPedidosEventService = headerToPedidosEventService;
+        this.headerService = headerService;
+        this.position = 'toast-top-right';
+        this.animationType = 'fade';
+        this.title = 'HI there!';
+        this.content = "I'm cool toaster!";
+        this.timeout = 5000;
+        this.toastsLimit = 5;
+        this.type = 'default'; // 'default', 'info', 'success', 'warning', 'error'
+        this.isNewestOnTop = true;
+        this.isHideOnClick = true;
+        this.isDuplicatesPrevented = false;
+        this.isCloseButton = true;
+        this.loading = false;
+        this.editando = false;
+        this.agregando = false;
+        this.mostrar = true;
+        this.admin = false;
+        this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+        this.pais = localStorage.getItem('mouvers_pais');
+        this.edit_contrato = false;
+        this.id_operacion = "";
+        this.registro_estado = {
+            nombre: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            email: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            telefono: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            ciudad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            estado: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            tipo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            tipo2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            ruc: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            latitud: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            longitud: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            email_empresa: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contacto_nombre: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contacto_cedula: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contacto_cargo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            logo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            cedula: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            nacionalidad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            direccion: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            direccion_exacta: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            fecha_nacimiento: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            formacion: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            experiencia: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            experiencia2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            anos_experiencia: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idoneidad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            disponibilidad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            disponibilidad2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idiomas: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idiomas2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            urgencias: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            factura: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias12: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias22: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            operaciones: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            foto: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            pasaporte: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idoneidad_file: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            estado2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            sexo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lunes_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lunes_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            martes_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            martes_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            miercoles_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            miercoles_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            jueves_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            jueves_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            viernes_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            viernes_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            sabado_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            sabado_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            domingo_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            domingo_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lat: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lng: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_nombre: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_ci: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_fecha: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_costo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_plan: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_plan2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            fotos: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            recibo_servicio: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_aux: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+        };
+        this.registro_estado_aux = {
+            nombre: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            email: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            telefono: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            ciudad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            estado: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            tipo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            tipo2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            ruc: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            latitud: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            longitud: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            email_empresa: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contacto_nombre: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contacto_cedula: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contacto_cargo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            logo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            cedula: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            nacionalidad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            direccion: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            direccion_exacta: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            fecha_nacimiento: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            formacion: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            experiencia: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            experiencia2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            anos_experiencia: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idoneidad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            disponibilidad: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            disponibilidad2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idiomas: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idiomas2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            urgencias: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            factura: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias12: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            referencias22: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            operaciones: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            foto: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            pasaporte: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            idoneidad_file: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            estado2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            sexo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lunes_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lunes_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            martes_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            martes_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            miercoles_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            miercoles_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            jueves_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            jueves_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            viernes_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            viernes_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            sabado_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            sabado_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            domingo_i: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            domingo_f: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lat: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            lng: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_nombre: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_ci: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_fecha: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_costo: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_plan: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_plan2: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            fotos: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            recibo_servicio: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+            contrato_aux: {
+                estado: 0,
+                icon: 'ion-alert-circled',
+                color: '#ffa100',
+            },
+        };
+        this.establecimiento_id = 0;
+        this.refer = true;
+        this.clear = false; //puedo borrar?
+        this.fileIMG = null;
+        this.imgUpload = null;
+        this.loadinImg = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //Logo
+        //----------------------------------------------------------------------------------------------
+        //@ViewChild('fileInput') fileInput: ElementRef;
+        this.clearLogo = false; //puedo borrar?
+        this.fileIMGLogo = null;
+        this.imgUploadLogo = null;
+        this.loadinImgLogo = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        // @ViewChild('fileInput') fileInput: ElementRef;
+        this.clearPasaporte = false; //puedo borrar?
+        this.fileIMGPasaporte = null;
+        this.imgUploadPasaporte = null;
+        this.loadinImgPasaporte = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        // operaciones Operaciones
+        //@ViewChild('fileInput') fileInput: ElementRef;
+        this.clearOperaciones = false; //puedo borrar?
+        this.fileIMGOperaciones = null;
+        this.imgUploadOperaciones = null;
+        this.loadinImgOperaciones = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        // idoneidad_file Idoneidad_file
+        //@ViewChild('fileInput') fileInput: ElementRef;
+        this.clearIdoneidad_file = false; //puedo borrar?
+        this.fileIMGIdoneidad_file = null;
+        this.imgUploadIdoneidad_file = null;
+        this.loadinImgIdoneidad_file = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        // idoneidad_file Idoneidad_file
+        //@ViewChild('fileInput') fileInput: ElementRef;
+        this.clearrecibo_servicio = false; //puedo borrar?
+        this.fileIMGrecibo_servicio = null;
+        this.imgUploadrecibo_servicio = null;
+        this.loadinImgrecibo_servicio = false;
+        this.pagesA = 4;
+        this.pageSizeA = 5;
+        this.pageNumberA = 0;
+        this.currentIndexA = 1;
+        this.pageStartA = 1;
+        this.inputNameA = '';
+        this.pages = 4;
+        this.pageSize = 5;
+        this.pageNumber = 0;
+        this.currentIndex = 1;
+        this.pageStart = 1;
+        this.inputName = '';
+        //Detectar evento cargar pedido de notificacion entrante
+        this.headerToPedidosEventService.headerToPedidosData.subscribe(function (data) {
+            console.log(data);
+            _this.id_operacion = data;
+            _this.id_operacion = _this.id_operacion.usuario_id;
+            console.log(_this.id_operacion);
+            localStorage.setItem('id_operacion', _this.id_operacion);
+            setTimeout(function () {
+                localStorage.setItem('id_operacion', "");
+            }, 49600);
+        });
+        this.myFormEditar = this.fb.group({
+            id: [''],
+            usuario_id: [''],
+            nombre: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            email: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            telefono: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            ciudad: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            estado: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            tipo: [''],
+            tipo2: [''],
+            ruc: [''],
+            latitud: [''],
+            longitud: [''],
+            email_empresa: [''],
+            contacto_nombre: [''],
+            contacto_cedula: [''],
+            contacto_cargo: [''],
+            logo: [''],
+            cedula: [''],
+            nacionalidad: [''],
+            direccion: [''],
+            direccion_exacta: [''],
+            fecha_nacimiento: [''],
+            formacion: [''],
+            experiencia: [''],
+            experiencia2: [''],
+            anos_experiencia: [''],
+            idoneidad: [''],
+            disponibilidad: [''],
+            disponibilidad2: [''],
+            idiomas: [''],
+            idiomas2: [''],
+            urgencias: [''],
+            factura: [''],
+            referencias: [''],
+            referencias2: [''],
+            referencias12: [''],
+            referencias22: [''],
+            operaciones: [''],
+            foto: [''],
+            pasaporte: [''],
+            idoneidad_file: [''],
+            estado2: [''],
+            sexo: [''],
+            contrato: [''],
+            lunes_i: [''],
+            lunes_f: [''],
+            martes_i: [''],
+            martes_f: [''],
+            miercoles_i: [''],
+            miercoles_f: [''],
+            jueves_i: [''],
+            jueves_f: [''],
+            viernes_i: [''],
+            viernes_f: [''],
+            sabado_i: [''],
+            sabado_f: [''],
+            domingo_i: [''],
+            domingo_f: [''],
+            lat: [''],
+            lng: [''],
+            contrato_nombre: [''],
+            contrato_ci: [''],
+            contrato_fecha: [''],
+            contrato_costo: [''],
+            contrato_plan: [''],
+            contrato_plan2: [''],
+            fotos: [''],
+            recibo_servicio: [''],
+        });
+    }
+    SociosIncompletosComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+        }
+        else {
+            localStorage.removeItem('mouvers_token');
+            localStorage.removeItem('mouvers_user_id');
+            localStorage.removeItem('mouvers_user_nombre');
+            localStorage.removeItem('mouvers_user_tipo');
+            localStorage.removeItem('mouvers_establecimiento_id');
+            this.router.navigateByUrl('/pagessimples/loginf');
+        }
+        this.loading = true;
+        this.http.get(this.rutaService.getRutaApi() + 'repartidores/estado/registro?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
+            .toPromise()
+            .then(function (data) {
+            //this.getEstados();
+            console.log(data);
+            _this.data = data;
+            _this.productListA = _this.data.repartidoresA;
+            _this.productList = _this.data.repartidoresB;
+            //Cambiar el formato de la fecha y hora
+            var dia;
+            var mes;
+            var anio;
+            var fecha;
+            var hora;
+            var minutos;
+            var segundos;
+            for (var i = 0; i < _this.productListA.length; ++i) {
+                //console.log(this.productListA[i].usuario.registro);
+                if (_this.productListA[i].usuario.tipo_usuario == 2) {
+                    _this.productListA[i].tipo2 = 'Empresa';
+                }
+                else if (_this.productListA[i].usuario.tipo_usuario == 1) {
+                    _this.productListA[i].tipo2 = 'Individuo';
+                }
+                fecha = new Date(_this.productListA[i].usuario.created_at);
+                dia = fecha.getDate();
+                mes = fecha.getMonth() + 1;
+                anio = fecha.getFullYear();
+                hora = fecha.getHours();
+                minutos = fecha.getMinutes();
+                segundos = fecha.getSeconds();
+                _this.productListA[i].usuario.fecha = dia + '/' + mes + '/' + anio;
+                //this.productListA[i].usuario.horaAux = hora+':'+minutos+':'+segundos;
+            }
+            _this.productListA = _this.productListA.sort(function (a, b) { return b.enfinalizados - a.enfinalizados; });
+            _this.filteredItemsA = _this.productListA;
+            //console.log(this.productList);
+            _this.initA();
+            for (var i = 0; i < _this.productList.length; ++i) {
+                //console.log(this.productList[i].usuario.registro);
+                if (_this.productList[i].usuario.registro.tipo == 2) {
+                    _this.productList[i].tipo2 = 'Empresa';
+                }
+                else if (_this.productList[i].usuario.registro.tipo == 1) {
+                    _this.productList[i].tipo2 = 'Individuo';
+                }
+                fecha = new Date(_this.productList[i].usuario.created_at);
+                dia = fecha.getDate();
+                mes = fecha.getMonth() + 1;
+                anio = fecha.getFullYear();
+                hora = fecha.getHours();
+                minutos = fecha.getMinutes();
+                segundos = fecha.getSeconds();
+                _this.productList[i].usuario.fecha = dia + '/' + mes + '/' + anio;
+                //this.productList[i].usuario.horaAux = hora+':'+minutos+':'+segundos;
+            }
+            _this.productList = _this.productList.sort(function (a, b) { return b.enfinalizados - a.enfinalizados; });
+            _this.filteredItems = _this.productList;
+            _this.datos = _this.productList;
+            //console.log(this.productList);
+            _this.init();
+            _this.loading = false;
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                _this.showToast('warning', 'Warning!', msg.error.error);
+                _this.mostrar = false;
+                setTimeout(function () {
+                    _this.router.navigateByUrl('/pagessimples/loginf');
+                }, 1000);
+            }
+            else if (msg.status == 404) {
+                //alert(msg.error.error);
+                _this.showToast('info', 'Info!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.buscar_id_operacion = function () {
+        var _this = this;
+        console.log('buscar_id_operacion');
+        console.log(localStorage.getItem('id_operacion'));
+        var id_operacion = localStorage.getItem('id_operacion');
+        if (id_operacion != "") {
+            var prod = this.datos;
+            console.log(prod);
+            for (var i = 0; i < prod.length; i++) {
+                if (id_operacion == prod[i].usuario_id) {
+                    console.log(prod[i]);
+                    var selec = prod[i];
+                    setTimeout(function () {
+                        console.log(selec);
+                        _this.aEditar(selec);
+                    }, 1000);
+                }
+            }
+        }
+    };
+    //Redirigir al chat
+    SociosIncompletosComponent.prototype.chat = function (repartidor) {
+        console.log(repartidor);
+        if (repartidor.usuario.chat_repartidor) {
+            localStorage.setItem('mouvers_chat_id', repartidor.usuario.chat_repartidor.id);
+        }
+        else {
+            localStorage.setItem('mouvers_chat_id', '');
+        }
+        localStorage.setItem('mouvers_usuario_id', repartidor.usuario.id);
+        localStorage.setItem('mouvers_usuario_tipo', repartidor.usuario.tipo_usuario);
+        localStorage.setItem('mouvers_usuario_nombre', repartidor.usuario.nombre);
+        localStorage.setItem('mouvers_usuario_imagen', repartidor.usuario.imagen);
+        localStorage.setItem('mouvers_usuario_token_notifi', repartidor.usuario.token_notificacion);
+        this.router.navigateByUrl('/pages/chat-box');
+    };
+    SociosIncompletosComponent.prototype.getEstados = function () {
+        var _this = this;
+        this.http.get(this.rutaService.getRutaApi() + 'entidades/municipios?token=' + localStorage.getItem('mouvers_token'))
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.estados = _this.data.entidades;
+        }, function (msg) {
+            //console.log(msg);
+            console.log(msg.error.error);
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+                setTimeout(function () {
+                    _this.router.navigateByUrl('/pagessimples/loginf');
+                }, 1000);
+            }
+            else if (msg.status == 404) {
+                //alert(msg.error.error);
+                _this.showToast('info', 'Info!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.setEstado1 = function (estado) {
+        console.log(estado);
+        for (var i = 0; i < this.estados.length; ++i) {
+            if (estado == this.estados[i].nom_ent) {
+                this.ciudades = this.estados[i].municipios;
+            }
+        }
+    };
+    SociosIncompletosComponent.prototype.setEstado2 = function (estado) {
+        console.log(estado);
+        for (var i = 0; i < this.estados.length; ++i) {
+            if (estado == this.estados[i].nom_ent) {
+                this.ciudades = this.estados[i].municipios;
+                this.myFormEditar.patchValue({ ciudad: this.ciudades[0].nom_mun });
+            }
+        }
+    };
+    SociosIncompletosComponent.prototype.showToast = function (type, title, body) {
+        this.config = new __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["b" /* ToasterConfig */]({
+            positionClass: this.position,
+            timeout: this.timeout,
+            newestOnTop: this.isNewestOnTop,
+            tapToDismiss: this.isHideOnClick,
+            preventDuplicates: this.isDuplicatesPrevented,
+            animation: this.animationType,
+            limit: this.toastsLimit,
+        });
+        var toast = {
+            type: type,
+            title: title,
+            body: body,
+            timeout: this.timeout,
+            showCloseButton: this.isCloseButton,
+            bodyOutputType: __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["a" /* BodyOutputType */].TrustedHtml,
+        };
+        this.toasterService.popAsync(toast);
+    };
+    //Abrir modal por defecto
+    SociosIncompletosComponent.prototype.open = function (modal) {
+        this.modalService.open(modal);
+    };
+    //Abrir modal larga
+    SociosIncompletosComponent.prototype.open2 = function (modal) {
+        this.modalService.open(modal, { size: 'lg', backdrop: 'static', container: 'nb-layout', keyboard: false });
+    };
+    SociosIncompletosComponent.prototype.atras = function () {
+        this.editando = false;
+        this.objAEditar = null;
+        //console.log(this.objAEditar);
+        //this.uploadFile = null;
+        this.myFormEditar.reset();
+        localStorage.setItem('id_operacion', "");
+        this.registro_estado = this.registro_estado_aux;
+    };
+    SociosIncompletosComponent.prototype.aEditar = function (obj) {
+        //console.log(obj);
+        this.establecimiento_id = obj.establecimiento.id;
+        this.editando = true;
+        //this.objAEditar = Object.assign({},obj);
+        this.objAEditar = JSON.parse(JSON.stringify(obj));
+        this.token_notificacion = this.objAEditar.usuario.token_notificacion;
+        for (var i = 0; i < this.objAEditar.establecimiento.productos.length; i++) {
+            //console.log(this.objAEditar.establecimiento.productos[i].fotos);
+            if (this.objAEditar.establecimiento.productos[i].fotos != null) {
+                if (this.objAEditar.establecimiento.productos[i].fotos.length != 0) {
+                    this.objAEditar.establecimiento.productos[i].fotos = JSON.parse(this.objAEditar.establecimiento.productos[i].fotos);
+                }
+            }
+        }
+        //console.log(this.objAEditar);
+        if (obj.usuario.contrato.length > 0) {
+            var tam_contrato = obj.usuario.contrato.length;
+            this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
+            console.log(this.contrato);
+        }
+        else {
+            this.contrato = null;
+        }
+        this.user = obj.usuario;
+        this.myFormEditar.patchValue({ id: this.objAEditar.id });
+        this.myFormEditar.patchValue({ nombre: this.objAEditar.usuario.nombre });
+        this.myFormEditar.patchValue({ email: this.objAEditar.usuario.email });
+        this.myFormEditar.patchValue({ telefono: this.objAEditar.usuario.telefono });
+        this.myFormEditar.patchValue({ estado: this.objAEditar.usuario.estado });
+        this.myFormEditar.patchValue({ ciudad: this.objAEditar.usuario.ciudad });
+        var tipo = "";
+        if (this.objAEditar.usuario.registro.tipo == 1) {
+            tipo = 'Persona';
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 2) {
+            tipo = 'Empresa';
+        }
+        else {
+            tipo = 'Sin tipo de registro';
+        }
+        if (this.objAEditar.usuario.registro.referencias == null) {
+            var refe = { nombre1: "", telefono1: "", direccion1: "", contacto1: "", cargo1: "", nombre2: "", telefono2: "", direccion2: "", contacto2: "", cargo2: "", nombre3: "", telefono3: "", direccion3: "", contacto3: "", cargo3: "" };
+            this.myFormEditar.patchValue({ referencias22: refe });
+        }
+        else {
+            this.myFormEditar.patchValue({ referencias22: JSON.parse(this.objAEditar.usuario.registro.referencias) });
+        }
+        this.myFormEditar.patchValue({ tipo2: tipo });
+        this.myFormEditar.patchValue({ tipo: this.objAEditar.usuario.registro.tipo });
+        this.myFormEditar.patchValue({ usuario_id: this.objAEditar.usuario.id });
+        this.myFormEditar.patchValue({ ruc: this.objAEditar.usuario.registro.ruc });
+        this.myFormEditar.patchValue({ latitud: this.objAEditar.usuario.registro.latitud });
+        this.myFormEditar.patchValue({ longitud: this.objAEditar.usuario.registro.longitud });
+        this.myFormEditar.patchValue({ email_empresa: this.objAEditar.usuario.registro.email_empresa });
+        this.myFormEditar.patchValue({ contacto_nombre: this.objAEditar.usuario.registro.contacto_nombre });
+        this.myFormEditar.patchValue({ contacto_cedula: this.objAEditar.usuario.registro.contacto_cedula });
+        this.myFormEditar.patchValue({ contacto_cargo: this.objAEditar.usuario.registro.contacto_cargo });
+        this.myFormEditar.patchValue({ logo: this.objAEditar.usuario.registro.logo });
+        this.myFormEditar.patchValue({ cedula: this.objAEditar.usuario.registro.cedula });
+        this.myFormEditar.patchValue({ nacionalidad: this.objAEditar.usuario.registro.nacionalidad });
+        this.myFormEditar.patchValue({ direccion: this.objAEditar.usuario.registro.direccion });
+        this.myFormEditar.patchValue({ direccion_exacta: this.objAEditar.usuario.registro.direccion_exacta });
+        this.myFormEditar.patchValue({ lat: this.objAEditar.usuario.registro.latitud });
+        this.myFormEditar.patchValue({ lng: this.objAEditar.usuario.registro.longitud });
+        this.myFormEditar.patchValue({ fecha_nacimiento: this.objAEditar.usuario.registro.fecha_nacimiento });
+        this.myFormEditar.patchValue({ formacion: this.objAEditar.usuario.registro.formacion });
+        this.myFormEditar.patchValue({ experiencia: this.objAEditar.usuario.registro.experiencia });
+        this.myFormEditar.patchValue({ experiencia2: JSON.parse(this.objAEditar.usuario.registro.experiencia) });
+        this.myFormEditar.patchValue({ anos_experiencia: this.objAEditar.usuario.registro.anos_experiencia });
+        this.myFormEditar.patchValue({ idoneidad: this.objAEditar.usuario.registro.idoneidad });
+        this.myFormEditar.patchValue({ disponibilidad: this.objAEditar.usuario.registro.disponibilidad });
+        this.myFormEditar.patchValue({ disponibilidad2: JSON.parse(this.objAEditar.usuario.registro.disponibilidad) });
+        this.myFormEditar.patchValue({ idiomas: this.objAEditar.usuario.registro.idiomas });
+        this.myFormEditar.patchValue({ idiomas2: JSON.parse(this.objAEditar.usuario.registro.idiomas) });
+        this.myFormEditar.patchValue({ urgencias: this.objAEditar.usuario.registro.urgencias });
+        this.myFormEditar.patchValue({ factura: this.objAEditar.usuario.registro.factura });
+        if (this.objAEditar.usuario.registro.referencias == null) {
+            this.refer = false;
+        }
+        this.myFormEditar.patchValue({ referencias: this.objAEditar.usuario.registro.referencias });
+        this.myFormEditar.patchValue({ referencias2: JSON.parse(this.objAEditar.usuario.registro.referencias) });
+        this.myFormEditar.patchValue({ referencias12: this.objAEditar.usuario.registro.referencias2 });
+        this.myFormEditar.patchValue({ referencias22: JSON.parse(this.objAEditar.usuario.registro.referencias2) });
+        //this.myFormEditar.patchValue({referencias22 : JSON.parse(this.objAEditar.usuario.registro.referencias}));
+        this.myFormEditar.patchValue({ foto: this.objAEditar.usuario.imagen });
+        this.myFormEditar.patchValue({ pasaporte: this.objAEditar.usuario.registro.pasaporte });
+        this.myFormEditar.patchValue({ recibo_servicio: this.objAEditar.usuario.registro.recibo_servicio });
+        this.myFormEditar.patchValue({ idoneidad_file: this.objAEditar.usuario.registro.idoneidad_file });
+        this.myFormEditar.patchValue({ operaciones: this.objAEditar.usuario.registro.operaciones });
+        this.myFormEditar.patchValue({ estado2: this.objAEditar.usuario.registro.estado2 });
+        this.myFormEditar.patchValue({ usuario_id: this.objAEditar.usuario.registro.usuario_id });
+        this.myFormEditar.patchValue({ sexo: this.objAEditar.usuario.registro.sexo });
+        this.myFormEditar.patchValue({ contrato: this.objAEditar.usuario.registro.contrato });
+        var disp = JSON.parse(this.objAEditar.usuario.registro.disponibilidad);
+        this.myFormEditar.patchValue({ lunes_i: disp.lunes_i });
+        this.myFormEditar.patchValue({ lunes_f: disp.lunes_f });
+        this.myFormEditar.patchValue({ martes_i: disp.martes_i });
+        this.myFormEditar.patchValue({ martes_f: disp.martes_f });
+        this.myFormEditar.patchValue({ miercoles_i: disp.miercoles_i });
+        this.myFormEditar.patchValue({ miercoles_f: disp.miercoles_f });
+        this.myFormEditar.patchValue({ jueves_i: disp.jueves_i });
+        this.myFormEditar.patchValue({ jueves_f: disp.jueves_f });
+        this.myFormEditar.patchValue({ viernes_i: disp.viernes_i });
+        this.myFormEditar.patchValue({ viernes_f: disp.viernes_f });
+        this.myFormEditar.patchValue({ sabado_i: disp.sabado_i });
+        this.myFormEditar.patchValue({ sabado_f: disp.sabado_f });
+        this.myFormEditar.patchValue({ domingo_i: disp.domingo_i });
+        this.myFormEditar.patchValue({ domingo_f: disp.domingo_f });
+        this.myFormEditar.patchValue({ contrato_nombre: this.objAEditar.usuario.nombre });
+        this.myFormEditar.patchValue({ contrato_ci: this.objAEditar.usuario.registro.ruc });
+        // this.myFormEditar.patchValue({contrato_fecha : 1});
+        if (this.objAEditar.plan) {
+            var plan = JSON.parse(this.objAEditar.plan);
+            this.myFormEditar.patchValue({ contrato_costo: plan.costo });
+            this.myFormEditar.patchValue({ contrato_plan: plan.tipo_plan });
+            this.myFormEditar.patchValue({ contrato_plan2: plan.tipo_plan });
+        }
+        //this.setEstado1(this.objAEditar.usuario.estado);
+        console.log(this.myFormEditar.value);
+        this.evaluarEstadoRegistro();
+    };
+    SociosIncompletosComponent.prototype.evaluarEstadoRegistro = function () {
+        if (this.myFormEditar.value.nombre == null || this.myFormEditar.value.nombre == '') {
+            this.registro_estado.nombre.estado = 0;
+            this.registro_estado.nombre.icon = 'ion-alert-circled';
+            this.registro_estado.nombre.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.nombre.estado = 1;
+            this.registro_estado.nombre.icon = 'ion-checkmark';
+            this.registro_estado.nombre.color = '#28a745';
+        }
+        if (this.myFormEditar.value.email == null || this.myFormEditar.value.email == '') {
+            this.registro_estado.email.estado = 0;
+            this.registro_estado.email.icon = 'ion-alert-circled';
+            this.registro_estado.email.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.email.estado = 1;
+            this.registro_estado.email.icon = 'ion-checkmark';
+            this.registro_estado.email.color = '#28a745';
+        }
+        if (this.myFormEditar.value.telefono == null || this.myFormEditar.value.telefono == '') {
+            this.registro_estado.telefono.estado = 0;
+            this.registro_estado.telefono.icon = 'ion-alert-circled';
+            this.registro_estado.telefono.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.telefono.estado = 1;
+            this.registro_estado.telefono.icon = 'ion-checkmark';
+            this.registro_estado.telefono.color = '#28a745';
+        }
+        if (this.myFormEditar.value.foto == null || this.myFormEditar.value.foto == '') {
+            this.registro_estado.foto.estado = 0;
+            this.registro_estado.foto.icon = 'ion-alert-circled';
+            this.registro_estado.foto.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.foto.estado = 1;
+            this.registro_estado.foto.icon = 'ion-checkmark';
+            this.registro_estado.foto.color = '#28a745';
+        }
+        if (this.myFormEditar.value.cedula == null || this.myFormEditar.value.cedula == '') {
+            this.registro_estado.cedula.estado = 0;
+            this.registro_estado.cedula.icon = 'ion-alert-circled';
+            this.registro_estado.cedula.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.cedula.estado = 1;
+            this.registro_estado.cedula.icon = 'ion-checkmark';
+            this.registro_estado.cedula.color = '#28a745';
+        }
+        if (this.myFormEditar.value.nacionalidad == null || this.myFormEditar.value.nacionalidad == '') {
+            this.registro_estado.nacionalidad.estado = 0;
+            this.registro_estado.nacionalidad.icon = 'ion-alert-circled';
+            this.registro_estado.nacionalidad.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.nacionalidad.estado = 1;
+            this.registro_estado.nacionalidad.icon = 'ion-checkmark';
+            this.registro_estado.nacionalidad.color = '#28a745';
+        }
+        if (this.myFormEditar.value.direccion == null || this.myFormEditar.value.direccion == '') {
+            this.registro_estado.direccion.estado = 0;
+            this.registro_estado.direccion.icon = 'ion-alert-circled';
+            this.registro_estado.direccion.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.direccion.estado = 1;
+            this.registro_estado.direccion.icon = 'ion-checkmark';
+            this.registro_estado.direccion.color = '#28a745';
+        }
+        if (this.myFormEditar.value.direccion_exacta == null || this.myFormEditar.value.direccion_exacta == '') {
+            this.registro_estado.direccion_exacta.estado = 0;
+            this.registro_estado.direccion_exacta.icon = 'ion-alert-circled';
+            this.registro_estado.direccion_exacta.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.direccion_exacta.estado = 1;
+            this.registro_estado.direccion_exacta.icon = 'ion-checkmark';
+            this.registro_estado.direccion_exacta.color = '#28a745';
+        }
+        if (this.myFormEditar.value.sexo == null || this.myFormEditar.value.sexo == '') {
+            this.registro_estado.sexo.estado = 0;
+            this.registro_estado.sexo.icon = 'ion-alert-circled';
+            this.registro_estado.sexo.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.sexo.estado = 1;
+            this.registro_estado.sexo.icon = 'ion-checkmark';
+            this.registro_estado.sexo.color = '#28a745';
+        }
+        if (this.myFormEditar.value.fecha_nacimiento == null || this.myFormEditar.value.fecha_nacimiento == '') {
+            this.registro_estado.fecha_nacimiento.estado = 0;
+            this.registro_estado.fecha_nacimiento.icon = 'ion-alert-circled';
+            this.registro_estado.fecha_nacimiento.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.fecha_nacimiento.estado = 1;
+            this.registro_estado.fecha_nacimiento.icon = 'ion-checkmark';
+            this.registro_estado.fecha_nacimiento.color = '#28a745';
+        }
+        if (this.myFormEditar.value.formacion == null || this.myFormEditar.value.formacion == '') {
+            this.registro_estado.formacion.estado = 0;
+            this.registro_estado.formacion.icon = 'ion-alert-circled';
+            this.registro_estado.formacion.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.formacion.estado = 1;
+            this.registro_estado.formacion.icon = 'ion-checkmark';
+            this.registro_estado.formacion.color = '#28a745';
+        }
+        if (this.myFormEditar.value.tipo2 == null || this.myFormEditar.value.tipo2 == '') {
+            this.registro_estado.tipo2.estado = 0;
+            this.registro_estado.tipo2.icon = 'ion-alert-circled';
+            this.registro_estado.tipo2.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.tipo2.estado = 1;
+            this.registro_estado.tipo2.icon = 'ion-checkmark';
+            this.registro_estado.tipo2.color = '#28a745';
+        }
+        if (this.myFormEditar.value.ruc == null || this.myFormEditar.value.ruc == '') {
+            this.registro_estado.ruc.estado = 0;
+            this.registro_estado.ruc.icon = 'ion-alert-circled';
+            this.registro_estado.ruc.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.ruc.estado = 1;
+            this.registro_estado.ruc.icon = 'ion-checkmark';
+            this.registro_estado.ruc.color = '#28a745';
+        }
+        if (this.myFormEditar.value.email_empresa == null || this.myFormEditar.value.email_empresa == '') {
+            this.registro_estado.email_empresa.estado = 0;
+            this.registro_estado.email_empresa.icon = 'ion-alert-circled';
+            this.registro_estado.email_empresa.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.email_empresa.estado = 1;
+            this.registro_estado.email_empresa.icon = 'ion-checkmark';
+            this.registro_estado.email_empresa.color = '#28a745';
+        }
+        if (this.myFormEditar.value.contacto_nombre == null || this.myFormEditar.value.contacto_nombre == '') {
+            this.registro_estado.contacto_nombre.estado = 0;
+            this.registro_estado.contacto_nombre.icon = 'ion-alert-circled';
+            this.registro_estado.contacto_nombre.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.contacto_nombre.estado = 1;
+            this.registro_estado.contacto_nombre.icon = 'ion-checkmark';
+            this.registro_estado.contacto_nombre.color = '#28a745';
+        }
+        if (this.myFormEditar.value.urgencias == null || this.myFormEditar.value.urgencias == '') {
+            this.registro_estado.urgencias.estado = 0;
+            this.registro_estado.urgencias.icon = 'ion-alert-circled';
+            this.registro_estado.urgencias.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.urgencias.estado = 1;
+            this.registro_estado.urgencias.icon = 'ion-checkmark';
+            this.registro_estado.urgencias.color = '#28a745';
+        }
+        if (this.myFormEditar.value.factura == null || this.myFormEditar.value.factura == '') {
+            this.registro_estado.factura.estado = 0;
+            this.registro_estado.factura.icon = 'ion-alert-circled';
+            this.registro_estado.factura.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.factura.estado = 1;
+            this.registro_estado.factura.icon = 'ion-checkmark';
+            this.registro_estado.factura.color = '#28a745';
+        }
+        if (this.myFormEditar.value.contacto_cargo == null || this.myFormEditar.value.contacto_cargo == '') {
+            this.registro_estado.contacto_cargo.estado = 0;
+            this.registro_estado.contacto_cargo.icon = 'ion-alert-circled';
+            this.registro_estado.contacto_cargo.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.contacto_cargo.estado = 1;
+            this.registro_estado.contacto_cargo.icon = 'ion-checkmark';
+            this.registro_estado.contacto_cargo.color = '#28a745';
+        }
+        if (this.myFormEditar.value.idoneidad == null || this.myFormEditar.value.idoneidad == '') {
+            this.registro_estado.idoneidad.estado = 0;
+            this.registro_estado.idoneidad.icon = 'ion-alert-circled';
+            this.registro_estado.idoneidad.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.idoneidad.estado = 1;
+            this.registro_estado.idoneidad.icon = 'ion-checkmark';
+            this.registro_estado.idoneidad.color = '#28a745';
+        }
+        if (this.myFormEditar.value.anos_experiencia == null || this.myFormEditar.value.anos_experiencia == '') {
+            this.registro_estado.anos_experiencia.estado = 0;
+            this.registro_estado.anos_experiencia.icon = 'ion-alert-circled';
+            this.registro_estado.anos_experiencia.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.anos_experiencia.estado = 1;
+            this.registro_estado.anos_experiencia.icon = 'ion-checkmark';
+            this.registro_estado.anos_experiencia.color = '#28a745';
+        }
+        if (this.myFormEditar.value.experiencia2 == null || this.myFormEditar.value.experiencia2 == '') {
+            this.registro_estado.experiencia2.estado = 0;
+            this.registro_estado.experiencia2.icon = 'ion-alert-circled';
+            this.registro_estado.experiencia2.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.experiencia2.estado = 1;
+            this.registro_estado.experiencia2.icon = 'ion-checkmark';
+            this.registro_estado.experiencia2.color = '#28a745';
+        }
+        if (this.myFormEditar.value.idiomas2 == null || this.myFormEditar.value.idiomas2 == '') {
+            this.registro_estado.idiomas2.estado = 0;
+            this.registro_estado.idiomas2.icon = 'ion-alert-circled';
+            this.registro_estado.idiomas2.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.idiomas2.estado = 1;
+            this.registro_estado.idiomas2.icon = 'ion-checkmark';
+            this.registro_estado.idiomas2.color = '#28a745';
+        }
+        if (this.myFormEditar.value.pasaporte == null || this.myFormEditar.value.pasaporte == '') {
+            this.registro_estado.pasaporte.estado = 0;
+            this.registro_estado.pasaporte.icon = 'ion-alert-circled';
+            this.registro_estado.pasaporte.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.pasaporte.estado = 1;
+            this.registro_estado.pasaporte.icon = 'ion-checkmark';
+            this.registro_estado.pasaporte.color = '#28a745';
+        }
+        if (this.myFormEditar.value.logo == null || this.myFormEditar.value.logo == '') {
+            this.registro_estado.logo.estado = 0;
+            this.registro_estado.logo.icon = 'ion-alert-circled';
+            this.registro_estado.logo.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.logo.estado = 1;
+            this.registro_estado.logo.icon = 'ion-checkmark';
+            this.registro_estado.logo.color = '#28a745';
+        }
+        if (this.myFormEditar.value.operaciones == null || this.myFormEditar.value.operaciones == '') {
+            this.registro_estado.operaciones.estado = 0;
+            this.registro_estado.operaciones.icon = 'ion-alert-circled';
+            this.registro_estado.operaciones.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.operaciones.estado = 1;
+            this.registro_estado.operaciones.icon = 'ion-checkmark';
+            this.registro_estado.operaciones.color = '#28a745';
+        }
+        if (this.myFormEditar.value.idoneidad_file == null || this.myFormEditar.value.idoneidad_file == '') {
+            this.registro_estado.idoneidad_file.estado = 0;
+            this.registro_estado.idoneidad_file.icon = 'ion-alert-circled';
+            this.registro_estado.idoneidad_file.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.idoneidad_file.estado = 1;
+            this.registro_estado.idoneidad_file.icon = 'ion-checkmark';
+            this.registro_estado.idoneidad_file.color = '#28a745';
+        }
+        if (this.myFormEditar.value.recibo_servicio == null || this.myFormEditar.value.recibo_servicio == '') {
+            this.registro_estado.recibo_servicio.estado = 0;
+            this.registro_estado.recibo_servicio.icon = 'ion-alert-circled';
+            this.registro_estado.recibo_servicio.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.recibo_servicio.estado = 1;
+            this.registro_estado.recibo_servicio.icon = 'ion-checkmark';
+            this.registro_estado.recibo_servicio.color = '#28a745';
+        }
+        if (this.objAEditar.usuario.contrato.length == 0) {
+            this.registro_estado.contrato_aux.estado = 0;
+            this.registro_estado.contrato_aux.icon = 'ion-alert-circled';
+            this.registro_estado.contrato_aux.color = '#ffa100';
+        }
+        else {
+            this.registro_estado.contrato_aux.estado = 1;
+            this.registro_estado.contrato_aux.icon = 'ion-checkmark';
+            this.registro_estado.contrato_aux.color = '#28a745';
+        }
+    };
+    SociosIncompletosComponent.prototype.editar_contrato = function () {
+        var _this = this;
+        var pl = {
+            tipo_plan: this.myFormEditar.value.contrato_plan,
+            costo: this.myFormEditar.value.contrato_costo
+        };
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            nombre: this.myFormEditar.value.contrato_nombre,
+            ci: this.myFormEditar.value.contrato_ci,
+            telefono: this.myFormEditar.value.telefono,
+            direccion: this.myFormEditar.value.direccion,
+            plan: JSON.stringify(pl),
+            usuario_id: this.myFormEditar.value.usuario_id
+        };
+        this.loading = true;
+        console.log(datos);
+        this.http.post(this.rutaService.getRutaApi() + 'con_contratos', datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.contrato = data;
+            _this.contrato = _this.contrato.Contratos.url;
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.borrarfoto = function (id, fotos, index) {
+        var _this = this;
+        console.log(id);
+        console.log(fotos);
+        console.log(index);
+        fotos.splice(index, 1);
+        console.log(fotos);
+        this.loading = true;
+        var send = {
+            fotos: JSON.stringify(fotos)
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'productos/' + id, send)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.editar = function () {
+        /*var usr= {
+          token: localStorage.getItem('mouvers_token'),
+          imagen: this.myFormEditar.value.foto
+        }
+  
+        this.http.put(this.rutaService.getRutaApi()+'usuarios/'+this.objAEditar.usuario.id, usr)
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              this.data = data;
+  
+              for (var i = 0; i < this.productList.length; ++i) {
+                if (this.productList[i].id == this.objAEditar.usuario.id) {
+                   this.productList[i].usuario.imagen = this.myFormEditar.value.foto;
+                }
+              }
+  
+              this.filteredItems = this.productList;
+              this.init();
+              
+              //console.log(this.productList);
+              //alert(this.data.message);
+  
+              this.loading = false;
+              this.editando = false;
+              this.showToast('success', 'Success!', this.data.message);
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+  
+             this.loading = false;
+  
+             //token invalido/ausente o token expiro
+             if(msg.status == 400 || msg.status == 401){
+                  //alert(msg.error.error);
+                  //ir a login
+                  this.editando = true;
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else {
+                  //alert(msg.error.error);
+                  this.editando = true;
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+        );*/
+        var _this = this;
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            nombre: this.myFormEditar.value.nombre,
+            email: this.myFormEditar.value.email,
+            telefono: this.myFormEditar.value.telefono,
+            ciudad: this.myFormEditar.value.ciudad,
+            estado: this.myFormEditar.value.estado,
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + this.myFormEditar.value.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.myFormEditar.value.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.nombre = _this.myFormEditar.value.nombre;
+                    _this.productList[i].usuario.email = _this.myFormEditar.value.email;
+                    _this.productList[i].usuario.telefono = _this.myFormEditar.value.telefono;
+                    _this.productList[i].usuario.ciudad = _this.myFormEditar.value.ciudad;
+                    _this.productList[i].usuario.estado = _this.myFormEditar.value.estado;
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+            _this.evaluarEstadoRegistro();
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+        var disponibilidad = {
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+        };
+        var datos2 = {
+            imagen: this.myFormEditar.value.foto,
+            direccion: this.myFormEditar.value.direccion,
+            direccion_exacta: this.myFormEditar.value.direccion_exacta,
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+            disponibilidad: JSON.stringify(disponibilidad),
+            logo: this.myFormEditar.value.logo,
+            pasaporte: this.myFormEditar.value.pasaporte,
+            operaciones: this.myFormEditar.value.operaciones,
+            idoneidad_file: this.myFormEditar.value.idoneidad_file,
+            recibo_servicio: this.myFormEditar.value.recibo_servicio,
+        };
+        console.log(datos2);
+        this.http.put(this.rutaService.getRutaApi() + 'establecimientos/' + this.establecimiento_id, datos2)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.objAEditar.usuario.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.registro.logo = _this.myFormEditar.value.logo;
+                }
+            }
+            _this.objAEditar.usuario.registro.disponibilidad = JSON.stringify(disponibilidad);
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+            _this.evaluarEstadoRegistro();
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.aEliminar = function (obj) {
+        this.objAEliminar = obj;
+        //console.log(this.objAEliminar);
+        this.eliminar_id = this.objAEliminar.id;
+        this.eliminar_nombre = this.objAEliminar.usuario.nombre;
+    };
+    SociosIncompletosComponent.prototype.eliminar = function () {
+        var _this = this;
+        console.log(this.objAEliminar);
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token')
+        };
+        this.http.delete(this.rutaService.getRutaApi() + 'repartidores/' + this.eliminar_id + '?token=' + localStorage.getItem('mouvers_token'))
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            var aux = _this.productList;
+            _this.productList = [];
+            for (var i = 0; i < aux.length; ++i) {
+                if (aux[i].id != _this.eliminar_id) {
+                    _this.productList.push(aux[i]);
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else if (msg.status == 404 || msg.status == 409) {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.cambiarEstado = function (obj) {
+        var _this = this;
+        var v_estado;
+        if (obj.estado == 'ON') {
+            //obj.estado = 'OFF';
+            v_estado = 'OFF';
+        }
+        else {
+            //obj.estado = 'ON';
+            v_estado = 'ON';
+        }
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            rep_estado: v_estado
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + obj.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.showToast('success', 'Success!', _this.data.message);
+            obj.estado = v_estado;
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            //Regresar el switch en caso de error
+            if (v_estado == 'ON') {
+                //obj.estado = 'OFF';
+                obj.estado = 'OFF';
+            }
+            else {
+                //obj.estado = 'ON';
+                obj.estado = 'ON';
+            }
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    //Para el producto
+    SociosIncompletosComponent.prototype.cambiarEstado2 = function (obj) {
+        var _this = this;
+        var v_estado;
+        var mensaje_producto = '';
+        if (obj.estado == 'ON') {
+            //obj.estado = 'OFF';
+            v_estado = 'OFF';
+            mensaje_producto = "Su servicio " + obj.nombre + " se ha desactivado. Para mayor información contacta a soporte.";
+        }
+        else {
+            //obj.estado = 'ON';
+            v_estado = 'ON';
+            mensaje_producto = "Felicidades! Su servicio " + obj.nombre + " se ha activado!";
+        }
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            estado: v_estado
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'productos/' + obj.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.showToast('success', 'Success!', _this.data.message);
+            obj.estado = v_estado;
+            _this.http.get(_this.rutaService.getRutaApi() + 'onesignal.php?accion=17&token_notificacion=' + _this.token_notificacion + '&contenido=' + mensaje_producto)
+                .toPromise()
+                .then(function (data) {
+                console.log(data);
+                _this.data = data;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                _this.loading = false;
+            }, function (msg) {
+                console.log(msg);
+                console.log(msg.error.error);
+                _this.loading = false;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                if (msg.status == 400 || msg.status == 401) {
+                    //alert(msg.error.error);
+                    // this.showToast('warning', 'Warning!', 'msg.error.error');
+                }
+                else {
+                    //alert(msg.error.error);
+                    //this.showToast('error', 'Erro!', 'msg.error.error');
+                }
+            });
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            //Regresar el switch en caso de error
+            if (v_estado == 'ON') {
+                //obj.estado = 'OFF';
+                obj.estado = 'OFF';
+            }
+            else {
+                //obj.estado = 'ON';
+                obj.estado = 'ON';
+            }
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.prepareSave = function () {
+        var input = new FormData();
+        input.append('imagen', this.fileIMG);
+        input.append('carpeta', 'categorias');
+        input.append('url_imagen', this.rutaService.getRutaImages());
+        return input;
+    };
+    SociosIncompletosComponent.prototype.onFileChange = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMG = event.target.files[0];
+            this.subirImagen();
+        }
+    };
+    SociosIncompletosComponent.prototype.clearFile = function () {
+        this.imgUpload = null;
+        this.fileInput.nativeElement.value = '';
+        this.clear = false;
+        this.myFormEditar.patchValue({ foto: null });
+    };
+    SociosIncompletosComponent.prototype.subirImagen = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSave();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUpload = _this.data.imagen;
+            _this.myFormEditar.patchValue({ foto: _this.imgUpload });
+            //Solo admitimos imágenes.
+            if (!_this.fileIMG.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("foto").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMG);
+            reader.readAsDataURL(_this.fileIMG);
+            _this.clear = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.prepareSaveLogo = function () {
+        var inputLogo = new FormData();
+        inputLogo.append('imagen', this.fileIMGLogo);
+        inputLogo.append('carpeta', 'categorias');
+        inputLogo.append('url_imagen', this.rutaService.getRutaImages());
+        return inputLogo;
+    };
+    SociosIncompletosComponent.prototype.onFileChangeLogo = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGLogo = event.target.files[0];
+            this.subirImagenLogo();
+        }
+    };
+    SociosIncompletosComponent.prototype.clearFileLogo = function () {
+        this.imgUploadLogo = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearLogo = false;
+        this.myFormEditar.patchValue({ logo: null });
+    };
+    SociosIncompletosComponent.prototype.subirImagenLogo = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveLogo();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadLogo = _this.data.imagen;
+            _this.myFormEditar.patchValue({ logo: _this.imgUploadLogo });
+            _this.objAEditar.usuario.registro.logo = _this.imgUploadLogo;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGLogo.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("logo").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGLogo);
+            reader.readAsDataURL(_this.fileIMGLogo);
+            _this.clearLogo = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.prepareSavePasaporte = function () {
+        var inputPasaporte = new FormData();
+        inputPasaporte.append('imagen', this.fileIMGPasaporte);
+        inputPasaporte.append('carpeta', 'categorias');
+        inputPasaporte.append('url_imagen', this.rutaService.getRutaImages());
+        return inputPasaporte;
+    };
+    SociosIncompletosComponent.prototype.onFileChangePasaporte = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGPasaporte = event.target.files[0];
+            this.subirImagenPasaporte();
+        }
+    };
+    SociosIncompletosComponent.prototype.clearFilePasaporte = function () {
+        this.imgUploadPasaporte = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearPasaporte = false;
+        this.myFormEditar.patchValue({ Pasaporte: null });
+    };
+    SociosIncompletosComponent.prototype.subirImagenPasaporte = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSavePasaporte();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadPasaporte = _this.data.imagen;
+            _this.myFormEditar.patchValue({ pasaporte: _this.imgUploadPasaporte });
+            _this.objAEditar.usuario.registro.pasaporte = _this.imgUploadPasaporte;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGPasaporte.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("pasaporte").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGPasaporte);
+            reader.readAsDataURL(_this.fileIMGPasaporte);
+            _this.clearPasaporte = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.prepareSaveOperaciones = function () {
+        var inputOperaciones = new FormData();
+        inputOperaciones.append('imagen', this.fileIMGOperaciones);
+        inputOperaciones.append('carpeta', 'categorias');
+        inputOperaciones.append('url_imagen', this.rutaService.getRutaImages());
+        return inputOperaciones;
+    };
+    SociosIncompletosComponent.prototype.onFileChangeOperaciones = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGOperaciones = event.target.files[0];
+            this.subirImagenOperaciones();
+        }
+    };
+    SociosIncompletosComponent.prototype.clearFileOperaciones = function () {
+        this.imgUploadOperaciones = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearOperaciones = false;
+        this.myFormEditar.patchValue({ Operaciones: null });
+    };
+    SociosIncompletosComponent.prototype.subirImagenOperaciones = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveOperaciones();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadOperaciones = _this.data.imagen;
+            _this.myFormEditar.patchValue({ operaciones: _this.imgUploadOperaciones });
+            _this.objAEditar.usuario.registro.operaciones = _this.imgUploadOperaciones;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGOperaciones.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("Operaciones").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGOperaciones);
+            reader.readAsDataURL(_this.fileIMGOperaciones);
+            _this.clearOperaciones = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.prepareSaveIdoneidad_file = function () {
+        console.log('prepare');
+        var inputIdoneidad_file = new FormData();
+        inputIdoneidad_file.append('imagen', this.fileIMGIdoneidad_file);
+        inputIdoneidad_file.append('carpeta', 'categorias');
+        inputIdoneidad_file.append('url_imagen', this.rutaService.getRutaImages());
+        return inputIdoneidad_file;
+    };
+    SociosIncompletosComponent.prototype.onFileChangeIdoneidad_file = function (event) {
+        console.log('onfilechange');
+        if (event.target.files.length > 0) {
+            this.fileIMGIdoneidad_file = event.target.files[0];
+            this.subirImagenIdoneidad_file();
+        }
+    };
+    SociosIncompletosComponent.prototype.clearFileIdoneidad_file = function () {
+        console.log('clearfile');
+        this.imgUploadIdoneidad_file = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearIdoneidad_file = false;
+        this.myFormEditar.patchValue({ idoneidad_file: null });
+    };
+    SociosIncompletosComponent.prototype.subirImagenIdoneidad_file = function () {
+        var _this = this;
+        console.log('subirimagen');
+        this.loading = true;
+        var formModel = this.prepareSaveIdoneidad_file();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadIdoneidad_file = _this.data.imagen;
+            _this.myFormEditar.patchValue({ idoneidad_file: _this.imgUploadIdoneidad_file });
+            _this.objAEditar.usuario.registro.idoneidad_file = _this.imgUploadIdoneidad_file;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGIdoneidad_file.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("idoneidad_file").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGIdoneidad_file);
+            reader.readAsDataURL(_this.fileIMGIdoneidad_file);
+            _this.clearIdoneidad_file = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.prepareSaverecibo_servicio = function () {
+        console.log('prepareSaverecibo_servicio');
+        var inputrecibo_servicio = new FormData();
+        inputrecibo_servicio.append('imagen', this.fileIMGrecibo_servicio);
+        inputrecibo_servicio.append('carpeta', 'categorias');
+        inputrecibo_servicio.append('url_imagen', this.rutaService.getRutaImages());
+        return inputrecibo_servicio;
+    };
+    SociosIncompletosComponent.prototype.onFileChangerecibo_servicio = function (event) {
+        console.log('onFileChangeRecibo_servicio');
+        if (event.target.files.length > 0) {
+            this.fileIMGrecibo_servicio = event.target.files[0];
+            this.subirImagenrecibo_servicio();
+        }
+    };
+    SociosIncompletosComponent.prototype.clearFilerecibo_servicio = function () {
+        console.log('clearFilerecibo_servicio');
+        this.imgUploadrecibo_servicio = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearrecibo_servicio = false;
+        this.myFormEditar.patchValue({ recibo_servicio: null });
+    };
+    SociosIncompletosComponent.prototype.subirImagenrecibo_servicio = function () {
+        var _this = this;
+        console.log('subirImagenrecibo_servicio');
+        this.loading = true;
+        var formModel = this.prepareSaverecibo_servicio();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadrecibo_servicio = _this.data.imagen;
+            _this.myFormEditar.patchValue({ recibo_servicio: _this.imgUploadrecibo_servicio });
+            _this.objAEditar.usuario.registro.recibo_servicio = _this.imgUploadrecibo_servicio;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGrecibo_servicio.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("recibo_servicio").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGrecibo_servicio);
+            reader.readAsDataURL(_this.fileIMGrecibo_servicio);
+            _this.clearrecibo_servicio = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    SociosIncompletosComponent.prototype.vercontrato = function () {
+        if (this.edit_contrato == false) {
+            this.edit_contrato = true;
+        }
+        else if (this.edit_contrato == true) {
+            this.edit_contrato = false;
+        }
+    };
+    SociosIncompletosComponent.prototype.initA = function () {
+        this.currentIndexA = 1;
+        this.pageStartA = 1;
+        this.pagesA = 4;
+        this.pageNumberA = parseInt("" + (this.filteredItemsA.length / this.pageSizeA));
+        if (this.filteredItemsA.length % this.pageSizeA != 0) {
+            this.pageNumberA++;
+        }
+        if (this.pageNumberA < this.pagesA) {
+            this.pagesA = this.pageNumberA;
+        }
+        this.refreshItemsA();
+        console.log("this.pageNumber :  " + this.pageNumberA);
+        //this.buscar_id_operacion();
+    };
+    SociosIncompletosComponent.prototype.FilterByNameA = function () {
+        this.filteredItemsA = [];
+        if (this.inputNameA != "") {
+            for (var i = 0; i < this.productListA.length; ++i) {
+                if (this.productListA[i].usuario.nombre.toUpperCase().indexOf(this.inputNameA.toUpperCase()) >= 0) {
+                    this.filteredItemsA.push(this.productListA[i]);
+                }
+                else if (this.productListA[i].usuario.email.toUpperCase().indexOf(this.inputNameA.toUpperCase()) >= 0) {
+                    this.filteredItemsA.push(this.productListA[i]);
+                }
+                else if (this.productListA[i].usuario.fecha.toUpperCase().indexOf(this.inputNameA.toUpperCase()) >= 0) {
+                    this.filteredItemsA.push(this.productListA[i]);
+                }
+            }
+        }
+        else {
+            this.filteredItemsA = this.productListA;
+        }
+        console.log(this.filteredItemsA);
+        this.initA();
+    };
+    SociosIncompletosComponent.prototype.fillArrayA = function () {
+        var obj = new Array();
+        for (var index = this.pageStartA; index < this.pageStartA + this.pagesA; index++) {
+            obj.push(index);
+        }
+        return obj;
+    };
+    SociosIncompletosComponent.prototype.refreshItemsA = function () {
+        this.itemsA = this.filteredItemsA.slice((this.currentIndexA - 1) * this.pageSizeA, (this.currentIndexA) * this.pageSizeA);
+        this.pagesIndexA = this.fillArrayA();
+    };
+    SociosIncompletosComponent.prototype.prevPageA = function () {
+        if (this.currentIndexA > 1) {
+            this.currentIndexA--;
+        }
+        if (this.currentIndexA < this.pageStartA) {
+            this.pageStartA = this.currentIndexA;
+        }
+        this.refreshItemsA();
+    };
+    SociosIncompletosComponent.prototype.nextPageA = function () {
+        if (this.currentIndexA < this.pageNumberA) {
+            this.currentIndexA++;
+        }
+        if (this.currentIndexA >= (this.pageStartA + this.pagesA)) {
+            this.pageStartA = this.currentIndexA - this.pagesA + 1;
+        }
+        this.refreshItemsA();
+    };
+    SociosIncompletosComponent.prototype.setPageA = function (index) {
+        this.currentIndexA = index;
+        this.refreshItemsA();
+    };
+    SociosIncompletosComponent.prototype.init = function () {
+        this.currentIndex = 1;
+        this.pageStart = 1;
+        this.pages = 4;
+        this.pageNumber = parseInt("" + (this.filteredItems.length / this.pageSize));
+        if (this.filteredItems.length % this.pageSize != 0) {
+            this.pageNumber++;
+        }
+        if (this.pageNumber < this.pages) {
+            this.pages = this.pageNumber;
+        }
+        this.refreshItems();
+        console.log("this.pageNumber :  " + this.pageNumber);
+        this.buscar_id_operacion();
+    };
+    SociosIncompletosComponent.prototype.FilterByName = function () {
+        this.filteredItems = [];
+        if (this.inputName != "") {
+            for (var i = 0; i < this.productList.length; ++i) {
+                if (this.productList[i].usuario.nombre.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.email.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.fecha.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+            }
+        }
+        else {
+            this.filteredItems = this.productList;
+        }
+        console.log(this.filteredItems);
+        this.init();
+    };
+    SociosIncompletosComponent.prototype.fillArray = function () {
+        var obj = new Array();
+        for (var index = this.pageStart; index < this.pageStart + this.pages; index++) {
+            obj.push(index);
+        }
+        return obj;
+    };
+    SociosIncompletosComponent.prototype.refreshItems = function () {
+        this.items = this.filteredItems.slice((this.currentIndex - 1) * this.pageSize, (this.currentIndex) * this.pageSize);
+        this.pagesIndex = this.fillArray();
+    };
+    SociosIncompletosComponent.prototype.prevPage = function () {
+        if (this.currentIndex > 1) {
+            this.currentIndex--;
+        }
+        if (this.currentIndex < this.pageStart) {
+            this.pageStart = this.currentIndex;
+        }
+        this.refreshItems();
+    };
+    SociosIncompletosComponent.prototype.nextPage = function () {
+        if (this.currentIndex < this.pageNumber) {
+            this.currentIndex++;
+        }
+        if (this.currentIndex >= (this.pageStart + this.pages)) {
+            this.pageStart = this.currentIndex - this.pages + 1;
+        }
+        this.refreshItems();
+    };
+    SociosIncompletosComponent.prototype.setPage = function (index) {
+        this.currentIndex = index;
+        this.refreshItems();
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('fileInput'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
+    ], SociosIncompletosComponent.prototype, "fileInput", void 0);
+    SociosIncompletosComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'ngx-incompletos-socios',
+            template: __webpack_require__("../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.scss")],
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["d" /* ToasterService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormBuilder"],
+            __WEBPACK_IMPORTED_MODULE_9__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__["a" /* HeaderToPedidosEventService */],
+            __WEBPACK_IMPORTED_MODULE_10__services_header_service_header_service__["a" /* HeaderService */]])
+    ], SociosIncompletosComponent);
+    return SociosIncompletosComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/pages/socios/socios-reporte/socios-reporte.component.html":
 /***/ (function(module, exports) {
 
@@ -2433,12 +4909,14 @@ var SociosReporteComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__socios_ver_socios_ver_component__ = __webpack_require__("../../../../../src/app/pages/socios/socios-ver/socios-ver.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__socios_reporte_socios_reporte_component__ = __webpack_require__("../../../../../src/app/pages/socios/socios-reporte/socios-reporte.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__registrar_registrar_component__ = __webpack_require__("../../../../../src/app/pages/socios/registrar/registrar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__socios_incompletos_socios_incompletos_component__ = __webpack_require__("../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2461,6 +4939,9 @@ var routes = [{
             }, {
                 path: 'reporte',
                 component: __WEBPACK_IMPORTED_MODULE_5__socios_reporte_socios_reporte_component__["a" /* SociosReporteComponent */],
+            }, {
+                path: 'incompletos',
+                component: __WEBPACK_IMPORTED_MODULE_7__socios_incompletos_socios_incompletos_component__["a" /* SociosIncompletosComponent */],
             }],
     }];
 var SociosRoutingModule = /** @class */ (function () {
@@ -2484,7 +4965,8 @@ var routedComponents = [
     __WEBPACK_IMPORTED_MODULE_3__socios_agregar_socios_agregar_component__["a" /* SociosAgregarComponent */],
     __WEBPACK_IMPORTED_MODULE_4__socios_ver_socios_ver_component__["a" /* SociosVerComponent */],
     __WEBPACK_IMPORTED_MODULE_5__socios_reporte_socios_reporte_component__["a" /* SociosReporteComponent */],
-    __WEBPACK_IMPORTED_MODULE_6__registrar_registrar_component__["a" /* registrarComponent */]
+    __WEBPACK_IMPORTED_MODULE_6__registrar_registrar_component__["a" /* registrarComponent */],
+    __WEBPACK_IMPORTED_MODULE_7__socios_incompletos_socios_incompletos_component__["a" /* SociosIncompletosComponent */]
 ];
 
 
@@ -2493,7 +4975,7 @@ var routedComponents = [
 /***/ "../../../../../src/app/pages/socios/socios-ver/socios-ver.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nb-card *ngIf=\"!editando && mostrar\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Socios</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <table class=\"table\">\r\n      <thead>\r\n         <th style=\"text-align: center;\">Imagen</th>\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Email</th>\r\n         <th style=\"text-align: center;\">Teléfono</th>\r\n         <th style=\"text-align: center;\">Tipo</th>\r\n         <th style=\"text-align: center;\">Zona</th>\r\n         <th style=\"text-align: center;\">Ciudad</th>\r\n         <th style=\"text-align: center;\">En Curso</th>\r\n         <th style=\"text-align: center;\">Finalizados</th>\r\n         <th style=\"text-align: center;\">Ingreso</th>\r\n         <th style=\"text-align: center;\">Puntaje</th>\r\n         <th style=\"text-align: center;\">Estado</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.usuario.email}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.tipo2}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n            <td style=\"text-align: center;\">{{item.encurso}}</td>\r\n            <td style=\"text-align: center;\">{{item.enfinalizados}}</td>\r\n            <td style=\"text-align: center;\">{{item.created_at}}</td>\r\n            <!--td style=\" vertical-align:middle;\">\r\n              <div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.status === 'ON'\" (change)=\"cambiarStatus(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div>\r\n            </td-->\r\n            <td class=\"text-center\">\r\n              <div>\r\n                <ngb-rating [(rate)]=\"item.promedio\" max=5>\r\n                  <ng-template let-fill=\"fill\">\r\n                    <span class=\"star fill\" [class.filled]=\"fill === 100\">\r\n                      <i class=\"ion-android-star\" *ngIf=\"fill === 100\"></i>\r\n                      <i class=\"ion-android-star-outline\" *ngIf=\"fill !== 100\"></i>\r\n                    </span>\r\n                  </ng-template>\r\n                </ngb-rating>\r\n                <!--span class=\"current-rate\">{{item.promedio}}</span-->\r\n              </div>\r\n            </td>\r\n            <td style=\" vertical-align:middle;\">\r\n              <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div-->\r\n              <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n            </td> \r\n            \r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                <i class=\"nb-trash\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                <i class=\"nb-email\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" *ngIf=\"editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar información del Proveedor <br><br>\r\n        <button class=\"btn btn-secondary\" (click)=\"atras()\">Atras</button><br>\r\n      </nb-card-header>\r\n      <nb-card-body>\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"row\">\r\n          \r\n            <div class=\"form-group\" class=\"col-3\"> \r\n              <label for=\"exampleInputNombre\">Nombre</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n              <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputEmail\">Email</label>\r\n              <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail\" placeholder=\"Email\" formControlName=\"email\">\r\n              <div *ngIf=\"myFormEditar.get('email').errors && myFormEditar.get('email').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('email').hasError('required')\">Email es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Teléfono</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTelefono\" placeholder=\"Telefono\" formControlName=\"telefono\">\r\n              <div *ngIf=\"myFormEditar.get('telefono').errors && myFormEditar.get('telefono').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('telefono').hasError('required')\">Teléfono es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Foto</label><br>\r\n              <img src=\"{{myFormEditar.value.foto}}\" alt=\"\" style=\"width: 250px; height: 250px; border-radius: 20px;\">\r\n                <input [hidden]=\"clear\" type=\"file\" name=\"imagen\" id=\"imagen\" (change)=\"onFileChange($event)\" #fileInput accept=\"image/*\">\r\n                  <div *ngIf=\"clear\">\r\n                    <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFile()\">Eliminar</button>\r\n                  </div>\r\n                  <p [hidden]=\"clear\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Documento de identidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"cedula\" placeholder=\"\" formControlName=\"cedula\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nacionalidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"nacionalidad\" placeholder=\"\" formControlName=\"nacionalidad\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Dirección google</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion\" placeholder=\"\" formControlName=\"direccion\">{{myFormEditar.value.lat}}-{{myFormEditar.value.lng}}\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Dirección exacta</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion_exacta\" placeholder=\"\" formControlName=\"direccion_exacta\">\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Sexo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"sexo\" placeholder=\"\" formControlName=\"sexo\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Fecha Nacimiento</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"fecha_nacimiento\" placeholder=\"\" formControlName=\"fecha_nacimiento\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Formación</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"formacion\" placeholder=\"\" formControlName=\"formacion\">\r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Tipo de registro</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"Tipo de registro\" formControlName=\"tipo2\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Ruc</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputruc\" placeholder=\"ruc\" formControlName=\"ruc\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Email empresa</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputemail_empresa\" placeholder=\"email\" formControlName=\"email_empresa\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nombre contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputcontacto_nombre\" placeholder=\"\" formControlName=\"contacto_nombre\">\r\n            </div>  \r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Urgencias</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"\" formControlName=\"urgencias\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Factura</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"factura\" placeholder=\"factura\" formControlName=\"factura\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Cargo contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"contacto_cargo\" placeholder=\"\" formControlName=\"contacto_cargo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Idoneidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"idoneidad\" placeholder=\"idoneidad\" formControlName=\"idoneidad\">\r\n            </div>              \r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Años experiencia</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"anos_experiencia\" placeholder=\"\" formControlName=\"anos_experiencia\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Experiencia</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"experiencia\" placeholder=\"\" formControlName=\"experiencia\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.experiencia2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Idiomas</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"idiomas\" placeholder=\"\" formControlName=\"idiomas\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.idiomas2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            \r\n            <nb-card-header>Disponibilidad</nb-card-header>\r\n              <br><br>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Lunes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_i\" placeholder=\"\" formControlName=\"lunes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"lunes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Martes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Miercoles:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Jueves:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Viernes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Sabado:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Domingo:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n              </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\" *ngIf=\"refer\">\r\n            <nb-card-header>Referencias personales</nb-card-header>\r\n            <br><br>\r\n            <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre1}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono1}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion1}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto1}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo1}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre2}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono2}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion2}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto2}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo2}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre3}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono3}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion3}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto3}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo3}}<br>\r\n              <br>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Referencias comerciales</nb-card-header>\r\n            <br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre1}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono1}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion1}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto1}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo1}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre2}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono2}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion2}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto2}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo2}}<br>\r\n            <br>\r\n            <label style=\"font-weight: bold;\">Referencia 2:</label> <br>\r\n              <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre3}}<br>\r\n              <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono3}}<br>\r\n              <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion3}}<br>\r\n              <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto3}}<br>\r\n              <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo3}}<br>\r\n              <br>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Documento de Indentidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.pasaporte}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangePasaporte($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Logo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.logo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearLogo\" type=\"file\" name=\"Logo\" id=\"Logo\" (change)=\"onFileChangeLogo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearLogo\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileLogo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearLogo\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Aviso Operaciones</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.operaciones}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearOperaciones\" type=\"file\" name=\"Operaciones\" id=\"Operaciones\" (change)=\"onFileChangeOperaciones($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearOperaciones\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileOperaciones()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearOperaciones\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Idoneidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.idoneidad_file}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"Idoneidad_file\" id=\"Idoneidad_file\" (change)=\"onFileChangeIdoneidad_file($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileIdoneidad_file()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Recibo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.recibo_servicio}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearrecibo_servicio\" type=\"file\" name=\"recibo_servicio\" id=\"recibo_servicio\" (change)=\"onFileChangerecibo_servicio($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearrecibo_servicio\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilerecibo_servicio()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearrecibo_servicio\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" [hidden]=\"contrato==null\">\r\n            <label for=\"exampleInputTelefono\">Contrato:</label><br>\r\n            <a href=\"{{contrato}}\" target=\"_blank\">Ver contrato</a>\r\n          </div>\r\n          <div class=\"form-group\" [hidden]=\"contrato!=null\">\r\n            <label for=\"exampleInputTelefono\">Sin contrato...</label><br>\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"edit_contrato\">Editar contrato</button>\r\n          <div class=\"row\" [hidden]=\"!edit_contrato\">\r\n\r\n              <div class=\"col-1\">\r\n\r\n              </div>\r\n              <div class=\"col-10\">\r\n                <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"!edit_contrato\">Cerrar contrato</button>\r\n\r\n                <div *ngIf=\"pais==1\">\r\n                  \r\n                  <h3 style=\"text-align: center;\">\r\n                    CONTRATO\r\n                  </h3>\r\n                  <p style=\"text-align: justify;\">En la Colonia de Sacramento, el día <input type=\"text\" formControlName=\"contrato_fecha\"> entre <b>“Service24”</b>, y por la otra, <b><input type=\"text\" formControlName=\"contrato_nombre\"></b> de C.I <input type=\"text\" formControlName=\"contrato_ci\">  quien en lo sucesivo se denominará <b>“El Proveedor”</b>, se ha convenido en celebrar el presente contrato de conformidad con los términos y condiciones siguientes:\r\n                  </p>\r\n                  <p><b>A- OBJETO: “Service24”</b> es una aplicación (plataforma) que actúa como intermediario entre quién busca el producto o servicio, en este caso y en lo sucesivo denominado <b>“El Cliente”</b> y quiénes están registrados en ella para ofrecerlos, en este caso <b>“El Proveedor”</b>, quien solo se encargará de gestionar la logística entre las partes para que los trabajos se lleven a cabo. Por este contrato, quién se presenta en este momento <b>“El Proveedor”</b> solicita y adquiere el uso de la plataforma para ofrecer a través de ella sus productos/servicios de acuerdo a los términos y condiciones que se establecen a continuación.</p>\r\n                  <p><b>B- PRECIO: </b>A partir de la confirmación de esta solicitud, <b>“El Proveedor”</b> debe abonar las siguientes cantidades: </p>\r\n                  <p>I- La zona que se adopte una cuota mensual por el monto de <input type=\"text\" formControlName=\"contrato_costo\">.$u según el plan <b><input type=\"text\" formControlName=\"contrato_plan\"></b>.</p> \r\n                  \r\n\r\n                  <p><b>C- DERECHOS Y OBLIGACIONES:</b> 1- Este contrato se entiende celebrado Intuitu Personae, por lo tanto, ninguna de las partes podrá ceder o traspasar a terceros los derechos y obligaciones que de él se derivan. 2- <b>“El Proveedor”</b> es responsable a partir del momento en el que se coordina el servicio en realizar el trabajo y finalizarlo, cobrando por ese servicio lo que se acuerde entre él y <b>“El Cliente”</b>, estando <b>“Service24”</b> libre de toda responsabilidad contractual que haya podido adquirir con <b>“El Cliente”</b>.</p>\r\n\r\n                  <p><b>D- PLAZO:</b> El presente contrato tendrá una duración de <b>UN (1) AÑO FIJO</b>, contado a partir de la fecha de su aceptación y suscripción, prorrogable automáticamente por igual periodo o por otro, siempre que las partes acuerden su renovación por lo menos con treinta (30) días calendarios antes del vencimiento del plazo fijo o de cualquiera de sus prórrogas.</p>  \r\n\r\n                  <p><b>E- RESCISIÓN: </b>en caso de incumplimiento el presente contrato se rescindirá: 1- Cuando la calificación dada por <b>“El Cliente”</b> a <b>“El Proveedor”</b> en cuanto al servicio brindado se refiere, mediante la plataforma sea de 1 estrella, reiterándose esta situación tres veces y previo análisis de por parte de <b>“Service24”</b>. 2- Por dos (2) faltas cuándo ya se confirmó a <b>“El Cliente”</b> proveer el servicio, determinándose horario y demás condiciones previamente pactadas. Esta situación acarreará treinta (30) días de suspensión. Los retrasos en la llegada al domicilio de <b>“El Cliente”</b> o al lugar donde se ejecutará el servicio, excluyendo demoras por causa del tránsito o alguna urgencia imprevista (las cuales ya están calculadas en un margen aproximado) se computarán como media falta. Posteriormente a esta situación y registrándose dos (2) retrasos más o una falta, este contrato quedará rescindido de pleno derecho. 3- Por abuso, agresión o cualquier situación de violencia que se registre hacia <b>“El Cliente”</b> desde el momento en el que se coordina el servicio y hasta la finalización del mismo. 4- Por la sola voluntad de las partes en dar por terminado el servicio.</p>\r\n\r\n                  <p><b>F- GARANTÍA DEL SERVICIO: </b>A partir del momento en que <b>“El Cliente</b> y <b>“El Proveedor”</b> coordinan el servicio, <b>“Service24”</b> no se hace responsable por negligencia en los trabajos realizados, por caso fortuito o fuerza mayor. <b>“Service24”</b> no brinda ningún tipo de garantía a clientes sobre los trabajos realizados por <b>“El Proveedor”</b> del producto o servicio a través del contacto por la plataforma o de ninguna otra forma posible, ya que <b>“Service24”</b> solo se encarga de gestionar la logística entre las partes como se mencionó en la cláusula A de este contrato. Tampoco garantiza que los pedidos se lleven a cabo en tiempo y forma acordada, esto es únicamente responsabilidad de <b>“El Proveedor”</b>.</p>\r\n\r\n                  <p><b>G- PRIVACIDAD:</b> 1- <b>“Service24”</b> garantiza que la información personal que se envía, cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos, no serán entregados a terceros, salvo: I- los que se muestran a <b>“El Cliente”</b> cuando le es confirmado el producto o servicio, los cuales son proveídos para mayor seguridad del solicitante; II- que la información deba ser revelada en cumplimiento a una orden judicial o requerimientos legales. 2- La suscripción a boletines de correos electrónicos publicitarios es voluntaria y podrá ser seleccionada al momento de crear la cuenta del usuario. <b>“Service24”</b> se reserva el derecho de cambiar o modificar estos términos sin previo aviso.</p> \r\n\r\n                  <p><b>H- AUTENTICIDAD DEL CONTRATO:</b> El presente documento constituye el acuerdo entre las partes en relación con su objeto y deja sin efecto cualquier otra negociación, obligación o comunicación entre éstas, ya sea verbal o escrita, efectuada con anterioridad.  Las partes podrán, en el momento que lo deseen, modificar, por escrito, los términos y condiciones establecidos en el presente instrumento, previo consentimiento de los contratantes, debiéndose agregar a este documento, como parte integrante del mismo. Dichas modificaciones obligarán a los signatarios a partir de la fecha de su firma.</p> \r\n\r\n                  <p><b>I- LEY APLICABLE:</b> Las partes acuerdan expresamente someterse a lo dispuesto en el Código Civil, y demás leyes vigentes que sean aplicables en relación a la materia, para todo lo no previsto por aquéllas en el presente documento.</p>\r\n\r\n                  <p><b>J- NOTIFICACIONES:</b> Toda notificación en virtud de este convenio preliminar podrá realizarse vía fax, telefax o correo certificado, a las direcciones físicas de las partes mencionadas a continuación:</p>\r\n\r\n                  <p><b>“Servicio 24”</b>:  Colonia de Sacramento y 59891960115.</p>\r\n\r\n                  <p><b>“EL Proveedor”</b>: Dirección: <input formControlName=\"direccion\">, Teléfono: <input formControlName=\"telefono\"></p>\r\n\r\n                  <p><b>K- ARBITRAJE:</b> Cualquiera controversia que surja por razón de interpretación, ejecución o incumplimiento del presente contrato, será resuelta entre las partes. En caso de que las partes no logren llegar a un acuerdo, entonces se resolverá mediante arbitraje en Derecho ante el Centro de Conciliación y Arbitraje de la Cámara de Comercio, Industrias y Agricultura de la Colonia de Sacramento, de conformidad con sus normas y reglamentos de procedimiento. Para estos efectos, cada parte designará a un árbitro y éstos, a su vez, designarán a un tercero, quienes conformarán el Tribunal Arbitral. La decisión adoptada por dicho tribunal será final, definitiva y de obligatorio cumplimiento para las partes, por lo que la misma no podrá ser impugnada ante los tribunales de justicia. La parte vencida pagará los costos, gastos y honorarios incurridos en el proceso arbitral. El arbitraje se conducirá en idioma castellano.</p>\r\n\r\n                  <p><b>L- DOMICILIO:</b> Las partes contratantes eligen como domicilio especial a la ciudad de Colonia de Sacramento para todos los efectos, derivados y consecuencias de este contrato. En Colonia de Sacramento, a los '.$fecha.'</p>\r\n                  <div align=\"center\">\r\n                    <img src=\"{{objAEditar.firma}}\" alt=\"\" style=\"width: 250px\">\r\n                    <div style=\"border-bottom: 1px solid #000;margin-bottom: 10px;width: 400px\"></div>\r\n                    <p >{{myFormEditar.value.contrato_nombre}}</p>\r\n                    <p >C.I. No. {{myFormEditar.value.contrato_ci}}</p>\r\n                  </div>\r\n                </div>\r\n                <div *ngIf=\"pais==2\">\r\n                  \r\n                  <h3 style=\"text-align: center;\">\r\n                    CONTRATO\r\n                  </h3>\r\n                  <p style=\"text-align: justify;\">En la Ciudad de Panamá, el día <input type=\"text\" formControlName=\"contrato_fecha\"> entre <b>“Service24 S.A.”</b>sociedad anónima debidamente representada para este acto por Michael Alexander Armas Alvarez, varon, venezolano, portadora de la cédula de identidad personal Nº E-8-128773, con domicilio en: Costa Sur, Corregimiento Juan Diaz, Panamá, República de Panamápor una parte, quien en lo adelante se denominará “Service24 Panamá”, y por la otra, <b><input type=\"text\" formControlName=\"contrato_nombre\"></b> de C.I <input type=\"text\" formControlName=\"contrato_ci\">  quien en lo sucesivo se denominará <b>“El Proveedor”</b>, se ha convenido en celebrar el presente contrato de conformidad con los términos y condiciones siguientes:\r\n                  </p>\r\n                  <p><b>A- OBJETO: “Service24”</b> es una aplicación (plataforma) que actúa como intermediario entre quién busca el producto o servicio, en este caso y en lo sucesivo denominado <b>“El Cliente”</b> y quiénes están registrados en ella para ofrecerlos, en este caso <b>“El Proveedor”</b>, quien solo se encargará de gestionar la logística entre las partes para que los trabajos se lleven a cabo. Por este contrato, quién se presenta en este momento <b>“El Proveedor”</b> solicita y adquiere el uso de la plataforma para ofrecer a través de ella sus productos/servicios de acuerdo a los términos y condiciones que se establecen a continuación.</p>\r\n                  <p><b>B- PRECIO: </b>A partir de la confirmación de esta solicitud, <b>“El Proveedor”</b> debe abonar las siguientes cantidades: </p>\r\n                  <p>I- La zona que se adopte una cuota mensual por el monto de <input type=\"text\" formControlName=\"contrato_costo\">.$ según el plan <b><input type=\"text\" formControlName=\"contrato_plan\"></b>. Monto total debe ser depositado en la cuenta de Service 24 PanamáBanco GeneralNro04-69-98-099966-0.</p> \r\n                  \r\n\r\n                  <p><b>C- DERECHOS Y OBLIGACIONES:</b> 1- Este contrato se entiende celebrado Intuitu Personae, por lo tanto, ninguna de las partes podrá ceder o traspasar a terceros los derechos y obligaciones que de él se derivan. 2- <b>“El Proveedor”</b> es responsable a partir del momento en el que se coordina el servicio en realizar el trabajo y finalizarlo, cobrando por ese servicio lo que se acuerde entre él y <b>“El Cliente”</b>, estando <b>“Service24”</b> libre de toda responsabilidad contractual que haya podido adquirir con <b>“El Cliente”</b>.</p>\r\n\r\n                  <p><b>D- PLAZO:</b> El presente contrato tendrá una duración de <b>UN (1) AÑO FIJO</b>, contado a partir de la fecha de su aceptación y suscripción, prorrogable automáticamente por igual periodo o por otro, siempre que las partes acuerden su renovación por lo menos con treinta (30) días calendarios antes del vencimiento del plazo fijo o de cualquiera de sus prórrogas.</p>  \r\n\r\n                  <p><b>E- RESCISIÓN: </b>en caso de incumplimiento el presente contrato se rescindirá: 1- Cuando la calificación dada por <b>“El Cliente”</b> a <b>“El Proveedor”</b> en cuanto al servicio brindado se refiere, mediante la plataforma sea de 1 estrella, reiterándose esta situación tres veces y previo análisis de por parte de <b>“Service24”</b>. 2- Por dos (2) faltas cuándo ya se confirmó a <b>“El Cliente”</b> proveer el servicio, determinándose horario y demás condiciones previamente pactadas. Esta situación acarreará treinta (30) días de suspensión. Los retrasos en la llegada al domicilio de <b>“El Cliente”</b> o al lugar donde se ejecutará el servicio, excluyendo demoras por causa del tránsito o alguna urgencia imprevista (las cuales ya están calculadas en un margen aproximado) se computarán como media falta. Posteriormente a esta situación y registrándose dos (2) retrasos más o una falta, este contrato quedará rescindido de pleno derecho. 3- Por abuso, agresión o cualquier situación de violencia que se registre hacia <b>“El Cliente”</b> desde el momento en el que se coordina el servicio y hasta la finalización del mismo. 4- Por la sola voluntad de las partes en dar por terminado el servicio.</p>\r\n\r\n                  <p><b>F- GARANTÍA DEL SERVICIO: </b>A partir del momento en que <b>“El Cliente</b> y <b>“El Proveedor”</b> coordinan el servicio, <b>“Service24”</b> no se hace responsable por negligencia en los trabajos realizados, por caso fortuito o fuerza mayor. <b>“Service24”</b> no brinda ningún tipo de garantía a clientes sobre los trabajos realizados por <b>“El Proveedor”</b> del producto o servicio a través del contacto por la plataforma o de ninguna otra forma posible, ya que <b>“Service24”</b> solo se encarga de gestionar la logística entre las partes como se mencionó en la cláusula A de este contrato. Tampoco garantiza que los pedidos se lleven a cabo en tiempo y forma acordada, esto es únicamente responsabilidad de <b>“El Proveedor”</b>.</p>\r\n\r\n                  <p><b>G- PRIVACIDAD:</b> 1- <b>“Service24”</b> garantiza que la información personal que se envía, cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos, no serán entregados a terceros, salvo: I- los que se muestran a <b>“El Cliente”</b> cuando le es confirmado el producto o servicio, los cuales son proveídos para mayor seguridad del solicitante; II- que la información deba ser revelada en cumplimiento a una orden judicial o requerimientos legales. 2- La suscripción a boletines de correos electrónicos publicitarios es voluntaria y podrá ser seleccionada al momento de crear la cuenta del usuario. <b>“Service24”</b> se reserva el derecho de cambiar o modificar estos términos sin previo aviso.</p> \r\n\r\n                  <p><b>H- AUTENTICIDAD DEL CONTRATO:</b> El presente documento constituye el acuerdo entre las partes en relación con su objeto y deja sin efecto cualquier otra negociación, obligación o comunicación entre éstas, ya sea verbal o escrita, efectuada con anterioridad.  Las partes podrán, en el momento que lo deseen, modificar, por escrito, los términos y condiciones establecidos en el presente instrumento, previo consentimiento de los contratantes, debiéndose agregar a este documento, como parte integrante del mismo. Dichas modificaciones obligarán a los signatarios a partir de la fecha de su firma.</p> \r\n\r\n                  <p><b>I- LEY APLICABLE:</b> Las partes acuerdan expresamente someterse a lo dispuesto en el Código Civil, y demás leyes vigentes que sean aplicables en relación a la materia, para todo lo no previsto por aquéllas en el presente documento.</p>\r\n\r\n                  <p><b>J- NOTIFICACIONES:</b> Toda notificación en virtud de este convenio preliminar podrá realizarse vía fax, telefax o correo certificado, a las direcciones físicas de las partes mencionadas a continuación:</p>\r\n\r\n                  <p><b>“Servicio 24”</b>:  Ciudad de Panamá y 50760708072.</p>\r\n\r\n                  <p><b>“EL Proveedor”</b>: Dirección: <input formControlName=\"direccion\">, Teléfono: <input formControlName=\"telefono\"></p>\r\n\r\n                  <p><b>K- ARBITRAJE:</b> Cualquiera controversia que surja por razón de interpretación, ejecución o incumplimiento del presente contrato, será resuelta entre las partes. En caso de que las partes no logren llegar a un acuerdo, entonces se resolverá mediante arbitraje en Derecho ante el Centro de Conciliación y Arbitraje de la Cámara de Comercio, Industrias y Agricultura de la Colonia de Sacramento, de conformidad con sus normas y reglamentos de procedimiento. Para estos efectos, cada parte designará a un árbitro y éstos, a su vez, designarán a un tercero, quienes conformarán el Tribunal Arbitral. La decisión adoptada por dicho tribunal será final, definitiva y de obligatorio cumplimiento para las partes, por lo que la misma no podrá ser impugnada ante los tribunales de justicia. La parte vencida pagará los costos, gastos y honorarios incurridos en el proceso arbitral. El arbitraje se conducirá en idioma castellano.</p>\r\n\r\n                  <p><b>L- DOMICILIO:</b> Las partes contratantes eligen como domicilio especial a la ciudad de Colonia de Sacramento para todos los efectos, derivados y consecuencias de este contrato. En Colonia de Sacramento, a los '.$fecha.'</p>\r\n                  <div align=\"center\">\r\n                    <img src=\"{{objAEditar.firma}}\" alt=\"\" style=\"width: 250px\">\r\n                    <div style=\"border-bottom: 1px solid #000;margin-bottom: 10px;width: 400px\"></div>\r\n                    <p >{{myFormEditar.value.contrato_nombre}}</p>\r\n                    <p >C.I. No. {{myFormEditar.value.contrato_ci}}</p>\r\n                  </div>\r\n                </div>\r\n              </div> \r\n\r\n              <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"!edit_contrato\">Cerrar contrato</button>-----\r\n              <button class=\"btn btn-warning\" (click)=\"editar_contrato()\" [hidden]=\"!edit_contrato\">Editar contrato</button>\r\n              <div class=\"col-1\">\r\n\r\n              </div>                       \r\n          </div>                                          \r\n\r\n          <br><br>\r\n          <nb-card-header>Servicios del Proveedor</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n               <th style=\"text-align: center;\">Nombre</th>\r\n               <th style=\"text-align: center;\">Categoaria</th>\r\n               <th style=\"text-align: center;\">Descripción</th>\r\n               <th style=\"text-align: center;\">Zona</th>\r\n               <th style=\"text-align: center;\">Imagenes</th>\r\n               <th style=\"text-align: center;\">Habilitar</th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.establecimiento.productos\" >\r\n                <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\" style=\"border-radius: 20px;\"></td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.subcategoria.categoria.catprincipales.nombre}}-{{item.subcategoria.categoria.nombre}}-{{item.subcategoria.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.descripcion}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\"><div *ngFor=\"let zonas of item.zonas2\"> {{zonas.nombre}}, </div></td>\r\n                  <td style=\"text-align: center; vertical-align: middle;\"  style=\"display: flex;\">\r\n                    <div *ngFor=\"let fotos of item.fotos; let i = index\">\r\n                      <a href=\"{{fotos.url}}\" target=\"_blank\">\r\n                        <img src=\"{{fotos.url}}\" alt=\"\" style=\"width: 60px; height: 60px\">\r\n                      </a>\r\n                      <button type=\"button\" class=\"btn btn-secundary  btn-table\" (click)=\"borrarfoto(item.id,item.fotos,i)\">x</button>\r\n                    </div>\r\n                  </td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">\r\n                    <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado2(item)\"></nb-checkbox>\r\n                    <!--button type=\"button\" class=\"btn btn-secundary  btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado!='ON'\">Hablitar{{item.estado}}\r\n                   </button>\r\n                   <button type=\"button\" class=\"btn btn-danger btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado=='ON'\">Deshabilitar\r\n                   </button-->\r\n                  </td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          <br><br>\r\n          <nb-card-header>Calificaciones</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">ID</th>\r\n               <th style=\"text-align: center;\">Servicio</th>\r\n               <th style=\"text-align: center;\">Promedio de Califi.</th>\r\n               <th style=\"text-align: center;\">Comentario</th>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.calificaciones\" >\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.id}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.producto.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">\r\n                    <div>\r\n                      <ngb-rating [(rate)]=\"item.puntaje\" max=5>\r\n                        <ng-template let-fill=\"fill\">\r\n                          <span class=\"star fill\" [class.filled]=\"fill === 100\">\r\n                            <i class=\"ion-android-star\" *ngIf=\"fill === 100\"></i>\r\n                            <i class=\"ion-android-star-outline\" *ngIf=\"fill !== 100\"></i>\r\n                          </span>\r\n                        </ng-template>\r\n                      </ngb-rating>\r\n                      <span class=\"current-rate\">{{item.puntaje}}</span>\r\n                    </div>\r\n                  </td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.comentario}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\"></td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" >Actualizar datos</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Eliminar Socio: </h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <p>¿Realmente desea eliminar el socio {{eliminar_nombre}}?</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Cancelar</button>\r\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\">Eliminar</button>\r\n  </div>\r\n</ng-template>\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
+module.exports = "<nb-card *ngIf=\"!editando && mostrar\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Socios</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <table class=\"table\">\r\n      <thead>\r\n         <th style=\"text-align: center;\">Imagen</th>\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Email</th>\r\n         <th style=\"text-align: center;\">Teléfono</th>\r\n         <th style=\"text-align: center;\">Tipo</th>\r\n         <th style=\"text-align: center;\">Zona</th>\r\n         <th style=\"text-align: center;\">Ciudad</th>\r\n         <th style=\"text-align: center;\">En Curso</th>\r\n         <th style=\"text-align: center;\">Finalizados</th>\r\n         <th style=\"text-align: center;\">Ingreso</th>\r\n         <th style=\"text-align: center;\">Puntaje</th>\r\n         <th style=\"text-align: center;\">Estado</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.usuario.email}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.tipo2}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.encurso}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.enfinalizados}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.fecha}}</td>\r\n            <!--td style=\" vertical-align:middle;\">\r\n              <div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.status === 'ON'\" (change)=\"cambiarStatus(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div>\r\n            </td-->\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <div>\r\n                <ngb-rating [(rate)]=\"item.promedio\" max=5>\r\n                  <ng-template let-fill=\"fill\">\r\n                    <span class=\"star fill\" [class.filled]=\"fill === 100\">\r\n                      <i class=\"ion-android-star\" *ngIf=\"fill === 100\"></i>\r\n                      <i class=\"ion-android-star-outline\" *ngIf=\"fill !== 100\"></i>\r\n                    </span>\r\n                  </ng-template>\r\n                </ngb-rating>\r\n                <!--span class=\"current-rate\">{{item.promedio}}</span-->\r\n              </div>\r\n            </td>\r\n            <td style=\" vertical-align:middle; vertical-align:middle;\">\r\n              <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div-->\r\n              <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n            </td> \r\n            \r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                <i class=\"nb-trash\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                <i class=\"nb-email\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" *ngIf=\"editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar información del Proveedor <br><br>\r\n        <button class=\"btn btn-secondary\" (click)=\"atras()\">Atras</button><br>\r\n      </nb-card-header>\r\n      <nb-card-body>\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"row\">\r\n          \r\n            <div class=\"form-group\" class=\"col-3\"> \r\n              <label for=\"exampleInputNombre\">Nombre</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n              <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputEmail\">Email</label>\r\n              <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail\" placeholder=\"Email\" formControlName=\"email\">\r\n              <div *ngIf=\"myFormEditar.get('email').errors && myFormEditar.get('email').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('email').hasError('required')\">Email es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Teléfono</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTelefono\" placeholder=\"Telefono\" formControlName=\"telefono\">\r\n              <div *ngIf=\"myFormEditar.get('telefono').errors && myFormEditar.get('telefono').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('telefono').hasError('required')\">Teléfono es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Foto</label><br>\r\n              <img src=\"{{myFormEditar.value.foto}}\" alt=\"\" style=\"width: 250px; height: 250px; border-radius: 20px;\">\r\n                <input [hidden]=\"clear\" type=\"file\" name=\"imagen\" id=\"imagen\" (change)=\"onFileChange($event)\" #fileInput accept=\"image/*\">\r\n                  <div *ngIf=\"clear\">\r\n                    <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFile()\">Eliminar</button>\r\n                  </div>\r\n                  <p [hidden]=\"clear\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Documento de identidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"cedula\" placeholder=\"\" formControlName=\"cedula\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nacionalidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"nacionalidad\" placeholder=\"\" formControlName=\"nacionalidad\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Dirección google</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion\" placeholder=\"\" formControlName=\"direccion\">{{myFormEditar.value.lat}}-{{myFormEditar.value.lng}}\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Dirección exacta</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion_exacta\" placeholder=\"\" formControlName=\"direccion_exacta\">\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Sexo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"sexo\" placeholder=\"\" formControlName=\"sexo\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Fecha Nacimiento</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"fecha_nacimiento\" placeholder=\"\" formControlName=\"fecha_nacimiento\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Formación</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"formacion\" placeholder=\"\" formControlName=\"formacion\">\r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Tipo de registro</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"Tipo de registro\" formControlName=\"tipo2\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Ruc</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputruc\" placeholder=\"ruc\" formControlName=\"ruc\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Email empresa</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputemail_empresa\" placeholder=\"email\" formControlName=\"email_empresa\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nombre contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputcontacto_nombre\" placeholder=\"\" formControlName=\"contacto_nombre\">\r\n            </div>  \r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Urgencias</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"\" formControlName=\"urgencias\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Factura</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"factura\" placeholder=\"factura\" formControlName=\"factura\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Cargo contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"contacto_cargo\" placeholder=\"\" formControlName=\"contacto_cargo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Idoneidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"idoneidad\" placeholder=\"idoneidad\" formControlName=\"idoneidad\">\r\n            </div>              \r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Años experiencia</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"anos_experiencia\" placeholder=\"\" formControlName=\"anos_experiencia\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Experiencia</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"experiencia\" placeholder=\"\" formControlName=\"experiencia\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.experiencia2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Idiomas</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"idiomas\" placeholder=\"\" formControlName=\"idiomas\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.idiomas2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            \r\n            <nb-card-header>Disponibilidad</nb-card-header>\r\n              <br><br>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Lunes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_i\" placeholder=\"\" formControlName=\"lunes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"lunes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Martes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Miercoles:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Jueves:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Viernes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Sabado:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Domingo:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n              </div>\r\n          </div>\r\n          \r\n<!--           <br><br>\r\n<hr>\r\n<br><br>\r\n\r\n<div class=\"form-group\" *ngIf=\"refer\">\r\n  <nb-card-header>Referencias personales</nb-card-header>\r\n  <br><br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo3}}<br>\r\n    <br>\r\n</div>\r\n\r\n<br><br>\r\n<hr>\r\n<br><br>\r\n\r\n<div class=\"form-group\">\r\n  <nb-card-header>Referencias comerciales</nb-card-header>\r\n  <br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo3}}<br>\r\n    <br>\r\n</div> -->\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Documento de Indentidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.pasaporte}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangePasaporte($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Logo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.logo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearLogo\" type=\"file\" name=\"Logo\" id=\"Logo\" (change)=\"onFileChangeLogo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearLogo\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileLogo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearLogo\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Aviso Operaciones</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.operaciones}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearOperaciones\" type=\"file\" name=\"Operaciones\" id=\"Operaciones\" (change)=\"onFileChangeOperaciones($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearOperaciones\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileOperaciones()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearOperaciones\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Idoneidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.idoneidad_file}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"Idoneidad_file\" id=\"Idoneidad_file\" (change)=\"onFileChangeIdoneidad_file($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileIdoneidad_file()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Recibo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.recibo_servicio}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearrecibo_servicio\" type=\"file\" name=\"recibo_servicio\" id=\"recibo_servicio\" (change)=\"onFileChangerecibo_servicio($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearrecibo_servicio\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilerecibo_servicio()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearrecibo_servicio\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" [hidden]=\"contrato==null\">\r\n            <label for=\"exampleInputTelefono\">Contrato:</label><br>\r\n            <a href=\"{{contrato}}\" target=\"_blank\">Ver contrato</a>\r\n          </div>\r\n          <div class=\"form-group\" [hidden]=\"contrato!=null\">\r\n            <label for=\"exampleInputTelefono\">Sin contrato...</label><br>\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"edit_contrato\">Editar contrato</button>\r\n          <div class=\"row\" [hidden]=\"!edit_contrato\">\r\n\r\n              <div class=\"col-1\">\r\n\r\n              </div>\r\n              <div class=\"col-10\">\r\n                <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"!edit_contrato\">Cerrar contrato</button>\r\n\r\n                <div *ngIf=\"pais==1\">\r\n                  \r\n                  <h3 style=\"text-align: center;\">\r\n                    CONTRATO\r\n                  </h3>\r\n                  <p style=\"text-align: justify;\">En la Colonia de Sacramento, el día <input type=\"text\" formControlName=\"contrato_fecha\"> entre <b>“Service24”</b>, y por la otra, <b><input type=\"text\" formControlName=\"contrato_nombre\"></b> de C.I <input type=\"text\" formControlName=\"contrato_ci\">  quien en lo sucesivo se denominará <b>“El Proveedor”</b>, se ha convenido en celebrar el presente contrato de conformidad con los términos y condiciones siguientes:\r\n                  </p>\r\n                  <p><b>A- OBJETO: “Service24”</b> es una aplicación (plataforma) que actúa como intermediario entre quién busca el producto o servicio, en este caso y en lo sucesivo denominado <b>“El Cliente”</b> y quiénes están registrados en ella para ofrecerlos, en este caso <b>“El Proveedor”</b>, quien solo se encargará de gestionar la logística entre las partes para que los trabajos se lleven a cabo. Por este contrato, quién se presenta en este momento <b>“El Proveedor”</b> solicita y adquiere el uso de la plataforma para ofrecer a través de ella sus productos/servicios de acuerdo a los términos y condiciones que se establecen a continuación.</p>\r\n                  <p><b>B- PRECIO: </b>A partir de la confirmación de esta solicitud, <b>“El Proveedor”</b> debe abonar las siguientes cantidades: </p>\r\n                  <p>I- La zona que se adopte una cuota mensual por el monto de <input type=\"text\" formControlName=\"contrato_costo\">.$u según el plan <b><input type=\"text\" formControlName=\"contrato_plan\"></b>.</p> \r\n                  \r\n\r\n                  <p><b>C- DERECHOS Y OBLIGACIONES:</b> 1- Este contrato se entiende celebrado Intuitu Personae, por lo tanto, ninguna de las partes podrá ceder o traspasar a terceros los derechos y obligaciones que de él se derivan. 2- <b>“El Proveedor”</b> es responsable a partir del momento en el que se coordina el servicio en realizar el trabajo y finalizarlo, cobrando por ese servicio lo que se acuerde entre él y <b>“El Cliente”</b>, estando <b>“Service24”</b> libre de toda responsabilidad contractual que haya podido adquirir con <b>“El Cliente”</b>.</p>\r\n\r\n                  <p><b>D- PLAZO:</b> El presente contrato tendrá una duración de <b>UN (1) AÑO FIJO</b>, contado a partir de la fecha de su aceptación y suscripción, prorrogable automáticamente por igual periodo o por otro, siempre que las partes acuerden su renovación por lo menos con treinta (30) días calendarios antes del vencimiento del plazo fijo o de cualquiera de sus prórrogas.</p>  \r\n\r\n                  <p><b>E- RESCISIÓN: </b>en caso de incumplimiento el presente contrato se rescindirá: 1- Cuando la calificación dada por <b>“El Cliente”</b> a <b>“El Proveedor”</b> en cuanto al servicio brindado se refiere, mediante la plataforma sea de 1 estrella, reiterándose esta situación tres veces y previo análisis de por parte de <b>“Service24”</b>. 2- Por dos (2) faltas cuándo ya se confirmó a <b>“El Cliente”</b> proveer el servicio, determinándose horario y demás condiciones previamente pactadas. Esta situación acarreará treinta (30) días de suspensión. Los retrasos en la llegada al domicilio de <b>“El Cliente”</b> o al lugar donde se ejecutará el servicio, excluyendo demoras por causa del tránsito o alguna urgencia imprevista (las cuales ya están calculadas en un margen aproximado) se computarán como media falta. Posteriormente a esta situación y registrándose dos (2) retrasos más o una falta, este contrato quedará rescindido de pleno derecho. 3- Por abuso, agresión o cualquier situación de violencia que se registre hacia <b>“El Cliente”</b> desde el momento en el que se coordina el servicio y hasta la finalización del mismo. 4- Por la sola voluntad de las partes en dar por terminado el servicio.</p>\r\n\r\n                  <p><b>F- GARANTÍA DEL SERVICIO: </b>A partir del momento en que <b>“El Cliente</b> y <b>“El Proveedor”</b> coordinan el servicio, <b>“Service24”</b> no se hace responsable por negligencia en los trabajos realizados, por caso fortuito o fuerza mayor. <b>“Service24”</b> no brinda ningún tipo de garantía a clientes sobre los trabajos realizados por <b>“El Proveedor”</b> del producto o servicio a través del contacto por la plataforma o de ninguna otra forma posible, ya que <b>“Service24”</b> solo se encarga de gestionar la logística entre las partes como se mencionó en la cláusula A de este contrato. Tampoco garantiza que los pedidos se lleven a cabo en tiempo y forma acordada, esto es únicamente responsabilidad de <b>“El Proveedor”</b>.</p>\r\n\r\n                  <p><b>G- PRIVACIDAD:</b> 1- <b>“Service24”</b> garantiza que la información personal que se envía, cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos, no serán entregados a terceros, salvo: I- los que se muestran a <b>“El Cliente”</b> cuando le es confirmado el producto o servicio, los cuales son proveídos para mayor seguridad del solicitante; II- que la información deba ser revelada en cumplimiento a una orden judicial o requerimientos legales. 2- La suscripción a boletines de correos electrónicos publicitarios es voluntaria y podrá ser seleccionada al momento de crear la cuenta del usuario. <b>“Service24”</b> se reserva el derecho de cambiar o modificar estos términos sin previo aviso.</p> \r\n\r\n                  <p><b>H- AUTENTICIDAD DEL CONTRATO:</b> El presente documento constituye el acuerdo entre las partes en relación con su objeto y deja sin efecto cualquier otra negociación, obligación o comunicación entre éstas, ya sea verbal o escrita, efectuada con anterioridad.  Las partes podrán, en el momento que lo deseen, modificar, por escrito, los términos y condiciones establecidos en el presente instrumento, previo consentimiento de los contratantes, debiéndose agregar a este documento, como parte integrante del mismo. Dichas modificaciones obligarán a los signatarios a partir de la fecha de su firma.</p> \r\n\r\n                  <p><b>I- LEY APLICABLE:</b> Las partes acuerdan expresamente someterse a lo dispuesto en el Código Civil, y demás leyes vigentes que sean aplicables en relación a la materia, para todo lo no previsto por aquéllas en el presente documento.</p>\r\n\r\n                  <p><b>J- NOTIFICACIONES:</b> Toda notificación en virtud de este convenio preliminar podrá realizarse vía fax, telefax o correo certificado, a las direcciones físicas de las partes mencionadas a continuación:</p>\r\n\r\n                  <p><b>“Servicio 24”</b>:  Colonia de Sacramento y 59891960115.</p>\r\n\r\n                  <p><b>“EL Proveedor”</b>: Dirección: <input formControlName=\"direccion\">, Teléfono: <input formControlName=\"telefono\"></p>\r\n\r\n                  <p><b>K- ARBITRAJE:</b> Cualquiera controversia que surja por razón de interpretación, ejecución o incumplimiento del presente contrato, será resuelta entre las partes. En caso de que las partes no logren llegar a un acuerdo, entonces se resolverá mediante arbitraje en Derecho ante el Centro de Conciliación y Arbitraje de la Cámara de Comercio, Industrias y Agricultura de la Colonia de Sacramento, de conformidad con sus normas y reglamentos de procedimiento. Para estos efectos, cada parte designará a un árbitro y éstos, a su vez, designarán a un tercero, quienes conformarán el Tribunal Arbitral. La decisión adoptada por dicho tribunal será final, definitiva y de obligatorio cumplimiento para las partes, por lo que la misma no podrá ser impugnada ante los tribunales de justicia. La parte vencida pagará los costos, gastos y honorarios incurridos en el proceso arbitral. El arbitraje se conducirá en idioma castellano.</p>\r\n\r\n                  <p><b>L- DOMICILIO:</b> Las partes contratantes eligen como domicilio especial a la ciudad de Colonia de Sacramento para todos los efectos, derivados y consecuencias de este contrato. En Colonia de Sacramento, a los '.$fecha.'</p>\r\n                  <div align=\"center\">\r\n                    <img src=\"{{objAEditar.firma}}\" alt=\"\" style=\"width: 250px\">\r\n                    <div style=\"border-bottom: 1px solid #000;margin-bottom: 10px;width: 400px\"></div>\r\n                    <p >{{myFormEditar.value.contrato_nombre}}</p>\r\n                    <p >C.I. No. {{myFormEditar.value.contrato_ci}}</p>\r\n                  </div>\r\n                </div>\r\n                <div *ngIf=\"pais==2\">\r\n                  \r\n                  <h3 style=\"text-align: center;\">\r\n                    CONTRATO\r\n                  </h3>\r\n                  <p style=\"text-align: justify;\">En la Ciudad de Panamá, el día <input type=\"text\" formControlName=\"contrato_fecha\"> entre <b>“Service24 S.A.”</b>sociedad anónima debidamente representada para este acto por Michael Alexander Armas Alvarez, varon, venezolano, portadora de la cédula de identidad personal Nº E-8-128773, con domicilio en: Costa Sur, Corregimiento Juan Diaz, Panamá, República de Panamápor una parte, quien en lo adelante se denominará “Service24 Panamá”, y por la otra, <b><input type=\"text\" formControlName=\"contrato_nombre\"></b> de C.I <input type=\"text\" formControlName=\"contrato_ci\">  quien en lo sucesivo se denominará <b>“El Proveedor”</b>, se ha convenido en celebrar el presente contrato de conformidad con los términos y condiciones siguientes:\r\n                  </p>\r\n                  <p><b>A- OBJETO: “Service24”</b> es una aplicación (plataforma) que actúa como intermediario entre quién busca el producto o servicio, en este caso y en lo sucesivo denominado <b>“El Cliente”</b> y quiénes están registrados en ella para ofrecerlos, en este caso <b>“El Proveedor”</b>, quien solo se encargará de gestionar la logística entre las partes para que los trabajos se lleven a cabo. Por este contrato, quién se presenta en este momento <b>“El Proveedor”</b> solicita y adquiere el uso de la plataforma para ofrecer a través de ella sus productos/servicios de acuerdo a los términos y condiciones que se establecen a continuación.</p>\r\n                  <p><b>B- PRECIO: </b>A partir de la confirmación de esta solicitud, <b>“El Proveedor”</b> debe abonar las siguientes cantidades: </p>\r\n                  <p>I- La zona que se adopte una cuota mensual por el monto de <input type=\"text\" formControlName=\"contrato_costo\">.$ según el plan <b><input type=\"text\" formControlName=\"contrato_plan\"></b>. Monto total debe ser depositado en la cuenta de Service 24 PanamáBanco GeneralNro04-69-98-099966-0.</p> \r\n                  \r\n\r\n                  <p><b>C- DERECHOS Y OBLIGACIONES:</b> 1- Este contrato se entiende celebrado Intuitu Personae, por lo tanto, ninguna de las partes podrá ceder o traspasar a terceros los derechos y obligaciones que de él se derivan. 2- <b>“El Proveedor”</b> es responsable a partir del momento en el que se coordina el servicio en realizar el trabajo y finalizarlo, cobrando por ese servicio lo que se acuerde entre él y <b>“El Cliente”</b>, estando <b>“Service24”</b> libre de toda responsabilidad contractual que haya podido adquirir con <b>“El Cliente”</b>.</p>\r\n\r\n                  <p><b>D- PLAZO:</b> El presente contrato tendrá una duración de <b>UN (1) AÑO FIJO</b>, contado a partir de la fecha de su aceptación y suscripción, prorrogable automáticamente por igual periodo o por otro, siempre que las partes acuerden su renovación por lo menos con treinta (30) días calendarios antes del vencimiento del plazo fijo o de cualquiera de sus prórrogas.</p>  \r\n\r\n                  <p><b>E- RESCISIÓN: </b>en caso de incumplimiento el presente contrato se rescindirá: 1- Cuando la calificación dada por <b>“El Cliente”</b> a <b>“El Proveedor”</b> en cuanto al servicio brindado se refiere, mediante la plataforma sea de 1 estrella, reiterándose esta situación tres veces y previo análisis de por parte de <b>“Service24”</b>. 2- Por dos (2) faltas cuándo ya se confirmó a <b>“El Cliente”</b> proveer el servicio, determinándose horario y demás condiciones previamente pactadas. Esta situación acarreará treinta (30) días de suspensión. Los retrasos en la llegada al domicilio de <b>“El Cliente”</b> o al lugar donde se ejecutará el servicio, excluyendo demoras por causa del tránsito o alguna urgencia imprevista (las cuales ya están calculadas en un margen aproximado) se computarán como media falta. Posteriormente a esta situación y registrándose dos (2) retrasos más o una falta, este contrato quedará rescindido de pleno derecho. 3- Por abuso, agresión o cualquier situación de violencia que se registre hacia <b>“El Cliente”</b> desde el momento en el que se coordina el servicio y hasta la finalización del mismo. 4- Por la sola voluntad de las partes en dar por terminado el servicio.</p>\r\n\r\n                  <p><b>F- GARANTÍA DEL SERVICIO: </b>A partir del momento en que <b>“El Cliente</b> y <b>“El Proveedor”</b> coordinan el servicio, <b>“Service24”</b> no se hace responsable por negligencia en los trabajos realizados, por caso fortuito o fuerza mayor. <b>“Service24”</b> no brinda ningún tipo de garantía a clientes sobre los trabajos realizados por <b>“El Proveedor”</b> del producto o servicio a través del contacto por la plataforma o de ninguna otra forma posible, ya que <b>“Service24”</b> solo se encarga de gestionar la logística entre las partes como se mencionó en la cláusula A de este contrato. Tampoco garantiza que los pedidos se lleven a cabo en tiempo y forma acordada, esto es únicamente responsabilidad de <b>“El Proveedor”</b>.</p>\r\n\r\n                  <p><b>G- PRIVACIDAD:</b> 1- <b>“Service24”</b> garantiza que la información personal que se envía, cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos, no serán entregados a terceros, salvo: I- los que se muestran a <b>“El Cliente”</b> cuando le es confirmado el producto o servicio, los cuales son proveídos para mayor seguridad del solicitante; II- que la información deba ser revelada en cumplimiento a una orden judicial o requerimientos legales. 2- La suscripción a boletines de correos electrónicos publicitarios es voluntaria y podrá ser seleccionada al momento de crear la cuenta del usuario. <b>“Service24”</b> se reserva el derecho de cambiar o modificar estos términos sin previo aviso.</p> \r\n\r\n                  <p><b>H- AUTENTICIDAD DEL CONTRATO:</b> El presente documento constituye el acuerdo entre las partes en relación con su objeto y deja sin efecto cualquier otra negociación, obligación o comunicación entre éstas, ya sea verbal o escrita, efectuada con anterioridad.  Las partes podrán, en el momento que lo deseen, modificar, por escrito, los términos y condiciones establecidos en el presente instrumento, previo consentimiento de los contratantes, debiéndose agregar a este documento, como parte integrante del mismo. Dichas modificaciones obligarán a los signatarios a partir de la fecha de su firma.</p> \r\n\r\n                  <p><b>I- LEY APLICABLE:</b> Las partes acuerdan expresamente someterse a lo dispuesto en el Código Civil, y demás leyes vigentes que sean aplicables en relación a la materia, para todo lo no previsto por aquéllas en el presente documento.</p>\r\n\r\n                  <p><b>J- NOTIFICACIONES:</b> Toda notificación en virtud de este convenio preliminar podrá realizarse vía fax, telefax o correo certificado, a las direcciones físicas de las partes mencionadas a continuación:</p>\r\n\r\n                  <p><b>“Servicio 24”</b>:  Ciudad de Panamá y 50760708072.</p>\r\n\r\n                  <p><b>“EL Proveedor”</b>: Dirección: <input formControlName=\"direccion\">, Teléfono: <input formControlName=\"telefono\"></p>\r\n\r\n                  <p><b>K- ARBITRAJE:</b> Cualquiera controversia que surja por razón de interpretación, ejecución o incumplimiento del presente contrato, será resuelta entre las partes. En caso de que las partes no logren llegar a un acuerdo, entonces se resolverá mediante arbitraje en Derecho ante el Centro de Conciliación y Arbitraje de la Cámara de Comercio, Industrias y Agricultura de la Colonia de Sacramento, de conformidad con sus normas y reglamentos de procedimiento. Para estos efectos, cada parte designará a un árbitro y éstos, a su vez, designarán a un tercero, quienes conformarán el Tribunal Arbitral. La decisión adoptada por dicho tribunal será final, definitiva y de obligatorio cumplimiento para las partes, por lo que la misma no podrá ser impugnada ante los tribunales de justicia. La parte vencida pagará los costos, gastos y honorarios incurridos en el proceso arbitral. El arbitraje se conducirá en idioma castellano.</p>\r\n\r\n                  <p><b>L- DOMICILIO:</b> Las partes contratantes eligen como domicilio especial a la ciudad de Colonia de Sacramento para todos los efectos, derivados y consecuencias de este contrato. En Colonia de Sacramento, a los '.$fecha.'</p>\r\n                  <div align=\"center\">\r\n                    <img src=\"{{objAEditar.firma}}\" alt=\"\" style=\"width: 250px\">\r\n                    <div style=\"border-bottom: 1px solid #000;margin-bottom: 10px;width: 400px\"></div>\r\n                    <p >{{myFormEditar.value.contrato_nombre}}</p>\r\n                    <p >C.I. No. {{myFormEditar.value.contrato_ci}}</p>\r\n                  </div>\r\n                </div>\r\n              </div> \r\n\r\n              <button class=\"btn btn-success\" (click)=\"vercontrato()\" [hidden]=\"!edit_contrato\">Cerrar contrato</button>-----\r\n              <button class=\"btn btn-warning\" (click)=\"editar_contrato()\" [hidden]=\"!edit_contrato\">Editar contrato</button>\r\n              <div class=\"col-1\">\r\n\r\n              </div>                       \r\n          </div>                                          \r\n\r\n          <br><br>\r\n          <nb-card-header>Servicios del Proveedor</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n               <th style=\"text-align: center;\">Nombre</th>\r\n               <th style=\"text-align: center;\">Categoaria</th>\r\n               <th style=\"text-align: center;\">Descripción</th>\r\n               <th style=\"text-align: center;\">Zona</th>\r\n               <th style=\"text-align: center;\">Imagenes</th>\r\n               <th style=\"text-align: center;\">Habilitar</th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.establecimiento.productos\" >\r\n                <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\" style=\"border-radius: 20px;\"></td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.subcategoria.categoria.catprincipales.nombre}}-{{item.subcategoria.categoria.nombre}}-{{item.subcategoria.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.descripcion}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\"><div *ngFor=\"let zonas of item.zonas2\"> {{zonas.nombre}}, </div></td>\r\n                  <td style=\"text-align: center; vertical-align: middle;\"  style=\"display: flex;\">\r\n                    <div *ngFor=\"let fotos of item.fotos; let i = index\">\r\n                      <a href=\"{{fotos.url}}\" target=\"_blank\">\r\n                        <img src=\"{{fotos.url}}\" alt=\"\" style=\"width: 60px; height: 60px\">\r\n                      </a>\r\n                      <button type=\"button\" class=\"btn btn-secundary  btn-table\" (click)=\"borrarfoto(item.id,item.fotos,i)\">x</button>\r\n                    </div>\r\n                  </td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">\r\n                    <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado2(item)\"></nb-checkbox>\r\n                    <!--button type=\"button\" class=\"btn btn-secundary  btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado!='ON'\">Hablitar{{item.estado}}\r\n                   </button>\r\n                   <button type=\"button\" class=\"btn btn-danger btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado=='ON'\">Deshabilitar\r\n                   </button-->\r\n                  </td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          <br><br>\r\n          <nb-card-header>Calificaciones</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">ID</th>\r\n               <th style=\"text-align: center;\">Servicio</th>\r\n               <th style=\"text-align: center;\">Promedio de Califi.</th>\r\n               <th style=\"text-align: center;\">Comentario</th>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.calificaciones\" >\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.id}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.producto.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">\r\n                    <div>\r\n                      <ngb-rating [(rate)]=\"item.puntaje\" max=5>\r\n                        <ng-template let-fill=\"fill\">\r\n                          <span class=\"star fill\" [class.filled]=\"fill === 100\">\r\n                            <i class=\"ion-android-star\" *ngIf=\"fill === 100\"></i>\r\n                            <i class=\"ion-android-star-outline\" *ngIf=\"fill !== 100\"></i>\r\n                          </span>\r\n                        </ng-template>\r\n                      </ngb-rating>\r\n                      <span class=\"current-rate\">{{item.puntaje}}</span>\r\n                    </div>\r\n                  </td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.comentario}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\"></td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" >Actualizar datos</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Eliminar Socio: </h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <p>¿Realmente desea eliminar el socio {{eliminar_nombre}}?</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Cancelar</button>\r\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\">Eliminar</button>\r\n  </div>\r\n</ng-template>\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
 
 /***/ }),
 
@@ -2743,14 +5225,31 @@ var SociosVerComponent = /** @class */ (function () {
             console.log(data);
             _this.data = data;
             _this.productList = _this.data.repartidores;
+            //Cambiar el formato de la fecha y hora
+            var dia;
+            var mes;
+            var anio;
+            var fecha;
+            var hora;
+            var minutos;
+            var segundos;
             for (var i = 0; i < _this.productList.length; ++i) {
-                console.log(_this.productList[i].usuario.registro);
+                //console.log(this.productList[i].usuario.registro);
                 if (_this.productList[i].usuario.registro.tipo == 2) {
                     _this.productList[i].tipo2 = 'Empresa';
                 }
                 else if (_this.productList[i].usuario.registro.tipo == 1) {
                     _this.productList[i].tipo2 = 'Individuo';
                 }
+                fecha = new Date(_this.productList[i].usuario.created_at);
+                dia = fecha.getDate();
+                mes = fecha.getMonth() + 1;
+                anio = fecha.getFullYear();
+                hora = fecha.getHours();
+                minutos = fecha.getMinutes();
+                segundos = fecha.getSeconds();
+                _this.productList[i].usuario.fecha = dia + '/' + mes + '/' + anio;
+                //this.productList[i].usuario.horaAux = hora+':'+minutos+':'+segundos;
             }
             _this.productList = _this.productList.sort(function (a, b) { return b.enfinalizados - a.enfinalizados; });
             _this.filteredItems = _this.productList;
@@ -3810,6 +6309,9 @@ var SociosVerComponent = /** @class */ (function () {
                     this.filteredItems.push(this.productList[i]);
                 }
                 else if (this.productList[i].usuario.email.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.fecha.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
                     this.filteredItems.push(this.productList[i]);
                 }
             }

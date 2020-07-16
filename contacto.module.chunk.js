@@ -126,6 +126,12 @@ var contactoComponent = /** @class */ (function () {
         this.isCloseButton = true;
         this.loading = false;
         this.inputName = "";
+        this.plan = {
+            contacto: "",
+            correo: "",
+            telefono: "",
+            direccion: "",
+        };
         this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
     }
     contactoComponent.prototype.ngOnInit = function () {
@@ -179,6 +185,7 @@ var contactoComponent = /** @class */ (function () {
     contactoComponent.prototype.open = function (modal) {
         this.modalService.open(modal);
     };
+    //public plan:any;
     contactoComponent.prototype.editar_plan = function () {
         var _this = this;
         var datos = {
