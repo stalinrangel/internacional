@@ -1,5 +1,2886 @@
 webpackJsonp(["socios.module"],{
 
+/***/ "../../../../../src/app/pages/socios/activos/activos.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<nb-card *ngIf=\"!editando && mostrar\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Socios</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <table class=\"table\">\r\n      <thead>\r\n         <th style=\"text-align: center;\">Imagen</th>\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Email</th>\r\n         <th style=\"text-align: center;\">Teléfono</th>\r\n         <th style=\"text-align: center;\">Zona</th>\r\n         <th style=\"text-align: center;\">Ciudad</th>\r\n         <th style=\"text-align: center;\">Ingresó</th>\r\n         <th style=\"text-align: center;\">Estado</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.usuario.email}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.created_at}}</td>\r\n            <td style=\" vertical-align:middle;\">\r\n              <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div-->\r\n              <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n            </td> \r\n            \r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                <i class=\"nb-trash\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                <i class=\"nb-email\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" *ngIf=\"editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar información del Proveedor<br><br>\r\n            <button class=\"btn btn-secondary\" (click)=\"atras()\">Atras</button><br>\r\n      </nb-card-header>\r\n      <nb-card-body>\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\"> \r\n              <label for=\"exampleInputNombre\">Nombre</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n              <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputEmail\">Email</label>\r\n              <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail\" placeholder=\"Email\" formControlName=\"email\">\r\n              <div *ngIf=\"myFormEditar.get('email').errors && myFormEditar.get('email').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('email').hasError('required')\">Email es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Teléfono</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTelefono\" placeholder=\"Telefono\" formControlName=\"telefono\">\r\n              <div *ngIf=\"myFormEditar.get('telefono').errors && myFormEditar.get('telefono').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('telefono').hasError('required')\">Teléfono es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Foto</label><br>\r\n              <img src=\"{{myFormEditar.value.foto}}\" alt=\"\" style=\"width: 250px; height: 250px; border-radius: 20px;\">\r\n                <input [hidden]=\"clear\" type=\"file\" name=\"imagen\" id=\"imagen\" (change)=\"onFileChange($event)\" #fileInput accept=\"image/*\">\r\n                  <div *ngIf=\"clear\">\r\n                    <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFile()\">Eliminar</button>\r\n                  </div>\r\n                  <p [hidden]=\"clear\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Documento de identidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"cedula\" placeholder=\"\" formControlName=\"cedula\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nacionalidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"nacionalidad\" placeholder=\"\" formControlName=\"nacionalidad\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion\" placeholder=\"\" formControlName=\"direccion\"> {{myFormEditar.value.lat}}-{{myFormEditar.value.lng}}\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección exacta</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion_exacta\" placeholder=\"\" formControlName=\"direccion_exacta\">\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Sexo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"sexo\" placeholder=\"\" formControlName=\"sexo\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Fecha Nacimiento</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"fecha_nacimiento\" placeholder=\"\" formControlName=\"fecha_nacimiento\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Formación</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"formacion\" placeholder=\"\" formControlName=\"formacion\">\r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Tipo de registro</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"Tipo de registro\" formControlName=\"tipo2\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Ruc</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputruc\" placeholder=\"ruc\" formControlName=\"ruc\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Email empresa</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputemail_empresa\" placeholder=\"email\" formControlName=\"email_empresa\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nombre contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputcontacto_nombre\" placeholder=\"\" formControlName=\"contacto_nombre\">\r\n            </div>  \r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Urgencias</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"\" formControlName=\"urgencias\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Factura</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"factura\" placeholder=\"factura\" formControlName=\"factura\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Cargo contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"contacto_cargo\" placeholder=\"\" formControlName=\"contacto_cargo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Record policivo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"record_policivo\" placeholder=\"record_policivo\" formControlName=\"record_policivo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Idoneidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"idoneidad\" placeholder=\"idoneidad\" formControlName=\"idoneidad\">\r\n            </div>              \r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Años experiencia</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"anos_experiencia\" placeholder=\"\" formControlName=\"anos_experiencia\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Experiencia</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"experiencia\" placeholder=\"\" formControlName=\"experiencia\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.experiencia2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Idiomas</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"idiomas\" placeholder=\"\" formControlName=\"idiomas\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.idiomas2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            \r\n            <nb-card-header>Disponibilidad</nb-card-header>\r\n              <br><br>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Lunes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_i\" placeholder=\"\" formControlName=\"lunes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"lunes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Martes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Miercoles:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Jueves:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Viernes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Sabado:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Domingo:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n              </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n<!--           <div class=\"form-group\" *ngIf=\"refer\">\r\n  <nb-card-header>Referencias personales</nb-card-header>\r\n  <br><br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo3}}<br>\r\n    <br>\r\n</div>\r\n\r\n<br><br>\r\n<hr>\r\n<br><br>\r\n\r\n<div class=\"form-group\">\r\n  <nb-card-header>Referencias comerciales</nb-card-header>\r\n  <br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo3}}<br>\r\n    <br>\r\n</div> -->\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Documento de Indentidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.pasaporte}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangePasaporte($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Logo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.logo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearLogo\" type=\"file\" name=\"Logo\" id=\"Logo\" (change)=\"onFileChangeLogo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearLogo\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileLogo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearLogo\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Aviso Operaciones</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.operaciones}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearOperaciones\" type=\"file\" name=\"Operaciones\" id=\"Operaciones\" (change)=\"onFileChangeOperaciones($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearOperaciones\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileOperaciones()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearOperaciones\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Idoneidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.idoneidad_file}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"Idoneidad_file\" id=\"Idoneidad_file\" (change)=\"onFileChangeIdoneidad_file($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileIdoneidad_file()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>record_policivo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.record_policivo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"record_policivo\" id=\"record_policivo\" (change)=\"onFileChangerecord_policivo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilerecord_policivo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Recibo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.recibo_servicio}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangeRecibo_servicio($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" [hidden]=\"contrato==null\">\r\n            <label for=\"exampleInputTelefono\">Contrato:</label><br>\r\n            <a href=\"{{contrato}}\" target=\"_blank\">Ver contrato</a>\r\n          </div>\r\n          <div class=\"form-group\" [hidden]=\"ontrato!=null\">\r\n            <label for=\"exampleInputTelefono\">Sin contrato...</label><br>\r\n          </div>\r\n\r\n\r\n          \r\n\r\n          <br><br>\r\n          <nb-card-header>Servicios del Proveedor</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n               <th style=\"text-align: center;\">Nombre</th>\r\n               <th style=\"text-align: center;\">Categoaria</th>\r\n               <th style=\"text-align: center;\">Descripción</th>\r\n               <th style=\"text-align: center;\"></th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.establecimiento.productos\" >\r\n                <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\" style=\"border-radius: 20px;\"></td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.subcategoria.categoria.catprincipales.nombre}}-{{item.subcategoria.categoria.nombre}}-{{item.subcategoria.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.descripcion}} Estrellas de 5</td>\r\n                  <td>\r\n                    <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado2(item)\"></nb-checkbox>\r\n                    <!--button type=\"button\" class=\"btn btn-secundary  btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado!='ON'\">Hablitar{{item.estado}}\r\n                   </button>\r\n                   <button type=\"button\" class=\"btn btn-danger btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado=='ON'\">Deshabilitar\r\n                   </button-->\r\n                  </td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          <br><br>\r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" >Actualizar datos</button>\r\n          <button type=\"submit\" class=\"btn btn-danger\" (click)=\"aceptar()\">Aceptar proveedor y habilitarlo</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Eliminar Socio: </h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <p>¿Realmente desea eliminar el socio {{eliminar_nombre}}?</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Cancelar</button>\r\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\">Eliminar</button>\r\n  </div>\r\n</ng-template>\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/socios/activos/activos.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This is a starting point where we declare the maps of themes and globally available functions/mixins\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n:host-context(.nb-theme-default) .estado {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 50%; }\n\n:host-context(.nb-theme-default) .btn-table {\n  display: inline-block; }\n\n:host-context(.nb-theme-default) .img-table {\n  border-radius: 4px;\n  -o-object-fit: cover;\n     object-fit: cover; }\n\n:host-context(.nb-theme-default) .theme-switch {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  margin: 0; }\n  :host-context(.nb-theme-default) .theme-switch > span {\n    font-size: 1rem;\n    font-weight: 600;\n    transition: opacity 0.3s ease; }\n    :host-context(.nb-theme-default) .theme-switch > span.light {\n      color: #4b4b4b;\n      padding-right: 5px; }\n    :host-context(.nb-theme-default) .theme-switch > span.cosmic {\n      color: #a4abb3;\n      padding-left: 5px; }\n    :host-context(.nb-theme-default) .theme-switch > span:active {\n      opacity: 0.78; }\n\n:host-context(.nb-theme-default) .switch {\n  position: relative;\n  display: inline-block;\n  width: 4rem;\n  height: 1.75rem;\n  margin: 0; }\n  :host-context(.nb-theme-default) .switch input {\n    display: none; }\n    :host-context(.nb-theme-default) .switch input:checked + .slider::before {\n      -webkit-transform: translateX(2.25rem);\n              transform: translateX(2.25rem); }\n  :host-context(.nb-theme-default) .switch .slider {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    border-radius: 1.75rem;\n    background-color: #ebeff5; }\n  :host-context(.nb-theme-default) .switch .slider::before {\n    position: absolute;\n    content: '';\n    height: 1.75rem;\n    width: 1.75rem;\n    border-radius: 50%;\n    background-color: #0b417a;\n    transition: 0.2s;\n    box-shadow: 0 0 0.25rem 0 rgba(164, 171, 179, 0.4); }\n\n@media (max-width: 575px) {\n  :host-context(.nb-theme-default) .light, :host-context(.nb-theme-default) .cosmic {\n    display: none; } }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-default) {\n    -webkit-box-align: end;\n        -ms-flex-align: end;\n            align-items: flex-end; } }\n\n:host-context(.nb-theme-cosmic) .estado {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 50%; }\n\n:host-context(.nb-theme-cosmic) .btn-table {\n  display: inline-block; }\n\n:host-context(.nb-theme-cosmic) .img-table {\n  border-radius: 4px;\n  -o-object-fit: cover;\n     object-fit: cover; }\n\n:host-context(.nb-theme-cosmic) .theme-switch {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  margin: 0; }\n  :host-context(.nb-theme-cosmic) .theme-switch > span {\n    font-size: 1rem;\n    font-weight: 600;\n    transition: opacity 0.3s ease; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.light {\n      color: #d1d1ff;\n      padding-right: 5px; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.cosmic {\n      color: #76f8f6;\n      padding-left: 5px; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.light {\n      color: #76f8f6; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.cosmic {\n      color: #ffffff; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span:active {\n      opacity: 0.78; }\n\n:host-context(.nb-theme-cosmic) .switch {\n  position: relative;\n  display: inline-block;\n  width: 4rem;\n  height: 1.75rem;\n  margin: 0; }\n  :host-context(.nb-theme-cosmic) .switch input {\n    display: none; }\n    :host-context(.nb-theme-cosmic) .switch input:checked + .slider::before {\n      -webkit-transform: translateX(2.25rem);\n              transform: translateX(2.25rem); }\n  :host-context(.nb-theme-cosmic) .switch .slider {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    border-radius: 1.75rem;\n    background-color: #2f296b; }\n  :host-context(.nb-theme-cosmic) .switch .slider::before {\n    position: absolute;\n    content: '';\n    height: 1.75rem;\n    width: 1.75rem;\n    border-radius: 50%;\n    background-color: #0b417a;\n    transition: 0.2s;\n    box-shadow: 0 0 0.25rem 0 rgba(118, 248, 246, 0.4);\n    background-image: linear-gradient(to right, #0b1c7a, #0b417a); }\n\n@media (max-width: 575px) {\n  :host-context(.nb-theme-cosmic) .light, :host-context(.nb-theme-cosmic) .cosmic {\n    display: none; } }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-cosmic) {\n    -webkit-box-align: end;\n        -ms-flex-align: end;\n            align-items: flex-end; } }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/socios/activos/activos.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return activosComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__ = __webpack_require__("../../../../../src/app/services/ruta-base/ruta-base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__ = __webpack_require__("../../../../style-loader/index.js!../../../../angular2-toaster/toaster.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/header-to-pedidos-event-service/header-to-pedidos-event.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_header_service_header_service__ = __webpack_require__("../../../../../src/app/services/header-service/header.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+//Mis imports
+
+
+
+
+
+
+
+
+
+
+var activosComponent = /** @class */ (function () {
+    function activosComponent(modalService, toasterService, http, router, route, rutaService, fb, headerToPedidosEventService, headerService) {
+        var _this = this;
+        this.modalService = modalService;
+        this.toasterService = toasterService;
+        this.http = http;
+        this.router = router;
+        this.route = route;
+        this.rutaService = rutaService;
+        this.fb = fb;
+        this.headerToPedidosEventService = headerToPedidosEventService;
+        this.headerService = headerService;
+        this.position = 'toast-top-right';
+        this.animationType = 'fade';
+        this.title = 'HI there!';
+        this.content = "I'm cool toaster!";
+        this.timeout = 5000;
+        this.toastsLimit = 5;
+        this.type = 'default'; // 'default', 'info', 'success', 'warning', 'error'
+        this.isNewestOnTop = true;
+        this.isHideOnClick = true;
+        this.isDuplicatesPrevented = false;
+        this.isCloseButton = true;
+        this.loading = false;
+        this.editando = false;
+        this.agregando = false;
+        this.mostrar = true;
+        this.admin = false;
+        this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+        this.id_operacion = "";
+        this.establecimiento_id = 0;
+        this.refer = true;
+        this.contenido = '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.';
+        this.clear = false; //puedo borrar?
+        this.fileIMG = null;
+        this.imgUpload = null;
+        this.loadinImg = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //Logo
+        //----------------------------------------------------------------------------------------------
+        this.clearLogo = false; //puedo borrar?
+        this.fileIMGLogo = null;
+        this.imgUploadLogo = null;
+        this.loadinImgLogo = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        this.clearPasaporte = false; //puedo borrar?
+        this.fileIMGPasaporte = null;
+        this.imgUploadPasaporte = null;
+        this.loadinImgPasaporte = false;
+        //----------------------------------------------------------------------------------------------
+        // operaciones Operaciones
+        this.clearOperaciones = false; //puedo borrar?
+        this.fileIMGOperaciones = null;
+        this.imgUploadOperaciones = null;
+        this.loadinImgOperaciones = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        // idoneidad_file Idoneidad_file
+        this.clearIdoneidad_file = false; //puedo borrar?
+        this.fileIMGIdoneidad_file = null;
+        this.imgUploadIdoneidad_file = null;
+        this.loadinImgIdoneidad_file = false;
+        this.pages = 4;
+        this.pageSize = 5;
+        this.pageNumber = 0;
+        this.currentIndex = 1;
+        this.pageStart = 1;
+        this.inputName = '';
+        //Detectar evento cargar pedido de notificacion entrante
+        this.headerToPedidosEventService.headerToPedidosData.subscribe(function (data) {
+            console.log(data);
+            _this.id_operacion = data;
+            _this.id_operacion = _this.id_operacion.usuario_id;
+            console.log(_this.id_operacion);
+            localStorage.setItem('id_operacion', _this.id_operacion);
+            setTimeout(function () {
+                localStorage.setItem('id_operacion', "");
+            }, 49600);
+        });
+        this.myFormEditar = this.fb.group({
+            id: [''],
+            nombre: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            email: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            telefono: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            ciudad: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            estado: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            tipo: [''],
+            tipo2: [''],
+            ruc: [''],
+            latitud: [''],
+            longitud: [''],
+            email_empresa: [''],
+            contacto_nombre: [''],
+            contacto_cedula: [''],
+            contacto_cargo: [''],
+            logo: [''],
+            cedula: [''],
+            nacionalidad: [''],
+            direccion: [''],
+            direccion_exacta: [''],
+            fecha_nacimiento: [''],
+            formacion: [''],
+            experiencia: [''],
+            experiencia2: [''],
+            anos_experiencia: [''],
+            idoneidad: [''],
+            record_policivo: [''],
+            disponibilidad: [''],
+            disponibilidad2: [''],
+            idiomas: [''],
+            idiomas2: [''],
+            urgencias: [''],
+            factura: [''],
+            referencias: [''],
+            referencias2: [''],
+            referencias12: [''],
+            referencias22: [''],
+            operaciones: [''],
+            foto: [''],
+            pasaporte: [''],
+            idoneidad_file: [''],
+            estado2: [''],
+            usuario_id: [''],
+            sexo: [''],
+            contrato: [''],
+            lunes_i: [''],
+            lunes_f: [''],
+            martes_i: [''],
+            martes_f: [''],
+            miercoles_i: [''],
+            miercoles_f: [''],
+            jueves_i: [''],
+            jueves_f: [''],
+            viernes_i: [''],
+            viernes_f: [''],
+            sabado_i: [''],
+            sabado_f: [''],
+            domingo_i: [''],
+            domingo_f: [''],
+            lat: [''],
+            lng: [''],
+            recibo_servicio: [''],
+        });
+    }
+    activosComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+        }
+        else {
+            localStorage.removeItem('mouvers_token');
+            localStorage.removeItem('mouvers_user_id');
+            localStorage.removeItem('mouvers_user_nombre');
+            localStorage.removeItem('mouvers_user_tipo');
+            localStorage.removeItem('mouvers_establecimiento_id');
+            this.router.navigateByUrl('/pagessimples/loginf');
+        }
+        this.loading = true;
+        this.http.get(this.rutaService.getRutaApi() + 'activos?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
+            .toPromise()
+            .then(function (data) {
+            _this.getEstados();
+            console.log(data);
+            _this.data = data;
+            _this.productList = _this.data.repartidores;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].usuario.registro.tipo == 2) {
+                    _this.productList[i].usuario.imagen = _this.productList[i].usuario.registro.logo;
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.datos = _this.productList;
+            //console.log(this.productList);
+            _this.init();
+            _this.loading = false;
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                _this.showToast('warning', 'Warning!', msg.error.error);
+                _this.mostrar = false;
+                setTimeout(function () {
+                    _this.router.navigateByUrl('/pagessimples/loginf');
+                }, 1000);
+            }
+            else if (msg.status == 404) {
+                //alert(msg.error.error);
+                _this.showToast('info', 'Info!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.buscar_id_operacion = function () {
+        var _this = this;
+        console.log('buscar_id_operacion');
+        console.log(localStorage.getItem('id_operacion'));
+        var id_operacion = localStorage.getItem('id_operacion');
+        if (id_operacion != "") {
+            var prod = this.datos;
+            console.log(prod);
+            for (var i = 0; i < prod.length; i++) {
+                if (id_operacion == prod[i].usuario.id) {
+                    console.log(prod[i]);
+                    var selec = prod[i];
+                    setTimeout(function () {
+                        console.log(selec);
+                        _this.aEditar(selec);
+                    }, 1000);
+                }
+            }
+        }
+    };
+    //Redirigir al chat
+    activosComponent.prototype.chat = function (repartidor) {
+        console.log(repartidor);
+        if (repartidor.usuario.chat_repartidor) {
+            localStorage.setItem('mouvers_chat_id', repartidor.usuario.chat_repartidor.id);
+        }
+        else {
+            localStorage.setItem('mouvers_chat_id', '');
+        }
+        localStorage.setItem('mouvers_usuario_id', repartidor.usuario.id);
+        localStorage.setItem('mouvers_usuario_tipo', repartidor.usuario.tipo_usuario);
+        localStorage.setItem('mouvers_usuario_nombre', repartidor.usuario.nombre);
+        localStorage.setItem('mouvers_usuario_imagen', repartidor.usuario.imagen);
+        localStorage.setItem('mouvers_usuario_token_notifi', repartidor.usuario.token_notificacion);
+        this.router.navigateByUrl('/pages/chat-box');
+    };
+    activosComponent.prototype.getEstados = function () {
+        /*this.http.get(this.rutaService.getRutaApi()+'entidades/municipios?token='+localStorage.getItem('mouvers_token'))
+      
+           .toPromise()
+           .then(
+             data => { // Success
+               console.log(data);
+               this.data = data;
+               this.estados=this.data.entidades;
+             },
+             msg => { // Error
+               //console.log(msg);
+               console.log(msg.error.error);
+    
+               //token invalido/ausente o token expiro
+               if(msg.status == 400 || msg.status == 401){
+                    //alert(msg.error.error);
+                    //ir a login
+                    this.showToast('warning', 'Warning!', msg.error.error);
+                    setTimeout(()=>{
+                      this.router.navigateByUrl('/pagessimples/loginf');
+                    },1000);
+                }
+                //sin categorias o todas deshabilitadas OFF
+                else if(msg.status == 404){
+                    //alert(msg.error.error);
+                    this.showToast('info', 'Info!', msg.error.error);
+                }
+    
+             }
+           );
+        */
+    };
+    activosComponent.prototype.setEstado1 = function (estado) {
+        console.log(estado);
+        for (var i = 0; i < this.estados.length; ++i) {
+            if (estado == this.estados[i].nom_ent) {
+                this.ciudades = this.estados[i].municipios;
+            }
+        }
+    };
+    activosComponent.prototype.setEstado2 = function (estado) {
+        console.log(estado);
+        for (var i = 0; i < this.estados.length; ++i) {
+            if (estado == this.estados[i].nom_ent) {
+                this.ciudades = this.estados[i].municipios;
+                this.myFormEditar.patchValue({ ciudad: this.ciudades[0].nom_mun });
+            }
+        }
+    };
+    activosComponent.prototype.showToast = function (type, title, body) {
+        this.config = new __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["b" /* ToasterConfig */]({
+            positionClass: this.position,
+            timeout: this.timeout,
+            newestOnTop: this.isNewestOnTop,
+            tapToDismiss: this.isHideOnClick,
+            preventDuplicates: this.isDuplicatesPrevented,
+            animation: this.animationType,
+            limit: this.toastsLimit,
+        });
+        var toast = {
+            type: type,
+            title: title,
+            body: body,
+            timeout: this.timeout,
+            showCloseButton: this.isCloseButton,
+            bodyOutputType: __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["a" /* BodyOutputType */].TrustedHtml,
+        };
+        this.toasterService.popAsync(toast);
+    };
+    //Abrir modal por defecto
+    activosComponent.prototype.open = function (modal) {
+        this.modalService.open(modal);
+    };
+    //Abrir modal larga
+    activosComponent.prototype.open2 = function (modal) {
+        this.modalService.open(modal, { size: 'lg', backdrop: 'static', container: 'nb-layout', keyboard: false });
+    };
+    activosComponent.prototype.atras = function () {
+        this.editando = false;
+        this.objAEditar = null;
+        //console.log(this.objAEditar);
+        //this.uploadFile = null;
+        this.myFormEditar.reset();
+        localStorage.setItem('id_operacion', "");
+    };
+    activosComponent.prototype.aEditar = function (obj) {
+        console.log(obj);
+        this.establecimiento_id = obj.establecimiento.id;
+        this.editando = true;
+        this.objAEditar = Object.assign({}, obj);
+        console.log(this.objAEditar);
+        this.token_notificacion = this.objAEditar.usuario.token_notificacion;
+        this.usuario_id = this.objAEditar.usuario.id;
+        var tam_contrato = obj.usuario.contrato.length;
+        this.contrato = "";
+        if (obj.usuario.contrato.length != 0) {
+            this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
+        }
+        console.log(this.contrato);
+        this.myFormEditar.patchValue({ id: this.objAEditar.id });
+        this.myFormEditar.patchValue({ nombre: this.objAEditar.usuario.nombre });
+        this.myFormEditar.patchValue({ email: this.objAEditar.usuario.email });
+        this.myFormEditar.patchValue({ telefono: this.objAEditar.usuario.telefono });
+        this.myFormEditar.patchValue({ estado: this.objAEditar.usuario.estado });
+        this.myFormEditar.patchValue({ ciudad: this.objAEditar.usuario.ciudad });
+        var tipo = "";
+        if (this.objAEditar.usuario.registro.tipo == 1) {
+            tipo = 'Persona';
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 2) {
+            tipo = 'Empresa';
+        }
+        else {
+            tipo = 'Sin tipo de registro';
+        }
+        if (this.objAEditar.usuario.registro.referencias == null) {
+            var refe = { nombre1: "", telefono1: "", direccion1: "", contacto1: "", cargo1: "", nombre2: "", telefono2: "", direccion2: "", contacto2: "", cargo2: "", nombre3: "", telefono3: "", direccion3: "", contacto3: "", cargo3: "" };
+            this.myFormEditar.patchValue({ referencias22: refe });
+        }
+        else {
+            this.myFormEditar.patchValue({ referencias22: JSON.parse(this.objAEditar.usuario.registro.referencias) });
+        }
+        this.myFormEditar.patchValue({ tipo2: tipo });
+        this.myFormEditar.patchValue({ tipo: this.objAEditar.usuario.registro.tipo });
+        this.myFormEditar.patchValue({ ruc: this.objAEditar.usuario.registro.ruc });
+        this.myFormEditar.patchValue({ latitud: this.objAEditar.usuario.registro.latitud });
+        this.myFormEditar.patchValue({ longitud: this.objAEditar.usuario.registro.longitud });
+        this.myFormEditar.patchValue({ email_empresa: this.objAEditar.usuario.registro.email_empresa });
+        this.myFormEditar.patchValue({ contacto_nombre: this.objAEditar.usuario.registro.contacto_nombre });
+        this.myFormEditar.patchValue({ contacto_cedula: this.objAEditar.usuario.registro.contacto_cedula });
+        this.myFormEditar.patchValue({ contacto_cargo: this.objAEditar.usuario.registro.contacto_cargo });
+        this.myFormEditar.patchValue({ logo: this.objAEditar.usuario.registro.logo });
+        this.myFormEditar.patchValue({ cedula: this.objAEditar.usuario.registro.cedula });
+        this.myFormEditar.patchValue({ nacionalidad: this.objAEditar.usuario.registro.nacionalidad });
+        this.myFormEditar.patchValue({ direccion: this.objAEditar.usuario.registro.direccion });
+        this.myFormEditar.patchValue({ direccion_exacta: this.objAEditar.usuario.registro.direccion_exacta });
+        this.myFormEditar.patchValue({ fecha_nacimiento: this.objAEditar.usuario.registro.fecha_nacimiento });
+        this.myFormEditar.patchValue({ formacion: this.objAEditar.usuario.registro.formacion });
+        this.myFormEditar.patchValue({ experiencia: this.objAEditar.usuario.registro.experiencia });
+        this.myFormEditar.patchValue({ experiencia2: JSON.parse(this.objAEditar.usuario.registro.experiencia) });
+        this.myFormEditar.patchValue({ anos_experiencia: this.objAEditar.usuario.registro.anos_experiencia });
+        this.myFormEditar.patchValue({ idoneidad: this.objAEditar.usuario.registro.idoneidad });
+        this.myFormEditar.patchValue({ record_policivo: this.objAEditar.usuario.registro.record_policivo });
+        this.myFormEditar.patchValue({ disponibilidad: this.objAEditar.usuario.registro.disponibilidad });
+        this.myFormEditar.patchValue({ disponibilidad2: JSON.parse(this.objAEditar.usuario.registro.disponibilidad) });
+        this.myFormEditar.patchValue({ idiomas: this.objAEditar.usuario.registro.idiomas });
+        this.myFormEditar.patchValue({ idiomas2: JSON.parse(this.objAEditar.usuario.registro.idiomas) });
+        this.myFormEditar.patchValue({ urgencias: this.objAEditar.usuario.registro.urgencias });
+        this.myFormEditar.patchValue({ factura: this.objAEditar.usuario.registro.factura });
+        if (this.objAEditar.usuario.registro.referencias == null) {
+            this.refer = false;
+        }
+        this.myFormEditar.patchValue({ referencias: this.objAEditar.usuario.registro.referencias });
+        this.myFormEditar.patchValue({ referencias2: JSON.parse(this.objAEditar.usuario.registro.referencias) });
+        this.myFormEditar.patchValue({ referencias12: this.objAEditar.usuario.registro.referencias2 });
+        this.myFormEditar.patchValue({ referencias22: JSON.parse(this.objAEditar.usuario.registro.referencias2) });
+        if (this.objAEditar.usuario.registro.tipo == 2) {
+            //var foto= this.objAEditar.usuario.registro.logo;
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 1) {
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        //this.myFormEditar.patchValue({referencias22 : JSON.parse(this.objAEditar.usuario.registro.referencias}));
+        this.myFormEditar.patchValue({ foto: foto });
+        this.myFormEditar.patchValue({ pasaporte: this.objAEditar.usuario.registro.pasaporte });
+        this.myFormEditar.patchValue({ recibo_servicio: this.objAEditar.usuario.registro.recibo_servicio });
+        this.myFormEditar.patchValue({ idoneidad_file: this.objAEditar.usuario.registro.idoneidad_file });
+        this.myFormEditar.patchValue({ operaciones: this.objAEditar.usuario.registro.operaciones });
+        this.myFormEditar.patchValue({ estado2: this.objAEditar.usuario.registro.estado2 });
+        this.myFormEditar.patchValue({ usuario_id: this.objAEditar.usuario.registro.usuario_id });
+        this.myFormEditar.patchValue({ sexo: this.objAEditar.usuario.registro.sexo });
+        //this.myFormEditar.patchValue({contrato : this.objAEditar.usuario.registro.contrato});
+        this.myFormEditar.patchValue({ lat: this.objAEditar.usuario.registro.latitud });
+        this.myFormEditar.patchValue({ lng: this.objAEditar.usuario.registro.longitud });
+        var disp = JSON.parse(this.objAEditar.usuario.registro.disponibilidad);
+        this.myFormEditar.patchValue({ lunes_i: disp.lunes_i });
+        this.myFormEditar.patchValue({ lunes_f: disp.lunes_f });
+        this.myFormEditar.patchValue({ martes_i: disp.martes_i });
+        this.myFormEditar.patchValue({ martes_f: disp.martes_f });
+        this.myFormEditar.patchValue({ miercoles_i: disp.miercoles_i });
+        this.myFormEditar.patchValue({ miercoles_f: disp.miercoles_f });
+        this.myFormEditar.patchValue({ jueves_i: disp.jueves_i });
+        this.myFormEditar.patchValue({ jueves_f: disp.jueves_f });
+        this.myFormEditar.patchValue({ viernes_i: disp.viernes_i });
+        this.myFormEditar.patchValue({ viernes_f: disp.viernes_f });
+        this.myFormEditar.patchValue({ sabado_i: disp.sabado_i });
+        this.myFormEditar.patchValue({ sabado_f: disp.sabado_f });
+        this.myFormEditar.patchValue({ domingo_i: disp.domingo_i });
+        this.myFormEditar.patchValue({ domingo_f: disp.domingo_f });
+        //this.setEstado1(this.objAEditar.usuario.estado);
+        console.log(this.myFormEditar.value);
+    };
+    activosComponent.prototype.editar = function () {
+        var _this = this;
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            nombre: this.myFormEditar.value.nombre,
+            email: this.myFormEditar.value.email,
+            telefono: this.myFormEditar.value.telefono,
+            ciudad: this.myFormEditar.value.ciudad,
+            estado: this.myFormEditar.value.estado,
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + this.myFormEditar.value.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.myFormEditar.value.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.nombre = _this.myFormEditar.value.nombre;
+                    _this.productList[i].usuario.email = _this.myFormEditar.value.email;
+                    _this.productList[i].usuario.telefono = _this.myFormEditar.value.telefono;
+                    _this.productList[i].usuario.ciudad = _this.myFormEditar.value.ciudad;
+                    _this.productList[i].usuario.estado = _this.myFormEditar.value.estado;
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+        var disponibilidad = {
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+        };
+        if (this.objAEditar.usuario.registro.tipo == 2) {
+            var foto = this.objAEditar.usuario.registro.logo;
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 1) {
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        var datos2 = {
+            imagen: foto,
+            direccion: this.myFormEditar.value.direccion,
+            direccion_exacta: this.myFormEditar.value.direccion_exacta,
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+            disponibilidad: JSON.stringify(disponibilidad),
+            logo: this.myFormEditar.value.logo,
+            foto: this.myFormEditar.value.foto,
+            pasaporte: this.myFormEditar.value.pasaporte,
+            operaciones: this.myFormEditar.value.operaciones,
+            idoneidad_file: this.myFormEditar.value.idoneidad_file,
+        };
+        console.log(datos2);
+        this.http.put(this.rutaService.getRutaApi() + 'establecimientos/' + this.establecimiento_id, datos2)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.objAEditar.usuario.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.registro.logo = _this.myFormEditar.value.logo;
+                }
+            }
+            _this.objAEditar.usuario.registro.disponibilidad = JSON.stringify(disponibilidad);
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.aceptar = function () {
+        var _this = this;
+        this.loading = true;
+        var datosa = {
+            token: localStorage.getItem('mouvers_token'),
+            activo: 1,
+            activar: 1,
+            msg: '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.'
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + this.myFormEditar.value.id, datosa)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', '!Proveedor aceptado con éxito!');
+            _this.loading = true;
+            _this.enviar_proveedores();
+            _this.http.get(_this.rutaService.getRutaApi() + 'registro?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
+                .toPromise()
+                .then(function (data) {
+                _this.getEstados();
+                console.log(data);
+                _this.data = data;
+                _this.productList = _this.data.repartidores;
+                _this.filteredItems = _this.productList;
+                //console.log(this.productList);
+                _this.init();
+                _this.loading = false;
+            }, function (msg) {
+                console.log(msg);
+                console.log(msg.error.error);
+                _this.loading = false;
+                //token invalido/ausente o token expiro
+                if (msg.status == 400 || msg.status == 401) {
+                    //alert(msg.error.error);
+                    _this.showToast('warning', 'Warning!', msg.error.error);
+                    _this.mostrar = false;
+                    setTimeout(function () {
+                        _this.router.navigateByUrl('/pagessimples/loginf');
+                    }, 1000);
+                }
+                else if (msg.status == 404) {
+                    //alert(msg.error.error);
+                    _this.showToast('info', 'Info!', msg.error.error);
+                }
+            });
+            _this.http.get(_this.rutaService.getRutaApi() + 'onesignal.php?accion=17&token_notificacion=' + _this.token_notificacion + '&contenido=' + _this.contenido)
+                .toPromise()
+                .then(function (data) {
+                console.log(data);
+                _this.data = data;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                _this.loading = false;
+            }, function (msg) {
+                console.log(msg);
+                console.log(msg.error.error);
+                _this.loading = false;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                if (msg.status == 400 || msg.status == 401) {
+                    //alert(msg.error.error);
+                    // this.showToast('warning', 'Warning!', 'msg.error.error');
+                }
+                else {
+                    //alert(msg.error.error);
+                    //this.showToast('error', 'Erro!', 'msg.error.error');
+                }
+            });
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            nombre: this.myFormEditar.value.nombre,
+            email: this.myFormEditar.value.email,
+            telefono: this.myFormEditar.value.telefono,
+            ciudad: this.myFormEditar.value.ciudad,
+            estado: this.myFormEditar.value.estado,
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + this.myFormEditar.value.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.myFormEditar.value.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.nombre = _this.myFormEditar.value.nombre;
+                    _this.productList[i].usuario.email = _this.myFormEditar.value.email;
+                    _this.productList[i].usuario.telefono = _this.myFormEditar.value.telefono;
+                    _this.productList[i].usuario.ciudad = _this.myFormEditar.value.ciudad;
+                    _this.productList[i].usuario.estado = _this.myFormEditar.value.estado;
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+        var disponibilidad = {
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+        };
+        if (this.objAEditar.usuario.registro.tipo == 2) {
+            var foto = this.objAEditar.usuario.registro.logo;
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 1) {
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        var datos2 = {
+            imagen: foto,
+            direccion: this.myFormEditar.value.direccion,
+            direccion_exacta: this.myFormEditar.value.direccion_exacta,
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+            disponibilidad: JSON.stringify(disponibilidad),
+            logo: this.myFormEditar.value.logo,
+            foto: this.myFormEditar.value.foto,
+            pasaporte: this.myFormEditar.value.pasaporte,
+            operaciones: this.myFormEditar.value.operaciones,
+            idoneidad_file: this.myFormEditar.value.idoneidad_file,
+        };
+        console.log(datos2);
+        this.http.put(this.rutaService.getRutaApi() + 'establecimientos/' + this.establecimiento_id, datos2)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.objAEditar.usuario.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.registro.logo = _this.myFormEditar.value.logo;
+                }
+            }
+            _this.objAEditar.usuario.registro.disponibilidad = JSON.stringify(disponibilidad);
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.enviar_proveedores = function () {
+        var _this = this;
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            mensaje: '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.',
+            tipo_usuario: 3,
+            ciudad_id: localStorage.getItem('mouvers_ciudad'),
+            zona_id: 1,
+            usuario_id: this.usuario_id,
+        };
+        console.log(datos);
+        this.http.post(this.rutaService.getRutaApi() + 'notificaciones_generales?ciudad_id=' + localStorage.getItem('mouvers_ciudad'), datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                // this.showToast('warning', 'Warning!', 'msg.error.error');
+            }
+            else {
+                //alert(msg.error.error);
+                //this.showToast('error', 'Erro!', 'msg.error.error');
+            }
+        });
+    };
+    activosComponent.prototype.aEliminar = function (obj) {
+        this.objAEliminar = obj;
+        //console.log(this.objAEliminar);
+        this.eliminar_id = this.objAEliminar.id;
+        this.eliminar_nombre = this.objAEliminar.usuario.nombre;
+    };
+    activosComponent.prototype.eliminar = function () {
+        var _this = this;
+        console.log(this.objAEliminar);
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token')
+        };
+        this.http.delete(this.rutaService.getRutaApi() + 'repartidores/' + this.eliminar_id + '?token=' + localStorage.getItem('mouvers_token'))
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            var aux = _this.productList;
+            _this.productList = [];
+            for (var i = 0; i < aux.length; ++i) {
+                if (aux[i].id != _this.eliminar_id) {
+                    _this.productList.push(aux[i]);
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else if (msg.status == 404 || msg.status == 409) {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    //Para el repartidor
+    activosComponent.prototype.cambiarEstado = function (obj) {
+        var _this = this;
+        var v_estado;
+        if (obj.estado == 'ON') {
+            //obj.estado = 'OFF';
+            v_estado = 'OFF';
+        }
+        else {
+            //obj.estado = 'ON';
+            v_estado = 'ON';
+        }
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            rep_estado: v_estado
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + obj.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.showToast('success', 'Success!', _this.data.message);
+            obj.estado = v_estado;
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            //Regresar el switch en caso de error
+            if (v_estado == 'ON') {
+                //obj.estado = 'OFF';
+                obj.estado = 'OFF';
+            }
+            else {
+                //obj.estado = 'ON';
+                obj.estado = 'ON';
+            }
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.cambiarEstado2 = function (obj) {
+        var _this = this;
+        var v_estado;
+        var mensaje_producto = '';
+        if (obj.estado == 'ON') {
+            //obj.estado = 'OFF';
+            v_estado = 'OFF';
+            mensaje_producto = "Su servicio " + obj.nombre + " se ha desactivado. Para mayor información contacta a soporte.";
+        }
+        else {
+            //obj.estado = 'ON';
+            v_estado = 'ON';
+            mensaje_producto = "Felicidades! Su servicio " + obj.nombre + " se ha activado!";
+        }
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            estado: v_estado
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'productos/' + obj.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.showToast('success', 'Success!', _this.data.message);
+            obj.estado = v_estado;
+            _this.http.get(_this.rutaService.getRutaApi() + 'onesignal.php?accion=17&token_notificacion=' + _this.token_notificacion + '&contenido=' + mensaje_producto)
+                .toPromise()
+                .then(function (data) {
+                console.log(data);
+                _this.data = data;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                _this.loading = false;
+            }, function (msg) {
+                console.log(msg);
+                console.log(msg.error.error);
+                _this.loading = false;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                if (msg.status == 400 || msg.status == 401) {
+                    //alert(msg.error.error);
+                    // this.showToast('warning', 'Warning!', 'msg.error.error');
+                }
+                else {
+                    //alert(msg.error.error);
+                    //this.showToast('error', 'Erro!', 'msg.error.error');
+                }
+            });
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            //Regresar el switch en caso de error
+            if (v_estado == 'ON') {
+                //obj.estado = 'OFF';
+                obj.estado = 'OFF';
+            }
+            else {
+                //obj.estado = 'ON';
+                obj.estado = 'ON';
+            }
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.prepareSave = function () {
+        var input = new FormData();
+        input.append('imagen', this.fileIMG);
+        input.append('carpeta', 'categorias');
+        input.append('url_imagen', this.rutaService.getRutaImages());
+        return input;
+    };
+    activosComponent.prototype.onFileChange = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMG = event.target.files[0];
+            this.subirImagen();
+        }
+    };
+    activosComponent.prototype.clearFile = function () {
+        this.imgUpload = null;
+        this.fileInput.nativeElement.value = '';
+        this.clear = false;
+        this.myFormEditar.patchValue({ foto: null });
+    };
+    activosComponent.prototype.subirImagen = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSave();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUpload = _this.data.imagen;
+            _this.myFormEditar.patchValue({ foto: _this.imgUpload });
+            //Solo admitimos imágenes.
+            if (!_this.fileIMG.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("foto").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMG);
+            reader.readAsDataURL(_this.fileIMG);
+            _this.clear = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.prepareSaveLogo = function () {
+        var inputLogo = new FormData();
+        inputLogo.append('imagen', this.fileIMGLogo);
+        inputLogo.append('carpeta', 'categorias');
+        inputLogo.append('url_imagen', this.rutaService.getRutaImages());
+        return inputLogo;
+    };
+    activosComponent.prototype.onFileChangeLogo = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGLogo = event.target.files[0];
+            this.subirImagenLogo();
+        }
+    };
+    activosComponent.prototype.clearFileLogo = function () {
+        this.imgUploadLogo = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearLogo = false;
+        this.myFormEditar.patchValue({ logo: null });
+    };
+    activosComponent.prototype.subirImagenLogo = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveLogo();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadLogo = _this.data.imagen;
+            _this.myFormEditar.patchValue({ logo: _this.imgUploadLogo });
+            _this.objAEditar.usuario.registro.logo = _this.imgUploadLogo;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGLogo.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("logo").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGLogo);
+            reader.readAsDataURL(_this.fileIMGLogo);
+            _this.clearLogo = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.prepareSavePasaporte = function () {
+        var inputPasaporte = new FormData();
+        inputPasaporte.append('imagen', this.fileIMGPasaporte);
+        inputPasaporte.append('carpeta', 'categorias');
+        inputPasaporte.append('url_imagen', this.rutaService.getRutaImages());
+        return inputPasaporte;
+    };
+    activosComponent.prototype.onFileChangePasaporte = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGPasaporte = event.target.files[0];
+            this.subirImagenPasaporte();
+        }
+    };
+    activosComponent.prototype.clearFilePasaporte = function () {
+        this.imgUploadPasaporte = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearPasaporte = false;
+        this.myFormEditar.patchValue({ Pasaporte: null });
+    };
+    activosComponent.prototype.subirImagenPasaporte = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSavePasaporte();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadPasaporte = _this.data.imagen;
+            _this.myFormEditar.patchValue({ pasaporte: _this.imgUploadPasaporte });
+            _this.objAEditar.usuario.registro.pasaporte = _this.imgUploadPasaporte;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGPasaporte.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("pasaporte").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGPasaporte);
+            reader.readAsDataURL(_this.fileIMGPasaporte);
+            _this.clearPasaporte = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.prepareSaveOperaciones = function () {
+        var inputOperaciones = new FormData();
+        inputOperaciones.append('imagen', this.fileIMGOperaciones);
+        inputOperaciones.append('carpeta', 'categorias');
+        inputOperaciones.append('url_imagen', this.rutaService.getRutaImages());
+        return inputOperaciones;
+    };
+    activosComponent.prototype.onFileChangeOperaciones = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGOperaciones = event.target.files[0];
+            this.subirImagenOperaciones();
+        }
+    };
+    activosComponent.prototype.clearFileOperaciones = function () {
+        this.imgUploadOperaciones = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearOperaciones = false;
+        this.myFormEditar.patchValue({ Operaciones: null });
+    };
+    activosComponent.prototype.subirImagenOperaciones = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveOperaciones();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadOperaciones = _this.data.imagen;
+            _this.myFormEditar.patchValue({ operaciones: _this.imgUploadOperaciones });
+            _this.objAEditar.usuario.registro.operaciones = _this.imgUploadOperaciones;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGOperaciones.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("Operaciones").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGOperaciones);
+            reader.readAsDataURL(_this.fileIMGOperaciones);
+            _this.clearOperaciones = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.prepareSaveIdoneidad_file = function () {
+        var inputIdoneidad_file = new FormData();
+        inputIdoneidad_file.append('imagen', this.fileIMGIdoneidad_file);
+        inputIdoneidad_file.append('carpeta', 'categorias');
+        inputIdoneidad_file.append('url_imagen', this.rutaService.getRutaImages());
+        return inputIdoneidad_file;
+    };
+    activosComponent.prototype.onFileChangeIdoneidad_file = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGIdoneidad_file = event.target.files[0];
+            this.subirImagenIdoneidad_file();
+        }
+    };
+    activosComponent.prototype.clearFileIdoneidad_file = function () {
+        this.imgUploadIdoneidad_file = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearIdoneidad_file = false;
+        this.myFormEditar.patchValue({ idoneidad_file: null });
+    };
+    activosComponent.prototype.subirImagenIdoneidad_file = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveIdoneidad_file();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadIdoneidad_file = _this.data.imagen;
+            _this.myFormEditar.patchValue({ idoneidad_file: _this.imgUploadIdoneidad_file });
+            _this.objAEditar.usuario.registro.idoneidad_file = _this.imgUploadIdoneidad_file;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGIdoneidad_file.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("idoneidad_file").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGIdoneidad_file);
+            reader.readAsDataURL(_this.fileIMGIdoneidad_file);
+            _this.clearIdoneidad_file = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    activosComponent.prototype.init = function () {
+        this.currentIndex = 1;
+        this.pageStart = 1;
+        this.pages = 4;
+        this.pageNumber = parseInt("" + (this.filteredItems.length / this.pageSize));
+        if (this.filteredItems.length % this.pageSize != 0) {
+            this.pageNumber++;
+        }
+        if (this.pageNumber < this.pages) {
+            this.pages = this.pageNumber;
+        }
+        this.refreshItems();
+        console.log("this.pageNumber :  " + this.pageNumber);
+        this.buscar_id_operacion();
+    };
+    activosComponent.prototype.FilterByName = function () {
+        this.filteredItems = [];
+        if (this.inputName != "") {
+            for (var i = 0; i < this.productList.length; ++i) {
+                if (this.productList[i].usuario.nombre.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.email.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.telefono.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.estado.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.ciudad.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+            }
+        }
+        else {
+            this.filteredItems = this.productList;
+        }
+        console.log(this.filteredItems);
+        this.init();
+    };
+    activosComponent.prototype.fillArray = function () {
+        var obj = new Array();
+        for (var index = this.pageStart; index < this.pageStart + this.pages; index++) {
+            obj.push(index);
+        }
+        return obj;
+    };
+    activosComponent.prototype.refreshItems = function () {
+        this.items = this.filteredItems.slice((this.currentIndex - 1) * this.pageSize, (this.currentIndex) * this.pageSize);
+        this.pagesIndex = this.fillArray();
+    };
+    activosComponent.prototype.prevPage = function () {
+        if (this.currentIndex > 1) {
+            this.currentIndex--;
+        }
+        if (this.currentIndex < this.pageStart) {
+            this.pageStart = this.currentIndex;
+        }
+        this.refreshItems();
+    };
+    activosComponent.prototype.nextPage = function () {
+        if (this.currentIndex < this.pageNumber) {
+            this.currentIndex++;
+        }
+        if (this.currentIndex >= (this.pageStart + this.pages)) {
+            this.pageStart = this.currentIndex - this.pages + 1;
+        }
+        this.refreshItems();
+    };
+    activosComponent.prototype.setPage = function (index) {
+        this.currentIndex = index;
+        this.refreshItems();
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('fileInput'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
+    ], activosComponent.prototype, "fileInput", void 0);
+    activosComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'ngx-ver-socios',
+            template: __webpack_require__("../../../../../src/app/pages/socios/activos/activos.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/pages/socios/activos/activos.component.scss")],
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["d" /* ToasterService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormBuilder"],
+            __WEBPACK_IMPORTED_MODULE_9__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__["a" /* HeaderToPedidosEventService */],
+            __WEBPACK_IMPORTED_MODULE_10__services_header_service_header_service__["a" /* HeaderService */]])
+    ], activosComponent);
+    return activosComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/socios/inactivos/inactivos.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<nb-card *ngIf=\"!editando && mostrar\">\r\n  <nb-card-header>\r\n    <div class=\"row show-grid\">\r\n          <div class=\"col-6\">\r\n            <div>Lista de Socios</div>\r\n          </div>\r\n          <div class=\"col-6\">\r\n            <div>\r\n              <div style=\"text-align: right;\">\r\n               <strong>Buscar: </strong>\r\n               <input  type=\"text\"  id=\"inputName\" [(ngModel)]=\"inputName\" (ngModelChange)=\"FilterByName()\"/>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n  </nb-card-header>\r\n\r\n  <nb-card-body>\r\n\r\n    <table class=\"table\">\r\n      <thead>\r\n         <th style=\"text-align: center;\">Imagen</th>\r\n         <th style=\"text-align: center;\">Nombre</th>\r\n         <th style=\"text-align: center;\">Email</th>\r\n         <th style=\"text-align: center;\">Teléfono</th>\r\n         <th style=\"text-align: center;\">Zona</th>\r\n         <th style=\"text-align: center;\">Ciudad</th>\r\n         <th style=\"text-align: center;\">Ingresó</th>\r\n         <th style=\"text-align: center;\">Estado</th>\r\n         <th style=\"text-align: center;\">Acciones</th>\r\n      </thead>\r\n      <tbody>\r\n         <tr *ngFor=\"let item of items\" >\r\n            <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.usuario.imagen}}\" alt=\"\" class=\"img-table\" height=\"50px\" width=\"80px\" style=\"border-radius: 10px;\"></td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.usuario.email}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.telefono}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">{{item.usuario.zonas.ciudad.nombre}}</td>\r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n            {{item.created_at}}</td>\r\n            <td style=\" vertical-align:middle;\">\r\n              <!--div class=\"estado\" style=\"display:block; margin:auto\">\r\n                <label class=\"theme-switch\">\r\n                  <span class=\"light\">OFF</span>\r\n                  <div class=\"switch\">\r\n                    <input type=\"checkbox\" [checked]=\"item.estado === 'ON'\" (change)=\"cambiarEstado(item)\" #theme>\r\n                    <span class=\"slider\"></span>\r\n                  </div>\r\n                  <span class=\"cosmic\">ON</span>\r\n                </label>\r\n              </div-->\r\n              <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado(item)\"></nb-checkbox>\r\n            </td> \r\n            \r\n            <td style=\"text-align: center; vertical-align:middle;\">\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Editar\" (click)=\"aEditar(item)\">\r\n                <i class=\"nb-edit\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-icon btn-sm btn-table\" title=\"Eliminar\" (click)=\"open(modal1); aEliminar(item)\">\r\n                <i class=\"nb-trash\"></i>\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-primary btn-icon btn-sm btn-table\" title=\"Chat\" (click)=\"chat(item)\">\r\n                <i class=\"nb-email\"></i>\r\n              </button>\r\n            </td>\r\n         </tr>\r\n      </tbody>\r\n    </table>\r\n      \r\n  </nb-card-body>\r\n  <nb-card-footer>\r\n    <div class=\"btn-toolbar\" role=\"toolbar\" style=\"margin: 0;\">\r\n      <div class=\"btn-group\">\r\n         <label style=\"margin-top:10px\">Página {{currentIndex}}/{{pageNumber}} </label>\r\n      </div>\r\n      <div class=\"btn-group pull-right\">\r\n         <ul class=\"pagination\" >\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == 1 || pageNumber == 0)}\" ><a class=\"page-link\"  (click)=\"prevPage()\" >Atrás</a></li>\r\n               <li class=\"page-item\" *ngFor=\"let page of pagesIndex\"  [ngClass]=\"{'active': (currentIndex == page)}\">\r\n                  <a class=\"page-link\" (click)=\"setPage(page)\"  >{{page}} </a>\r\n               </li>\r\n            <li class=\"page-item\" [ngClass]=\"{'disabled': (currentIndex == pageNumber || pageNumber == 0)}\" ><a class=\"page-link\"   (click)=\"nextPage()\" >Siguiente</a></li>\r\n         </ul>\r\n      </div>\r\n    </div>  \r\n  </nb-card-footer>\r\n</nb-card>\r\n\r\n<div class=\"row\" *ngIf=\"editando\">\r\n  <div class=\"col-lg-12\" style=\"display:block; margin:auto\">\r\n    <nb-card>\r\n      <nb-card-header>Editar información del Proveedor<br><br>\r\n            <button class=\"btn btn-secondary\" (click)=\"atras()\">Atras</button><br>\r\n      </nb-card-header>\r\n      <nb-card-body>\r\n        <form [formGroup]=\"myFormEditar\" novalidate>\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\"> \r\n              <label for=\"exampleInputNombre\">Nombre</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputNombre\" placeholder=\"Nombre\" formControlName=\"nombre\">\r\n              <div *ngIf=\"myFormEditar.get('nombre').errors && myFormEditar.get('nombre').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('nombre').hasError('required')\">Nombre es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputEmail\">Email</label>\r\n              <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail\" placeholder=\"Email\" formControlName=\"email\">\r\n              <div *ngIf=\"myFormEditar.get('email').errors && myFormEditar.get('email').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('email').hasError('required')\">Email es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Teléfono</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTelefono\" placeholder=\"Telefono\" formControlName=\"telefono\">\r\n              <div *ngIf=\"myFormEditar.get('telefono').errors && myFormEditar.get('telefono').dirty\">\r\n                <p *ngIf=\"myFormEditar.get('telefono').hasError('required')\">Teléfono es requerido</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Foto</label><br>\r\n              <img src=\"{{myFormEditar.value.foto}}\" alt=\"\" style=\"width: 250px; height: 250px; border-radius: 20px;\">\r\n                <input [hidden]=\"clear\" type=\"file\" name=\"imagen\" id=\"imagen\" (change)=\"onFileChange($event)\" #fileInput accept=\"image/*\">\r\n                  <div *ngIf=\"clear\">\r\n                    <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFile()\">Eliminar</button>\r\n                  </div>\r\n                  <p [hidden]=\"clear\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Documento de identidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"cedula\" placeholder=\"\" formControlName=\"cedula\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nacionalidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"nacionalidad\" placeholder=\"\" formControlName=\"nacionalidad\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion\" placeholder=\"\" formControlName=\"direccion\"> {{myFormEditar.value.lat}}-{{myFormEditar.value.lng}}\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Dirección exacta</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"direccion_exacta\" placeholder=\"\" formControlName=\"direccion_exacta\">\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Sexo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"sexo\" placeholder=\"\" formControlName=\"sexo\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Fecha Nacimiento</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"fecha_nacimiento\" placeholder=\"\" formControlName=\"fecha_nacimiento\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Formación</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"formacion\" placeholder=\"\" formControlName=\"formacion\">\r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Tipo de registro</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"Tipo de registro\" formControlName=\"tipo2\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Ruc</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputruc\" placeholder=\"ruc\" formControlName=\"ruc\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Email empresa</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputemail_empresa\" placeholder=\"email\" formControlName=\"email_empresa\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-3\">\r\n              <label for=\"exampleInputTelefono\">Nombre contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputcontacto_nombre\" placeholder=\"\" formControlName=\"contacto_nombre\">\r\n            </div>  \r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Urgencias</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"exampleInputTipo\" placeholder=\"\" formControlName=\"urgencias\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Factura</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"factura\" placeholder=\"factura\" formControlName=\"factura\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Cargo contacto</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"contacto_cargo\" placeholder=\"\" formControlName=\"contacto_cargo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Record policivo</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"record_policivo\" placeholder=\"record_policivo\" formControlName=\"record_policivo\">\r\n            </div>\r\n\r\n            <div class=\"form-group\" class=\"col-6\">\r\n              <label for=\"exampleInputTelefono\">Idoneidad</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"idoneidad\" placeholder=\"idoneidad\" formControlName=\"idoneidad\">\r\n            </div>              \r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Años experiencia</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"anos_experiencia\" placeholder=\"\" formControlName=\"anos_experiencia\">\r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Experiencia</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"experiencia\" placeholder=\"\" formControlName=\"experiencia\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.experiencia2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n            <div class=\"form-group\" class=\"col-4\">\r\n              <label for=\"exampleInputTelefono\">Idiomas</label>\r\n              <!--input type=\"text\" class=\"form-control\" id=\"idiomas\" placeholder=\"\" formControlName=\"idiomas\"-->\r\n              <div *ngFor=\"let item of myFormEditar.value.idiomas2\">\r\n                <p>-{{item.nombre}}</p>\r\n              </div>  \r\n            </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            \r\n            <nb-card-header>Disponibilidad</nb-card-header>\r\n              <br><br>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Lunes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_i\" placeholder=\"\" formControlName=\"lunes_i\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"lunes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label style=\"font-weight: bold;\">Martes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"martes_i\" placeholder=\"\" formControlName=\"martes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Miercoles:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"miercoles_i\" placeholder=\"\" formControlName=\"miercoles_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Jueves:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"jueves_i\" placeholder=\"\" formControlName=\"jueves_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Viernes:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"viernes_i\" placeholder=\"\" formControlName=\"viernes_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Sabado:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"lunes_f\" placeholder=\"\" formControlName=\"sabado_f\">\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\" class=\"row\">\r\n                <div class=\"col-4\">\r\n                   <label for=\"exampleInputTelefono\" style=\"font-weight: bold;\">Domingo:</label>\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Inicio:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n                <div class=\"col-4\"><label for=\"exampleInputTelefono\">Fin:</label>\r\n                  <input type=\"text\" class=\"form-control\" id=\"domingo_i\" placeholder=\"\" formControlName=\"domingo_f\">\r\n                </div>\r\n              </div>\r\n          </div>\r\n          \r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n<!--           <div class=\"form-group\" *ngIf=\"refer\">\r\n  <nb-card-header>Referencias personales</nb-card-header>\r\n  <br><br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias2.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias2.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias2.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias2.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias2.cargo3}}<br>\r\n    <br>\r\n</div>\r\n\r\n<br><br>\r\n<hr>\r\n<br><br>\r\n\r\n<div class=\"form-group\">\r\n  <nb-card-header>Referencias comerciales</nb-card-header>\r\n  <br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 1:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre1}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono1}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion1}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto1}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo1}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br><br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre2}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono2}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion2}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto2}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo2}}<br>\r\n  <br>\r\n  <label style=\"font-weight: bold;\">Referencia 2:</label> <br>\r\n    <label style=\"font-weight: bold;\">Nombre:</label>{{myFormEditar.value.referencias22.nombre3}}<br>\r\n    <label style=\"font-weight: bold;\">Telefono:</label>{{myFormEditar.value.referencias22.telefono3}}<br>\r\n    <label style=\"font-weight: bold;\">Dirección:</label>{{myFormEditar.value.referencias22.direccion3}}<br>\r\n    <label style=\"font-weight: bold;\">Contacto:</label>{{myFormEditar.value.referencias22.contacto3}}<br>\r\n    <label style=\"font-weight: bold;\">Cargo:</label>{{myFormEditar.value.referencias22.cargo3}}<br>\r\n    <br>\r\n</div> -->\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\">\r\n            <nb-card-header>Documento de Indentidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.pasaporte}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangePasaporte($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Logo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.logo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearLogo\" type=\"file\" name=\"Logo\" id=\"Logo\" (change)=\"onFileChangeLogo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearLogo\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileLogo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearLogo\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Aviso Operaciones</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.operaciones}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearOperaciones\" type=\"file\" name=\"Operaciones\" id=\"Operaciones\" (change)=\"onFileChangeOperaciones($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearOperaciones\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileOperaciones()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearOperaciones\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Idoneidad</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.idoneidad_file}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"Idoneidad_file\" id=\"Idoneidad_file\" (change)=\"onFileChangeIdoneidad_file($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFileIdoneidad_file()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>record_policivo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.record_policivo}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px;\">\r\n              <input [hidden]=\"clearIdoneidad_file\" type=\"file\" name=\"record_policivo\" id=\"record_policivo\" (change)=\"onFileChangerecord_policivo($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearIdoneidad_file\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilerecord_policivo()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearIdoneidad_file\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n\r\n          <div class=\"form-group\">\r\n            <nb-card-header>Recibo</nb-card-header><br>\r\n            <img src=\"{{myFormEditar.value.recibo_servicio}}\" alt=\"\" style=\"width: 600px; height: 600px; border-radius: 20px; \">\r\n              <input [hidden]=\"clearPasaporte\" type=\"file\" name=\"Pasaporte\" id=\"Pasaporte\" (change)=\"onFileChangeRecibo_servicio($event)\" #fileInput accept=\"image/*\">\r\n                <div *ngIf=\"clearPasaporte\">\r\n                  <button type=\"button\" class=\"btn btn-danger btn-tn\" (click)=\"clearFilePasaporte()\">Eliminar</button>\r\n                </div>\r\n                <p [hidden]=\"clearPasaporte\" style=\"color: #c71717\"><b>Sugerencia:</b> La dimensión de la imagen no debe ser mayor a 870x370 px.</p>\r\n          </div>\r\n\r\n          <br><br>\r\n          <hr>\r\n          <br><br>\r\n          \r\n          <div class=\"form-group\" [hidden]=\"contrato==null\">\r\n            <label for=\"exampleInputTelefono\">Contrato:</label><br>\r\n            <a href=\"{{contrato}}\" target=\"_blank\">Ver contrato</a>\r\n          </div>\r\n          <div class=\"form-group\" [hidden]=\"ontrato!=null\">\r\n            <label for=\"exampleInputTelefono\">Sin contrato...</label><br>\r\n          </div>\r\n\r\n\r\n          \r\n\r\n          <br><br>\r\n          <nb-card-header>Servicios del Proveedor</nb-card-header><br>\r\n          <table class=\"table\">\r\n            <thead>\r\n               <th style=\"text-align: center;\">Imagen</th>\r\n               <th style=\"text-align: center;\">Nombre</th>\r\n               <th style=\"text-align: center;\">Categoaria</th>\r\n               <th style=\"text-align: center;\">Descripción</th>\r\n               <th style=\"text-align: center;\"></th>\r\n            </thead>\r\n            <tbody>\r\n               <tr *ngFor=\"let item of this.objAEditar.establecimiento.productos\" >\r\n                <td style=\"text-align: center; vertical-align:middle;\"><img src = \"{{item.imagen}}\" alt=\"\" class=\"img-table\" height=\"150px\" width=\"180px\" style=\"border-radius: 20px;\"></td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.subcategoria.categoria.catprincipales.nombre}}-{{item.subcategoria.categoria.nombre}}-{{item.subcategoria.nombre}}</td>\r\n                  <td style=\"text-align: center; vertical-align:middle;\">{{item.descripcion}} Estrellas de 5</td>\r\n                  <td>\r\n                    <nb-checkbox [value]=\"item.estado === 'ON'\"  (change)=\"cambiarEstado2(item)\"></nb-checkbox>\r\n                    <!--button type=\"button\" class=\"btn btn-secundary  btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado!='ON'\">Hablitar{{item.estado}}\r\n                   </button>\r\n                   <button type=\"button\" class=\"btn btn-danger btn-table\" title=\"Editar\" (click)=\"aEditara(item)\" *ngIf=\"item.estado=='ON'\">Deshabilitar\r\n                   </button-->\r\n                  </td>\r\n\r\n               </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n          <br><br>\r\n          \r\n          <br>\r\n          <button class=\"btn btn-secondary\" (click)=\"atras()\">Cancelar</button>\r\n          <button type=\"submit\" class=\"btn btn-primary\" (click)=\"editar()\" >Actualizar datos</button>\r\n          <button type=\"submit\" class=\"btn btn-danger\" (click)=\"aceptar()\">Aceptar proveedor y habilitarlo</button>\r\n        </form>\r\n      </nb-card-body>\r\n    </nb-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #modal1 let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Eliminar Socio: </h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <p>¿Realmente desea eliminar el socio {{eliminar_nombre}}?</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Cancelar</button>\r\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('Close click'); eliminar()\">Eliminar</button>\r\n  </div>\r\n</ng-template>\r\n\r\n<toaster-container [toasterconfig]=\"config\"></toaster-container>\r\n\r\n<div class=\"my-container\">\r\n    <ngx-loading [show]=\"loading\" [config]=\"{ backdropBorderRadius: '4px' }\"></ngx-loading>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/socios/inactivos/inactivos.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This is a starting point where we declare the maps of themes and globally available functions/mixins\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n:host-context(.nb-theme-default) .estado {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 50%; }\n\n:host-context(.nb-theme-default) .btn-table {\n  display: inline-block; }\n\n:host-context(.nb-theme-default) .img-table {\n  border-radius: 4px;\n  -o-object-fit: cover;\n     object-fit: cover; }\n\n:host-context(.nb-theme-default) .theme-switch {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  margin: 0; }\n  :host-context(.nb-theme-default) .theme-switch > span {\n    font-size: 1rem;\n    font-weight: 600;\n    transition: opacity 0.3s ease; }\n    :host-context(.nb-theme-default) .theme-switch > span.light {\n      color: #4b4b4b;\n      padding-right: 5px; }\n    :host-context(.nb-theme-default) .theme-switch > span.cosmic {\n      color: #a4abb3;\n      padding-left: 5px; }\n    :host-context(.nb-theme-default) .theme-switch > span:active {\n      opacity: 0.78; }\n\n:host-context(.nb-theme-default) .switch {\n  position: relative;\n  display: inline-block;\n  width: 4rem;\n  height: 1.75rem;\n  margin: 0; }\n  :host-context(.nb-theme-default) .switch input {\n    display: none; }\n    :host-context(.nb-theme-default) .switch input:checked + .slider::before {\n      -webkit-transform: translateX(2.25rem);\n              transform: translateX(2.25rem); }\n  :host-context(.nb-theme-default) .switch .slider {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    border-radius: 1.75rem;\n    background-color: #ebeff5; }\n  :host-context(.nb-theme-default) .switch .slider::before {\n    position: absolute;\n    content: '';\n    height: 1.75rem;\n    width: 1.75rem;\n    border-radius: 50%;\n    background-color: #0b417a;\n    transition: 0.2s;\n    box-shadow: 0 0 0.25rem 0 rgba(164, 171, 179, 0.4); }\n\n@media (max-width: 575px) {\n  :host-context(.nb-theme-default) .light, :host-context(.nb-theme-default) .cosmic {\n    display: none; } }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-default) {\n    -webkit-box-align: end;\n        -ms-flex-align: end;\n            align-items: flex-end; } }\n\n:host-context(.nb-theme-cosmic) .estado {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 50%; }\n\n:host-context(.nb-theme-cosmic) .btn-table {\n  display: inline-block; }\n\n:host-context(.nb-theme-cosmic) .img-table {\n  border-radius: 4px;\n  -o-object-fit: cover;\n     object-fit: cover; }\n\n:host-context(.nb-theme-cosmic) .theme-switch {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  margin: 0; }\n  :host-context(.nb-theme-cosmic) .theme-switch > span {\n    font-size: 1rem;\n    font-weight: 600;\n    transition: opacity 0.3s ease; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.light {\n      color: #d1d1ff;\n      padding-right: 5px; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.cosmic {\n      color: #76f8f6;\n      padding-left: 5px; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.light {\n      color: #76f8f6; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span.cosmic {\n      color: #ffffff; }\n    :host-context(.nb-theme-cosmic) .theme-switch > span:active {\n      opacity: 0.78; }\n\n:host-context(.nb-theme-cosmic) .switch {\n  position: relative;\n  display: inline-block;\n  width: 4rem;\n  height: 1.75rem;\n  margin: 0; }\n  :host-context(.nb-theme-cosmic) .switch input {\n    display: none; }\n    :host-context(.nb-theme-cosmic) .switch input:checked + .slider::before {\n      -webkit-transform: translateX(2.25rem);\n              transform: translateX(2.25rem); }\n  :host-context(.nb-theme-cosmic) .switch .slider {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    border-radius: 1.75rem;\n    background-color: #2f296b; }\n  :host-context(.nb-theme-cosmic) .switch .slider::before {\n    position: absolute;\n    content: '';\n    height: 1.75rem;\n    width: 1.75rem;\n    border-radius: 50%;\n    background-color: #0b417a;\n    transition: 0.2s;\n    box-shadow: 0 0 0.25rem 0 rgba(118, 248, 246, 0.4);\n    background-image: linear-gradient(to right, #0b1c7a, #0b417a); }\n\n@media (max-width: 575px) {\n  :host-context(.nb-theme-cosmic) .light, :host-context(.nb-theme-cosmic) .cosmic {\n    display: none; } }\n\n@media (max-width: 399px) {\n  :host-context(.nb-theme-cosmic) {\n    -webkit-box-align: end;\n        -ms-flex-align: end;\n            align-items: flex-end; } }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/socios/inactivos/inactivos.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return inactivosComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__ = __webpack_require__("../../../../../src/app/services/ruta-base/ruta-base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__ = __webpack_require__("../../../../style-loader/index.js!../../../../angular2-toaster/toaster.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_style_loader_angular2_toaster_toaster_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__ = __webpack_require__("../../../../../src/app/services/eventos-services/header-to-pedidos-event-service/header-to-pedidos-event.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_header_service_header_service__ = __webpack_require__("../../../../../src/app/services/header-service/header.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+//Mis imports
+
+
+
+
+
+
+
+
+
+
+var inactivosComponent = /** @class */ (function () {
+    function inactivosComponent(modalService, toasterService, http, router, route, rutaService, fb, headerToPedidosEventService, headerService) {
+        var _this = this;
+        this.modalService = modalService;
+        this.toasterService = toasterService;
+        this.http = http;
+        this.router = router;
+        this.route = route;
+        this.rutaService = rutaService;
+        this.fb = fb;
+        this.headerToPedidosEventService = headerToPedidosEventService;
+        this.headerService = headerService;
+        this.position = 'toast-top-right';
+        this.animationType = 'fade';
+        this.title = 'HI there!';
+        this.content = "I'm cool toaster!";
+        this.timeout = 5000;
+        this.toastsLimit = 5;
+        this.type = 'default'; // 'default', 'info', 'success', 'warning', 'error'
+        this.isNewestOnTop = true;
+        this.isHideOnClick = true;
+        this.isDuplicatesPrevented = false;
+        this.isCloseButton = true;
+        this.loading = false;
+        this.editando = false;
+        this.agregando = false;
+        this.mostrar = true;
+        this.admin = false;
+        this.mouvers_user_tipo = localStorage.getItem('mouvers_user_tipo');
+        this.id_operacion = "";
+        this.establecimiento_id = 0;
+        this.refer = true;
+        this.contenido = '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.';
+        this.clear = false; //puedo borrar?
+        this.fileIMG = null;
+        this.imgUpload = null;
+        this.loadinImg = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //Logo
+        //----------------------------------------------------------------------------------------------
+        this.clearLogo = false; //puedo borrar?
+        this.fileIMGLogo = null;
+        this.imgUploadLogo = null;
+        this.loadinImgLogo = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        this.clearPasaporte = false; //puedo borrar?
+        this.fileIMGPasaporte = null;
+        this.imgUploadPasaporte = null;
+        this.loadinImgPasaporte = false;
+        //----------------------------------------------------------------------------------------------
+        // operaciones Operaciones
+        this.clearOperaciones = false; //puedo borrar?
+        this.fileIMGOperaciones = null;
+        this.imgUploadOperaciones = null;
+        this.loadinImgOperaciones = false;
+        //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        // idoneidad_file Idoneidad_file
+        this.clearIdoneidad_file = false; //puedo borrar?
+        this.fileIMGIdoneidad_file = null;
+        this.imgUploadIdoneidad_file = null;
+        this.loadinImgIdoneidad_file = false;
+        this.pages = 4;
+        this.pageSize = 5;
+        this.pageNumber = 0;
+        this.currentIndex = 1;
+        this.pageStart = 1;
+        this.inputName = '';
+        //Detectar evento cargar pedido de notificacion entrante
+        this.headerToPedidosEventService.headerToPedidosData.subscribe(function (data) {
+            console.log(data);
+            _this.id_operacion = data;
+            _this.id_operacion = _this.id_operacion.usuario_id;
+            console.log(_this.id_operacion);
+            localStorage.setItem('id_operacion', _this.id_operacion);
+            setTimeout(function () {
+                localStorage.setItem('id_operacion', "");
+            }, 49600);
+        });
+        this.myFormEditar = this.fb.group({
+            id: [''],
+            nombre: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            email: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            telefono: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            ciudad: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            estado: ['', [__WEBPACK_IMPORTED_MODULE_5__angular_forms__["Validators"].required]],
+            tipo: [''],
+            tipo2: [''],
+            ruc: [''],
+            latitud: [''],
+            longitud: [''],
+            email_empresa: [''],
+            contacto_nombre: [''],
+            contacto_cedula: [''],
+            contacto_cargo: [''],
+            logo: [''],
+            cedula: [''],
+            nacionalidad: [''],
+            direccion: [''],
+            direccion_exacta: [''],
+            fecha_nacimiento: [''],
+            formacion: [''],
+            experiencia: [''],
+            experiencia2: [''],
+            anos_experiencia: [''],
+            idoneidad: [''],
+            record_policivo: [''],
+            disponibilidad: [''],
+            disponibilidad2: [''],
+            idiomas: [''],
+            idiomas2: [''],
+            urgencias: [''],
+            factura: [''],
+            referencias: [''],
+            referencias2: [''],
+            referencias12: [''],
+            referencias22: [''],
+            operaciones: [''],
+            foto: [''],
+            pasaporte: [''],
+            idoneidad_file: [''],
+            estado2: [''],
+            usuario_id: [''],
+            sexo: [''],
+            contrato: [''],
+            lunes_i: [''],
+            lunes_f: [''],
+            martes_i: [''],
+            martes_f: [''],
+            miercoles_i: [''],
+            miercoles_f: [''],
+            jueves_i: [''],
+            jueves_f: [''],
+            viernes_i: [''],
+            viernes_f: [''],
+            sabado_i: [''],
+            sabado_f: [''],
+            domingo_i: [''],
+            domingo_f: [''],
+            lat: [''],
+            lng: [''],
+            recibo_servicio: [''],
+        });
+    }
+    inactivosComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.mouvers_user_tipo == '0' || this.mouvers_user_tipo == '1' || this.mouvers_user_tipo == '5' || this.mouvers_user_tipo == '6' || this.mouvers_user_tipo == '7') {
+        }
+        else {
+            localStorage.removeItem('mouvers_token');
+            localStorage.removeItem('mouvers_user_id');
+            localStorage.removeItem('mouvers_user_nombre');
+            localStorage.removeItem('mouvers_user_tipo');
+            localStorage.removeItem('mouvers_establecimiento_id');
+            this.router.navigateByUrl('/pagessimples/loginf');
+        }
+        this.loading = true;
+        this.http.get(this.rutaService.getRutaApi() + 'inactivos?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
+            .toPromise()
+            .then(function (data) {
+            _this.getEstados();
+            console.log(data);
+            _this.data = data;
+            _this.productList = _this.data.repartidores;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                console.log(_this.productList[i].id);
+                if (_this.productList[i].usuario.registro != null) {
+                    if (_this.productList[i].usuario.registro.tipo == 2) {
+                        _this.productList[i].usuario.imagen = _this.productList[i].usuario.registro.logo;
+                    }
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.datos = _this.productList;
+            //console.log(this.productList);
+            _this.init();
+            _this.loading = false;
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                _this.showToast('warning', 'Warning!', msg.error.error);
+                _this.mostrar = false;
+                setTimeout(function () {
+                    _this.router.navigateByUrl('/pagessimples/loginf');
+                }, 1000);
+            }
+            else if (msg.status == 404) {
+                //alert(msg.error.error);
+                _this.showToast('info', 'Info!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.buscar_id_operacion = function () {
+        var _this = this;
+        console.log('buscar_id_operacion');
+        console.log(localStorage.getItem('id_operacion'));
+        var id_operacion = localStorage.getItem('id_operacion');
+        if (id_operacion != "") {
+            var prod = this.datos;
+            console.log(prod);
+            for (var i = 0; i < prod.length; i++) {
+                if (id_operacion == prod[i].usuario.id) {
+                    console.log(prod[i]);
+                    var selec = prod[i];
+                    setTimeout(function () {
+                        console.log(selec);
+                        _this.aEditar(selec);
+                    }, 1000);
+                }
+            }
+        }
+    };
+    //Redirigir al chat
+    inactivosComponent.prototype.chat = function (repartidor) {
+        console.log(repartidor);
+        if (repartidor.usuario.chat_repartidor) {
+            localStorage.setItem('mouvers_chat_id', repartidor.usuario.chat_repartidor.id);
+        }
+        else {
+            localStorage.setItem('mouvers_chat_id', '');
+        }
+        localStorage.setItem('mouvers_usuario_id', repartidor.usuario.id);
+        localStorage.setItem('mouvers_usuario_tipo', repartidor.usuario.tipo_usuario);
+        localStorage.setItem('mouvers_usuario_nombre', repartidor.usuario.nombre);
+        localStorage.setItem('mouvers_usuario_imagen', repartidor.usuario.imagen);
+        localStorage.setItem('mouvers_usuario_token_notifi', repartidor.usuario.token_notificacion);
+        this.router.navigateByUrl('/pages/chat-box');
+    };
+    inactivosComponent.prototype.getEstados = function () {
+        /*this.http.get(this.rutaService.getRutaApi()+'entidades/municipios?token='+localStorage.getItem('mouvers_token'))
+      
+           .toPromise()
+           .then(
+             data => { // Success
+               console.log(data);
+               this.data = data;
+               this.estados=this.data.entidades;
+             },
+             msg => { // Error
+               //console.log(msg);
+               console.log(msg.error.error);
+    
+               //token invalido/ausente o token expiro
+               if(msg.status == 400 || msg.status == 401){
+                    //alert(msg.error.error);
+                    //ir a login
+                    this.showToast('warning', 'Warning!', msg.error.error);
+                    setTimeout(()=>{
+                      this.router.navigateByUrl('/pagessimples/loginf');
+                    },1000);
+                }
+                //sin categorias o todas deshabilitadas OFF
+                else if(msg.status == 404){
+                    //alert(msg.error.error);
+                    this.showToast('info', 'Info!', msg.error.error);
+                }
+    
+             }
+           );
+        */
+    };
+    inactivosComponent.prototype.setEstado1 = function (estado) {
+        console.log(estado);
+        for (var i = 0; i < this.estados.length; ++i) {
+            if (estado == this.estados[i].nom_ent) {
+                this.ciudades = this.estados[i].municipios;
+            }
+        }
+    };
+    inactivosComponent.prototype.setEstado2 = function (estado) {
+        console.log(estado);
+        for (var i = 0; i < this.estados.length; ++i) {
+            if (estado == this.estados[i].nom_ent) {
+                this.ciudades = this.estados[i].municipios;
+                this.myFormEditar.patchValue({ ciudad: this.ciudades[0].nom_mun });
+            }
+        }
+    };
+    inactivosComponent.prototype.showToast = function (type, title, body) {
+        this.config = new __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["b" /* ToasterConfig */]({
+            positionClass: this.position,
+            timeout: this.timeout,
+            newestOnTop: this.isNewestOnTop,
+            tapToDismiss: this.isHideOnClick,
+            preventDuplicates: this.isDuplicatesPrevented,
+            animation: this.animationType,
+            limit: this.toastsLimit,
+        });
+        var toast = {
+            type: type,
+            title: title,
+            body: body,
+            timeout: this.timeout,
+            showCloseButton: this.isCloseButton,
+            bodyOutputType: __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["a" /* BodyOutputType */].TrustedHtml,
+        };
+        this.toasterService.popAsync(toast);
+    };
+    //Abrir modal por defecto
+    inactivosComponent.prototype.open = function (modal) {
+        this.modalService.open(modal);
+    };
+    //Abrir modal larga
+    inactivosComponent.prototype.open2 = function (modal) {
+        this.modalService.open(modal, { size: 'lg', backdrop: 'static', container: 'nb-layout', keyboard: false });
+    };
+    inactivosComponent.prototype.atras = function () {
+        this.editando = false;
+        this.objAEditar = null;
+        //console.log(this.objAEditar);
+        //this.uploadFile = null;
+        this.myFormEditar.reset();
+        localStorage.setItem('id_operacion', "");
+    };
+    inactivosComponent.prototype.aEditar = function (obj) {
+        console.log(obj);
+        this.establecimiento_id = obj.establecimiento.id;
+        this.editando = true;
+        this.objAEditar = Object.assign({}, obj);
+        console.log(this.objAEditar);
+        this.token_notificacion = this.objAEditar.usuario.token_notificacion;
+        this.usuario_id = this.objAEditar.usuario.id;
+        var tam_contrato = obj.usuario.contrato.length;
+        this.contrato = "";
+        if (obj.usuario.contrato.length != 0) {
+            this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
+        }
+        console.log(this.contrato);
+        this.myFormEditar.patchValue({ id: this.objAEditar.id });
+        this.myFormEditar.patchValue({ nombre: this.objAEditar.usuario.nombre });
+        this.myFormEditar.patchValue({ email: this.objAEditar.usuario.email });
+        this.myFormEditar.patchValue({ telefono: this.objAEditar.usuario.telefono });
+        this.myFormEditar.patchValue({ estado: this.objAEditar.usuario.estado });
+        this.myFormEditar.patchValue({ ciudad: this.objAEditar.usuario.ciudad });
+        var tipo = "";
+        if (this.objAEditar.usuario.registro.tipo == 1) {
+            tipo = 'Persona';
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 2) {
+            tipo = 'Empresa';
+        }
+        else {
+            tipo = 'Sin tipo de registro';
+        }
+        if (this.objAEditar.usuario.registro.referencias == null) {
+            var refe = { nombre1: "", telefono1: "", direccion1: "", contacto1: "", cargo1: "", nombre2: "", telefono2: "", direccion2: "", contacto2: "", cargo2: "", nombre3: "", telefono3: "", direccion3: "", contacto3: "", cargo3: "" };
+            this.myFormEditar.patchValue({ referencias22: refe });
+        }
+        else {
+            this.myFormEditar.patchValue({ referencias22: JSON.parse(this.objAEditar.usuario.registro.referencias) });
+        }
+        this.myFormEditar.patchValue({ tipo2: tipo });
+        this.myFormEditar.patchValue({ tipo: this.objAEditar.usuario.registro.tipo });
+        this.myFormEditar.patchValue({ ruc: this.objAEditar.usuario.registro.ruc });
+        this.myFormEditar.patchValue({ latitud: this.objAEditar.usuario.registro.latitud });
+        this.myFormEditar.patchValue({ longitud: this.objAEditar.usuario.registro.longitud });
+        this.myFormEditar.patchValue({ email_empresa: this.objAEditar.usuario.registro.email_empresa });
+        this.myFormEditar.patchValue({ contacto_nombre: this.objAEditar.usuario.registro.contacto_nombre });
+        this.myFormEditar.patchValue({ contacto_cedula: this.objAEditar.usuario.registro.contacto_cedula });
+        this.myFormEditar.patchValue({ contacto_cargo: this.objAEditar.usuario.registro.contacto_cargo });
+        this.myFormEditar.patchValue({ logo: this.objAEditar.usuario.registro.logo });
+        this.myFormEditar.patchValue({ cedula: this.objAEditar.usuario.registro.cedula });
+        this.myFormEditar.patchValue({ nacionalidad: this.objAEditar.usuario.registro.nacionalidad });
+        this.myFormEditar.patchValue({ direccion: this.objAEditar.usuario.registro.direccion });
+        this.myFormEditar.patchValue({ direccion_exacta: this.objAEditar.usuario.registro.direccion_exacta });
+        this.myFormEditar.patchValue({ fecha_nacimiento: this.objAEditar.usuario.registro.fecha_nacimiento });
+        this.myFormEditar.patchValue({ formacion: this.objAEditar.usuario.registro.formacion });
+        this.myFormEditar.patchValue({ experiencia: this.objAEditar.usuario.registro.experiencia });
+        this.myFormEditar.patchValue({ experiencia2: JSON.parse(this.objAEditar.usuario.registro.experiencia) });
+        this.myFormEditar.patchValue({ anos_experiencia: this.objAEditar.usuario.registro.anos_experiencia });
+        this.myFormEditar.patchValue({ idoneidad: this.objAEditar.usuario.registro.idoneidad });
+        this.myFormEditar.patchValue({ record_policivo: this.objAEditar.usuario.registro.record_policivo });
+        this.myFormEditar.patchValue({ disponibilidad: this.objAEditar.usuario.registro.disponibilidad });
+        this.myFormEditar.patchValue({ disponibilidad2: JSON.parse(this.objAEditar.usuario.registro.disponibilidad) });
+        this.myFormEditar.patchValue({ idiomas: this.objAEditar.usuario.registro.idiomas });
+        this.myFormEditar.patchValue({ idiomas2: JSON.parse(this.objAEditar.usuario.registro.idiomas) });
+        this.myFormEditar.patchValue({ urgencias: this.objAEditar.usuario.registro.urgencias });
+        this.myFormEditar.patchValue({ factura: this.objAEditar.usuario.registro.factura });
+        if (this.objAEditar.usuario.registro.referencias == null) {
+            this.refer = false;
+        }
+        this.myFormEditar.patchValue({ referencias: this.objAEditar.usuario.registro.referencias });
+        this.myFormEditar.patchValue({ referencias2: JSON.parse(this.objAEditar.usuario.registro.referencias) });
+        this.myFormEditar.patchValue({ referencias12: this.objAEditar.usuario.registro.referencias2 });
+        this.myFormEditar.patchValue({ referencias22: JSON.parse(this.objAEditar.usuario.registro.referencias2) });
+        if (this.objAEditar.usuario.registro.tipo == 2) {
+            //var foto= this.objAEditar.usuario.registro.logo;
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 1) {
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        //this.myFormEditar.patchValue({referencias22 : JSON.parse(this.objAEditar.usuario.registro.referencias}));
+        this.myFormEditar.patchValue({ foto: foto });
+        this.myFormEditar.patchValue({ pasaporte: this.objAEditar.usuario.registro.pasaporte });
+        this.myFormEditar.patchValue({ recibo_servicio: this.objAEditar.usuario.registro.recibo_servicio });
+        this.myFormEditar.patchValue({ idoneidad_file: this.objAEditar.usuario.registro.idoneidad_file });
+        this.myFormEditar.patchValue({ operaciones: this.objAEditar.usuario.registro.operaciones });
+        this.myFormEditar.patchValue({ estado2: this.objAEditar.usuario.registro.estado2 });
+        this.myFormEditar.patchValue({ usuario_id: this.objAEditar.usuario.registro.usuario_id });
+        this.myFormEditar.patchValue({ sexo: this.objAEditar.usuario.registro.sexo });
+        //this.myFormEditar.patchValue({contrato : this.objAEditar.usuario.registro.contrato});
+        this.myFormEditar.patchValue({ lat: this.objAEditar.usuario.registro.latitud });
+        this.myFormEditar.patchValue({ lng: this.objAEditar.usuario.registro.longitud });
+        var disp = JSON.parse(this.objAEditar.usuario.registro.disponibilidad);
+        this.myFormEditar.patchValue({ lunes_i: disp.lunes_i });
+        this.myFormEditar.patchValue({ lunes_f: disp.lunes_f });
+        this.myFormEditar.patchValue({ martes_i: disp.martes_i });
+        this.myFormEditar.patchValue({ martes_f: disp.martes_f });
+        this.myFormEditar.patchValue({ miercoles_i: disp.miercoles_i });
+        this.myFormEditar.patchValue({ miercoles_f: disp.miercoles_f });
+        this.myFormEditar.patchValue({ jueves_i: disp.jueves_i });
+        this.myFormEditar.patchValue({ jueves_f: disp.jueves_f });
+        this.myFormEditar.patchValue({ viernes_i: disp.viernes_i });
+        this.myFormEditar.patchValue({ viernes_f: disp.viernes_f });
+        this.myFormEditar.patchValue({ sabado_i: disp.sabado_i });
+        this.myFormEditar.patchValue({ sabado_f: disp.sabado_f });
+        this.myFormEditar.patchValue({ domingo_i: disp.domingo_i });
+        this.myFormEditar.patchValue({ domingo_f: disp.domingo_f });
+        //this.setEstado1(this.objAEditar.usuario.estado);
+        console.log(this.myFormEditar.value);
+    };
+    inactivosComponent.prototype.editar = function () {
+        var _this = this;
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            nombre: this.myFormEditar.value.nombre,
+            email: this.myFormEditar.value.email,
+            telefono: this.myFormEditar.value.telefono,
+            ciudad: this.myFormEditar.value.ciudad,
+            estado: this.myFormEditar.value.estado,
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + this.myFormEditar.value.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.myFormEditar.value.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.nombre = _this.myFormEditar.value.nombre;
+                    _this.productList[i].usuario.email = _this.myFormEditar.value.email;
+                    _this.productList[i].usuario.telefono = _this.myFormEditar.value.telefono;
+                    _this.productList[i].usuario.ciudad = _this.myFormEditar.value.ciudad;
+                    _this.productList[i].usuario.estado = _this.myFormEditar.value.estado;
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+        var disponibilidad = {
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+        };
+        if (this.objAEditar.usuario.registro.tipo == 2) {
+            var foto = this.objAEditar.usuario.registro.logo;
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 1) {
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        var datos2 = {
+            imagen: foto,
+            direccion: this.myFormEditar.value.direccion,
+            direccion_exacta: this.myFormEditar.value.direccion_exacta,
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+            disponibilidad: JSON.stringify(disponibilidad),
+            logo: this.myFormEditar.value.logo,
+            foto: this.myFormEditar.value.foto,
+            pasaporte: this.myFormEditar.value.pasaporte,
+            operaciones: this.myFormEditar.value.operaciones,
+            idoneidad_file: this.myFormEditar.value.idoneidad_file,
+        };
+        console.log(datos2);
+        this.http.put(this.rutaService.getRutaApi() + 'establecimientos/' + this.establecimiento_id, datos2)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.objAEditar.usuario.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.registro.logo = _this.myFormEditar.value.logo;
+                }
+            }
+            _this.objAEditar.usuario.registro.disponibilidad = JSON.stringify(disponibilidad);
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.aceptar = function () {
+        var _this = this;
+        this.loading = true;
+        var datosa = {
+            token: localStorage.getItem('mouvers_token'),
+            activo: 1,
+            activar: 1,
+            msg: '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.'
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + this.myFormEditar.value.id, datosa)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', '!Proveedor aceptado con éxito!');
+            _this.loading = true;
+            _this.enviar_proveedores();
+            _this.http.get(_this.rutaService.getRutaApi() + 'registro?token=' + localStorage.getItem('mouvers_token') + '&ciudad_id=' + localStorage.getItem('mouvers_ciudad'))
+                .toPromise()
+                .then(function (data) {
+                _this.getEstados();
+                console.log(data);
+                _this.data = data;
+                _this.productList = _this.data.repartidores;
+                _this.filteredItems = _this.productList;
+                //console.log(this.productList);
+                _this.init();
+                _this.loading = false;
+            }, function (msg) {
+                console.log(msg);
+                console.log(msg.error.error);
+                _this.loading = false;
+                //token invalido/ausente o token expiro
+                if (msg.status == 400 || msg.status == 401) {
+                    //alert(msg.error.error);
+                    _this.showToast('warning', 'Warning!', msg.error.error);
+                    _this.mostrar = false;
+                    setTimeout(function () {
+                        _this.router.navigateByUrl('/pagessimples/loginf');
+                    }, 1000);
+                }
+                else if (msg.status == 404) {
+                    //alert(msg.error.error);
+                    _this.showToast('info', 'Info!', msg.error.error);
+                }
+            });
+            _this.http.get(_this.rutaService.getRutaApi() + 'onesignal.php?accion=17&token_notificacion=' + _this.token_notificacion + '&contenido=' + _this.contenido)
+                .toPromise()
+                .then(function (data) {
+                console.log(data);
+                _this.data = data;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                _this.loading = false;
+            }, function (msg) {
+                console.log(msg);
+                console.log(msg.error.error);
+                _this.loading = false;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                if (msg.status == 400 || msg.status == 401) {
+                    //alert(msg.error.error);
+                    // this.showToast('warning', 'Warning!', 'msg.error.error');
+                }
+                else {
+                    //alert(msg.error.error);
+                    //this.showToast('error', 'Erro!', 'msg.error.error');
+                }
+            });
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            nombre: this.myFormEditar.value.nombre,
+            email: this.myFormEditar.value.email,
+            telefono: this.myFormEditar.value.telefono,
+            ciudad: this.myFormEditar.value.ciudad,
+            estado: this.myFormEditar.value.estado,
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + this.myFormEditar.value.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.myFormEditar.value.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.nombre = _this.myFormEditar.value.nombre;
+                    _this.productList[i].usuario.email = _this.myFormEditar.value.email;
+                    _this.productList[i].usuario.telefono = _this.myFormEditar.value.telefono;
+                    _this.productList[i].usuario.ciudad = _this.myFormEditar.value.ciudad;
+                    _this.productList[i].usuario.estado = _this.myFormEditar.value.estado;
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+        var disponibilidad = {
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+        };
+        if (this.objAEditar.usuario.registro.tipo == 2) {
+            var foto = this.objAEditar.usuario.registro.logo;
+        }
+        else if (this.objAEditar.usuario.registro.tipo == 1) {
+            var foto = this.objAEditar.usuario.imagen;
+        }
+        var datos2 = {
+            imagen: foto,
+            direccion: this.myFormEditar.value.direccion,
+            direccion_exacta: this.myFormEditar.value.direccion_exacta,
+            lunes_i: this.myFormEditar.value.lunes_i,
+            lunes_f: this.myFormEditar.value.lunes_f,
+            martes_i: this.myFormEditar.value.martes_i,
+            martes_f: this.myFormEditar.value.martes_f,
+            miercoles_i: this.myFormEditar.value.miercoles_i,
+            miercoles_f: this.myFormEditar.value.miercoles_f,
+            jueves_i: this.myFormEditar.value.jueves_i,
+            jueves_f: this.myFormEditar.value.jueves_f,
+            viernes_i: this.myFormEditar.value.viernes_i,
+            viernes_f: this.myFormEditar.value.viernes_f,
+            sabado_i: this.myFormEditar.value.sabado_i,
+            sabado_f: this.myFormEditar.value.sabado_f,
+            domingo_i: this.myFormEditar.value.domingo_i,
+            domingo_f: this.myFormEditar.value.domingo_f,
+            lat: this.myFormEditar.value.lat,
+            lng: this.myFormEditar.value.lng,
+            disponibilidad: JSON.stringify(disponibilidad),
+            logo: this.myFormEditar.value.logo,
+            foto: this.myFormEditar.value.foto,
+            pasaporte: this.myFormEditar.value.pasaporte,
+            operaciones: this.myFormEditar.value.operaciones,
+            idoneidad_file: this.myFormEditar.value.idoneidad_file,
+        };
+        console.log(datos2);
+        this.http.put(this.rutaService.getRutaApi() + 'establecimientos/' + this.establecimiento_id, datos2)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            for (var i = 0; i < _this.productList.length; ++i) {
+                if (_this.productList[i].id == _this.objAEditar.usuario.id) {
+                    _this.productList[i].usuario.imagen = _this.myFormEditar.value.foto;
+                    _this.productList[i].usuario.registro.logo = _this.myFormEditar.value.logo;
+                }
+            }
+            _this.objAEditar.usuario.registro.disponibilidad = JSON.stringify(disponibilidad);
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.editando = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.editando = true;
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.editando = true;
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.enviar_proveedores = function () {
+        var _this = this;
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            mensaje: '¡Felicidades! has sido aprobado como proveedor. Ingresa y explora las nuevas opciones.',
+            tipo_usuario: 3,
+            ciudad_id: localStorage.getItem('mouvers_ciudad'),
+            zona_id: 1,
+            usuario_id: this.usuario_id,
+        };
+        console.log(datos);
+        this.http.post(this.rutaService.getRutaApi() + 'notificaciones_generales?ciudad_id=' + localStorage.getItem('mouvers_ciudad'), datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                // this.showToast('warning', 'Warning!', 'msg.error.error');
+            }
+            else {
+                //alert(msg.error.error);
+                //this.showToast('error', 'Erro!', 'msg.error.error');
+            }
+        });
+    };
+    inactivosComponent.prototype.aEliminar = function (obj) {
+        this.objAEliminar = obj;
+        //console.log(this.objAEliminar);
+        this.eliminar_id = this.objAEliminar.id;
+        this.eliminar_nombre = this.objAEliminar.usuario.nombre;
+    };
+    inactivosComponent.prototype.eliminar = function () {
+        var _this = this;
+        console.log(this.objAEliminar);
+        this.loading = true;
+        var datos = {
+            token: localStorage.getItem('mouvers_token')
+        };
+        this.http.delete(this.rutaService.getRutaApi() + 'repartidores/' + this.eliminar_id + '?token=' + localStorage.getItem('mouvers_token'))
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            var aux = _this.productList;
+            _this.productList = [];
+            for (var i = 0; i < aux.length; ++i) {
+                if (aux[i].id != _this.eliminar_id) {
+                    _this.productList.push(aux[i]);
+                }
+            }
+            _this.filteredItems = _this.productList;
+            _this.init();
+            //console.log(this.productList);
+            //alert(this.data.message);
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            _this.loading = false;
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else if (msg.status == 404 || msg.status == 409) {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    //Para el repartidor
+    inactivosComponent.prototype.cambiarEstado = function (obj) {
+        var _this = this;
+        var v_estado;
+        if (obj.estado == 'ON') {
+            //obj.estado = 'OFF';
+            v_estado = 'OFF';
+        }
+        else {
+            //obj.estado = 'ON';
+            v_estado = 'ON';
+        }
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            rep_estado: v_estado
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'repartidores/' + obj.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.showToast('success', 'Success!', _this.data.message);
+            obj.estado = v_estado;
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            //Regresar el switch en caso de error
+            if (v_estado == 'ON') {
+                //obj.estado = 'OFF';
+                obj.estado = 'OFF';
+            }
+            else {
+                //obj.estado = 'ON';
+                obj.estado = 'ON';
+            }
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.cambiarEstado2 = function (obj) {
+        var _this = this;
+        var v_estado;
+        var mensaje_producto = '';
+        if (obj.estado == 'ON') {
+            //obj.estado = 'OFF';
+            v_estado = 'OFF';
+            mensaje_producto = "Su servicio " + obj.nombre + " se ha desactivado. Para mayor información contacta a soporte.";
+        }
+        else {
+            //obj.estado = 'ON';
+            v_estado = 'ON';
+            mensaje_producto = "Felicidades! Su servicio " + obj.nombre + " se ha activado!";
+        }
+        var datos = {
+            token: localStorage.getItem('mouvers_token'),
+            estado: v_estado
+        };
+        this.http.put(this.rutaService.getRutaApi() + 'productos/' + obj.id, datos)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.showToast('success', 'Success!', _this.data.message);
+            obj.estado = v_estado;
+            _this.http.get(_this.rutaService.getRutaApi() + 'onesignal.php?accion=17&token_notificacion=' + _this.token_notificacion + '&contenido=' + mensaje_producto)
+                .toPromise()
+                .then(function (data) {
+                console.log(data);
+                _this.data = data;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                _this.loading = false;
+            }, function (msg) {
+                console.log(msg);
+                console.log(msg.error.error);
+                _this.loading = false;
+                _this.showToast('success', 'Success!', 'Mensaje enviado con éxito');
+                if (msg.status == 400 || msg.status == 401) {
+                    //alert(msg.error.error);
+                    // this.showToast('warning', 'Warning!', 'msg.error.error');
+                }
+                else {
+                    //alert(msg.error.error);
+                    //this.showToast('error', 'Erro!', 'msg.error.error');
+                }
+            });
+        }, function (msg) {
+            console.log(msg);
+            console.log(msg.error.error);
+            //Regresar el switch en caso de error
+            if (v_estado == 'ON') {
+                //obj.estado = 'OFF';
+                obj.estado = 'OFF';
+            }
+            else {
+                //obj.estado = 'ON';
+                obj.estado = 'ON';
+            }
+            //token invalido/ausente o token expiro
+            if (msg.status == 400 || msg.status == 401) {
+                //alert(msg.error.error);
+                //ir a login
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                //alert(msg.error.error);
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.prepareSave = function () {
+        var input = new FormData();
+        input.append('imagen', this.fileIMG);
+        input.append('carpeta', 'categorias');
+        input.append('url_imagen', this.rutaService.getRutaImages());
+        return input;
+    };
+    inactivosComponent.prototype.onFileChange = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMG = event.target.files[0];
+            this.subirImagen();
+        }
+    };
+    inactivosComponent.prototype.clearFile = function () {
+        this.imgUpload = null;
+        this.fileInput.nativeElement.value = '';
+        this.clear = false;
+        this.myFormEditar.patchValue({ foto: null });
+    };
+    inactivosComponent.prototype.subirImagen = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSave();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUpload = _this.data.imagen;
+            _this.myFormEditar.patchValue({ foto: _this.imgUpload });
+            //Solo admitimos imágenes.
+            if (!_this.fileIMG.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("foto").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMG);
+            reader.readAsDataURL(_this.fileIMG);
+            _this.clear = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.prepareSaveLogo = function () {
+        var inputLogo = new FormData();
+        inputLogo.append('imagen', this.fileIMGLogo);
+        inputLogo.append('carpeta', 'categorias');
+        inputLogo.append('url_imagen', this.rutaService.getRutaImages());
+        return inputLogo;
+    };
+    inactivosComponent.prototype.onFileChangeLogo = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGLogo = event.target.files[0];
+            this.subirImagenLogo();
+        }
+    };
+    inactivosComponent.prototype.clearFileLogo = function () {
+        this.imgUploadLogo = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearLogo = false;
+        this.myFormEditar.patchValue({ logo: null });
+    };
+    inactivosComponent.prototype.subirImagenLogo = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveLogo();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadLogo = _this.data.imagen;
+            _this.myFormEditar.patchValue({ logo: _this.imgUploadLogo });
+            _this.objAEditar.usuario.registro.logo = _this.imgUploadLogo;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGLogo.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("logo").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGLogo);
+            reader.readAsDataURL(_this.fileIMGLogo);
+            _this.clearLogo = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.prepareSavePasaporte = function () {
+        var inputPasaporte = new FormData();
+        inputPasaporte.append('imagen', this.fileIMGPasaporte);
+        inputPasaporte.append('carpeta', 'categorias');
+        inputPasaporte.append('url_imagen', this.rutaService.getRutaImages());
+        return inputPasaporte;
+    };
+    inactivosComponent.prototype.onFileChangePasaporte = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGPasaporte = event.target.files[0];
+            this.subirImagenPasaporte();
+        }
+    };
+    inactivosComponent.prototype.clearFilePasaporte = function () {
+        this.imgUploadPasaporte = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearPasaporte = false;
+        this.myFormEditar.patchValue({ Pasaporte: null });
+    };
+    inactivosComponent.prototype.subirImagenPasaporte = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSavePasaporte();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadPasaporte = _this.data.imagen;
+            _this.myFormEditar.patchValue({ pasaporte: _this.imgUploadPasaporte });
+            _this.objAEditar.usuario.registro.pasaporte = _this.imgUploadPasaporte;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGPasaporte.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("pasaporte").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGPasaporte);
+            reader.readAsDataURL(_this.fileIMGPasaporte);
+            _this.clearPasaporte = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.prepareSaveOperaciones = function () {
+        var inputOperaciones = new FormData();
+        inputOperaciones.append('imagen', this.fileIMGOperaciones);
+        inputOperaciones.append('carpeta', 'categorias');
+        inputOperaciones.append('url_imagen', this.rutaService.getRutaImages());
+        return inputOperaciones;
+    };
+    inactivosComponent.prototype.onFileChangeOperaciones = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGOperaciones = event.target.files[0];
+            this.subirImagenOperaciones();
+        }
+    };
+    inactivosComponent.prototype.clearFileOperaciones = function () {
+        this.imgUploadOperaciones = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearOperaciones = false;
+        this.myFormEditar.patchValue({ Operaciones: null });
+    };
+    inactivosComponent.prototype.subirImagenOperaciones = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveOperaciones();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadOperaciones = _this.data.imagen;
+            _this.myFormEditar.patchValue({ operaciones: _this.imgUploadOperaciones });
+            _this.objAEditar.usuario.registro.operaciones = _this.imgUploadOperaciones;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGOperaciones.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("Operaciones").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGOperaciones);
+            reader.readAsDataURL(_this.fileIMGOperaciones);
+            _this.clearOperaciones = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.prepareSaveIdoneidad_file = function () {
+        var inputIdoneidad_file = new FormData();
+        inputIdoneidad_file.append('imagen', this.fileIMGIdoneidad_file);
+        inputIdoneidad_file.append('carpeta', 'categorias');
+        inputIdoneidad_file.append('url_imagen', this.rutaService.getRutaImages());
+        return inputIdoneidad_file;
+    };
+    inactivosComponent.prototype.onFileChangeIdoneidad_file = function (event) {
+        if (event.target.files.length > 0) {
+            this.fileIMGIdoneidad_file = event.target.files[0];
+            this.subirImagenIdoneidad_file();
+        }
+    };
+    inactivosComponent.prototype.clearFileIdoneidad_file = function () {
+        this.imgUploadIdoneidad_file = null;
+        this.fileInput.nativeElement.value = '';
+        this.clearIdoneidad_file = false;
+        this.myFormEditar.patchValue({ idoneidad_file: null });
+    };
+    inactivosComponent.prototype.subirImagenIdoneidad_file = function () {
+        var _this = this;
+        this.loading = true;
+        var formModel = this.prepareSaveIdoneidad_file();
+        this.http.post(this.rutaService.getRutaApi() + 'imagenes?token=' + localStorage.getItem('mouvers_token'), formModel)
+            .toPromise()
+            .then(function (data) {
+            console.log(data);
+            _this.data = data;
+            _this.imgUploadIdoneidad_file = _this.data.imagen;
+            _this.myFormEditar.patchValue({ idoneidad_file: _this.imgUploadIdoneidad_file });
+            _this.objAEditar.usuario.registro.idoneidad_file = _this.imgUploadIdoneidad_file;
+            //Solo admitimos imágenes.
+            if (!_this.fileIMGIdoneidad_file.type.match('image.*')) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Creamos la imagen.
+                    document.getElementById("idoneidad_file").innerHTML = ['<img class="thumb" src="', e.target.result, '" height="160px"/>'].join('');
+                };
+            })(_this.fileIMGIdoneidad_file);
+            reader.readAsDataURL(_this.fileIMGIdoneidad_file);
+            _this.clearIdoneidad_file = true;
+            _this.loading = false;
+            _this.showToast('success', 'Success!', _this.data.message);
+        }, function (msg) {
+            console.log(msg);
+            _this.loading = false;
+            if (msg.status == 400 || msg.status == 401) {
+                _this.showToast('warning', 'Warning!', msg.error.error);
+            }
+            else {
+                _this.showToast('error', 'Erro!', msg.error.error);
+            }
+        });
+    };
+    inactivosComponent.prototype.init = function () {
+        this.currentIndex = 1;
+        this.pageStart = 1;
+        this.pages = 4;
+        this.pageNumber = parseInt("" + (this.filteredItems.length / this.pageSize));
+        if (this.filteredItems.length % this.pageSize != 0) {
+            this.pageNumber++;
+        }
+        if (this.pageNumber < this.pages) {
+            this.pages = this.pageNumber;
+        }
+        this.refreshItems();
+        console.log("this.pageNumber :  " + this.pageNumber);
+        this.buscar_id_operacion();
+    };
+    inactivosComponent.prototype.FilterByName = function () {
+        this.filteredItems = [];
+        if (this.inputName != "") {
+            for (var i = 0; i < this.productList.length; ++i) {
+                if (this.productList[i].usuario.nombre.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.email.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.telefono.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.estado.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+                else if (this.productList[i].usuario.ciudad.toUpperCase().indexOf(this.inputName.toUpperCase()) >= 0) {
+                    this.filteredItems.push(this.productList[i]);
+                }
+            }
+        }
+        else {
+            this.filteredItems = this.productList;
+        }
+        console.log(this.filteredItems);
+        this.init();
+    };
+    inactivosComponent.prototype.fillArray = function () {
+        var obj = new Array();
+        for (var index = this.pageStart; index < this.pageStart + this.pages; index++) {
+            obj.push(index);
+        }
+        return obj;
+    };
+    inactivosComponent.prototype.refreshItems = function () {
+        this.items = this.filteredItems.slice((this.currentIndex - 1) * this.pageSize, (this.currentIndex) * this.pageSize);
+        this.pagesIndex = this.fillArray();
+    };
+    inactivosComponent.prototype.prevPage = function () {
+        if (this.currentIndex > 1) {
+            this.currentIndex--;
+        }
+        if (this.currentIndex < this.pageStart) {
+            this.pageStart = this.currentIndex;
+        }
+        this.refreshItems();
+    };
+    inactivosComponent.prototype.nextPage = function () {
+        if (this.currentIndex < this.pageNumber) {
+            this.currentIndex++;
+        }
+        if (this.currentIndex >= (this.pageStart + this.pages)) {
+            this.pageStart = this.currentIndex - this.pages + 1;
+        }
+        this.refreshItems();
+    };
+    inactivosComponent.prototype.setPage = function (index) {
+        this.currentIndex = index;
+        this.refreshItems();
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('fileInput'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
+    ], inactivosComponent.prototype, "fileInput", void 0);
+    inactivosComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'ngx-ver-socios',
+            template: __webpack_require__("../../../../../src/app/pages/socios/inactivos/inactivos.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/pages/socios/inactivos/inactivos.component.scss")],
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_6_angular2_toaster__["d" /* ToasterService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_4__services_ruta_base_ruta_base_service__["a" /* RutaBaseService */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormBuilder"],
+            __WEBPACK_IMPORTED_MODULE_9__services_eventos_services_header_to_pedidos_event_service_header_to_pedidos_event_service__["a" /* HeaderToPedidosEventService */],
+            __WEBPACK_IMPORTED_MODULE_10__services_header_service_header_service__["a" /* HeaderService */]])
+    ], inactivosComponent);
+    return inactivosComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/pages/socios/registrar/registrar.component.html":
 /***/ (function(module, exports) {
 
@@ -4911,13 +7792,17 @@ var SociosReporteComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__socios_ver_socios_ver_component__ = __webpack_require__("../../../../../src/app/pages/socios/socios-ver/socios-ver.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__socios_reporte_socios_reporte_component__ = __webpack_require__("../../../../../src/app/pages/socios/socios-reporte/socios-reporte.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__registrar_registrar_component__ = __webpack_require__("../../../../../src/app/pages/socios/registrar/registrar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__socios_incompletos_socios_incompletos_component__ = __webpack_require__("../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__inactivos_inactivos_component__ = __webpack_require__("../../../../../src/app/pages/socios/inactivos/inactivos.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__activos_activos_component__ = __webpack_require__("../../../../../src/app/pages/socios/activos/activos.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__socios_incompletos_socios_incompletos_component__ = __webpack_require__("../../../../../src/app/pages/socios/socios-incompletos/socios-incompletos.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -4933,8 +7818,14 @@ var routes = [{
                 path: 'agregar',
                 component: __WEBPACK_IMPORTED_MODULE_3__socios_agregar_socios_agregar_component__["a" /* SociosAgregarComponent */],
             }, {
-                path: 'ver',
+                path: 'todos',
                 component: __WEBPACK_IMPORTED_MODULE_4__socios_ver_socios_ver_component__["a" /* SociosVerComponent */],
+            }, {
+                path: 'activos',
+                component: __WEBPACK_IMPORTED_MODULE_8__activos_activos_component__["a" /* activosComponent */],
+            }, {
+                path: 'inactivos',
+                component: __WEBPACK_IMPORTED_MODULE_7__inactivos_inactivos_component__["a" /* inactivosComponent */],
             }, {
                 path: 'registrar',
                 component: __WEBPACK_IMPORTED_MODULE_6__registrar_registrar_component__["a" /* registrarComponent */],
@@ -4943,7 +7834,7 @@ var routes = [{
                 component: __WEBPACK_IMPORTED_MODULE_5__socios_reporte_socios_reporte_component__["a" /* SociosReporteComponent */],
             }, {
                 path: 'incompletos',
-                component: __WEBPACK_IMPORTED_MODULE_7__socios_incompletos_socios_incompletos_component__["a" /* SociosIncompletosComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_9__socios_incompletos_socios_incompletos_component__["a" /* SociosIncompletosComponent */],
             }],
     }];
 var SociosRoutingModule = /** @class */ (function () {
@@ -4968,7 +7859,9 @@ var routedComponents = [
     __WEBPACK_IMPORTED_MODULE_4__socios_ver_socios_ver_component__["a" /* SociosVerComponent */],
     __WEBPACK_IMPORTED_MODULE_5__socios_reporte_socios_reporte_component__["a" /* SociosReporteComponent */],
     __WEBPACK_IMPORTED_MODULE_6__registrar_registrar_component__["a" /* registrarComponent */],
-    __WEBPACK_IMPORTED_MODULE_7__socios_incompletos_socios_incompletos_component__["a" /* SociosIncompletosComponent */]
+    __WEBPACK_IMPORTED_MODULE_9__socios_incompletos_socios_incompletos_component__["a" /* SociosIncompletosComponent */],
+    __WEBPACK_IMPORTED_MODULE_7__inactivos_inactivos_component__["a" /* inactivosComponent */],
+    __WEBPACK_IMPORTED_MODULE_8__activos_activos_component__["a" /* activosComponent */]
 ];
 
 
@@ -5410,7 +8303,10 @@ var SociosVerComponent = /** @class */ (function () {
         }
         console.log(this.objAEditar);
         var tam_contrato = obj.usuario.contrato.length;
-        this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
+        this.contrato = "";
+        if (obj.usuario.contrato.length != 0) {
+            this.contrato = obj.usuario.contrato[tam_contrato - 1].url;
+        }
         console.log(this.contrato);
         this.user = obj.usuario;
         this.myFormEditar.patchValue({ id: this.objAEditar.id });

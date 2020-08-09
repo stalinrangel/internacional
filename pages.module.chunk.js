@@ -6207,12 +6207,20 @@ var MENU_ITEMS0 = [
               link: '/pages/productos/agregar',
             },*/
             {
-                title: 'Ver Servicios',
+                title: 'Todos Servicios',
                 link: '/pages/productos/ver',
+            },
+            {
+                title: 'Servicios Activos',
+                link: '/pages/productos/on',
             },
             {
                 title: 'Servicios Editados',
                 link: '/pages/productos/editados',
+            },
+            {
+                title: 'Servicios Inactivos',
+                link: '/pages/productos/off',
             },
         ],
     },
@@ -6242,6 +6250,14 @@ var MENU_ITEMS0 = [
             {
                 title: 'Ver Proveedores',
                 link: '/pages/socios/ver',
+            },
+            {
+                title: 'Activos',
+                link: '/pages/socios/activos',
+            },
+            {
+                title: 'Inactivos',
+                link: '/pages/socios/inactivos',
             },
             {
                 title: 'Por registar',
@@ -6413,12 +6429,20 @@ var MENU_ITEMS1 = [
         icon: 'ion-ios-box-outline',
         children: [
             {
-                title: 'Ver Servicios',
+                title: 'Todos Servicios',
                 link: '/pages/productos/ver',
+            },
+            {
+                title: 'Servicios Activos',
+                link: '/pages/productos/on',
             },
             {
                 title: 'Servicios Editados',
                 link: '/pages/productos/editados',
+            },
+            {
+                title: 'Servicios Inactivos',
+                link: '/pages/productos/off',
             },
         ],
     },
@@ -6429,6 +6453,14 @@ var MENU_ITEMS1 = [
             {
                 title: 'Ver Proveedores',
                 link: '/pages/socios/ver',
+            },
+            {
+                title: 'Activos',
+                link: '/pages/socios/activos',
+            },
+            {
+                title: 'Inactivos',
+                link: '/pages/socios/inactivos',
             },
             {
                 title: 'Por registar',
@@ -6592,12 +6624,20 @@ var MENU_ITEMS5 = [
         icon: 'ion-ios-box-outline',
         children: [
             {
-                title: 'Ver Servicios',
+                title: 'Todos Servicios',
                 link: '/pages/productos/ver',
+            },
+            {
+                title: 'Servicios Activos',
+                link: '/pages/productos/on',
             },
             {
                 title: 'Servicios Editados',
                 link: '/pages/productos/editados',
+            },
+            {
+                title: 'Servicios Inactivos',
+                link: '/pages/productos/off',
             },
         ],
     },
@@ -6608,6 +6648,14 @@ var MENU_ITEMS5 = [
             {
                 title: 'Ver Proveedores',
                 link: '/pages/socios/ver',
+            },
+            {
+                title: 'Activos',
+                link: '/pages/socios/activos',
+            },
+            {
+                title: 'Inactivos',
+                link: '/pages/socios/inactivos',
             },
             {
                 title: 'Por registar',
@@ -6757,12 +6805,20 @@ var MENU_ITEMS6 = [
         icon: 'ion-ios-box-outline',
         children: [
             {
-                title: 'Ver Servicios',
+                title: 'Todos Servicios',
                 link: '/pages/productos/ver',
+            },
+            {
+                title: 'Servicios Activos',
+                link: '/pages/productos/on',
             },
             {
                 title: 'Servicios Editados',
                 link: '/pages/productos/editados',
+            },
+            {
+                title: 'Servicios Inactivos',
+                link: '/pages/productos/off',
             },
         ],
     },
@@ -6773,6 +6829,14 @@ var MENU_ITEMS6 = [
             {
                 title: 'Ver Proveedores',
                 link: '/pages/socios/ver',
+            },
+            {
+                title: 'Activos',
+                link: '/pages/socios/activos',
+            },
+            {
+                title: 'Inactivos',
+                link: '/pages/socios/inactivos',
             },
             {
                 title: 'Por registar',
@@ -6922,12 +6986,20 @@ var MENU_ITEMS7 = [
         icon: 'ion-ios-box-outline',
         children: [
             {
-                title: 'Ver Servicios',
+                title: 'Todos Servicios',
                 link: '/pages/productos/ver',
+            },
+            {
+                title: 'Servicios Activos',
+                link: '/pages/productos/on',
             },
             {
                 title: 'Servicios Editados',
                 link: '/pages/productos/editados',
+            },
+            {
+                title: 'Servicios Inactivos',
+                link: '/pages/productos/off',
             },
         ],
     },
@@ -6938,6 +7010,14 @@ var MENU_ITEMS7 = [
             {
                 title: 'Ver Proveedores',
                 link: '/pages/socios/ver',
+            },
+            {
+                title: 'Activos',
+                link: '/pages/socios/activos',
+            },
+            {
+                title: 'Inactivos',
+                link: '/pages/socios/inactivos',
             },
             {
                 title: 'Por registar',
