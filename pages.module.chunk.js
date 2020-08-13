@@ -6248,7 +6248,7 @@ var MENU_ITEMS0 = [
                link: '/pages/socios/agregar',
              },*/
             {
-                title: 'Ver Proveedores',
+                title: 'Todos Proveedores',
                 link: '/pages/socios/ver',
             },
             {
@@ -6451,7 +6451,7 @@ var MENU_ITEMS1 = [
         icon: 'ion-android-bicycle',
         children: [
             {
-                title: 'Ver Proveedores',
+                title: 'Todos Proveedores',
                 link: '/pages/socios/ver',
             },
             {
@@ -6646,7 +6646,7 @@ var MENU_ITEMS5 = [
         icon: 'ion-android-bicycle',
         children: [
             {
-                title: 'Ver Proveedores',
+                title: 'Todos Proveedores',
                 link: '/pages/socios/ver',
             },
             {
@@ -6827,7 +6827,7 @@ var MENU_ITEMS6 = [
         icon: 'ion-android-bicycle',
         children: [
             {
-                title: 'Ver Proveedores',
+                title: 'Todos Proveedores',
                 link: '/pages/socios/ver',
             },
             {
@@ -7008,7 +7008,7 @@ var MENU_ITEMS7 = [
         icon: 'ion-android-bicycle',
         children: [
             {
-                title: 'Ver Proveedores',
+                title: 'Todos Proveedores',
                 link: '/pages/socios/ver',
             },
             {
